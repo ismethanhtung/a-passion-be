@@ -2,13 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const authenticate = require("../middleware/authMiddleware");
 
 router.get("/", async (req, res) => {
     const courses = await prisma.course.findMany();
     res.json(courses);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
     const body = req.body;
     try {
         const newCourse = await prisma.course.create({
@@ -21,7 +22,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticate, async (req, res) => {
     const { id } = req.params;
     const { ...rest } = req.body;
 
@@ -36,7 +37,7 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticate, async (req, res) => {
     try {
         const { id } = req.params;
 

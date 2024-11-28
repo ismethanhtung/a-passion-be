@@ -3,15 +3,16 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
+const authenticate = require("../middleware/authMiddleware");
 
 // Lấy danh sách người dùng
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
     const users = await prisma.user.findMany();
     res.json(users);
 });
 
 // Thêm người dùng mới
-router.post("/", async (req, res) => {
+router.post("/", authenticate, async (req, res) => {
     const { password, ...rest } = req.body;
 
     try {
@@ -31,7 +32,7 @@ router.post("/", async (req, res) => {
 });
 
 // Cập nhật người dùng
-router.put("/:id", async (req, res) => {
+router.put("/:id", authenticate, async (req, res) => {
     const { id } = req.params;
     const { password, ...rest } = req.body;
 
@@ -56,7 +57,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Xóa người dùng
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authenticate, async (req, res) => {
     try {
         const { id } = req.params;
         const deletedUser = await prisma.user.delete({
