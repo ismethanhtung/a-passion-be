@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const bcrypt = require("bcrypt");
 
 // Lấy danh sách người dùng
 router.get("/", async (req, res) => {
@@ -11,14 +12,17 @@ router.get("/", async (req, res) => {
 
 // Thêm người dùng mới
 router.post("/", async (req, res) => {
-    const { name, email } = req.body;
-    // console.log("Payload nhận được:", req.body); // Log dữ liệu nhận được
+    const { password, ...rest } = req.body;
 
     try {
-        // Nếu không có người dùng với email trùng, tạo người dùng mới
+        // Băm mật khẩu
+        const hashedPassword = await bcrypt.hash(password, 2); // Thêm await để lấy chuỗi đã băm.
+
+        // Tạo người dùng mới với mật khẩu đã băm
         const newUser = await prisma.user.create({
-            data: { name, email },
+            data: { ...rest, password: hashedPassword }, // Lưu mật khẩu đã băm.
         });
+
         res.status(201).json(newUser);
     } catch (error) {
         console.error(error);
@@ -26,25 +30,41 @@ router.post("/", async (req, res) => {
     }
 });
 
+// Cập nhật người dùng
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
-    const { name, email } = req.body;
-    const updatedUser = await prisma.user.update({
-        where: { id: parseInt(id) },
-        data: { name, email },
-    });
-    res.json(updatedUser);
+    const { password, ...rest } = req.body;
+
+    try {
+        let updatedData = { ...rest };
+
+        if (password) {
+            updatedData.password = await bcrypt.hash(password, 2);
+        }
+
+        const updatedUser = await prisma.user.update({
+            where: { id: parseInt(id) },
+            data: updatedData,
+        });
+        res.json(updatedUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: "Đã xảy ra lỗi khi cập nhật người dùng.",
+        });
+    }
 });
 
+// Xóa người dùng
 router.delete("/:id", async (req, res) => {
     try {
-        const { id } = req.params; // Lấy ID từ đường dẫn
+        const { id } = req.params;
         const deletedUser = await prisma.user.delete({
-            where: { id: parseInt(id) }, // Tìm người dùng cần xóa theo ID
+            where: { id: parseInt(id) },
         });
-        res.json(deletedUser); // Trả về thông tin người dùng đã bị xóa
+        res.json(deletedUser);
     } catch (error) {
-        res.status(404).json({ error: "User not found" }); // Nếu không tìm thấy người dùng
+        res.status(404).json({ error: "User not found" });
     }
 });
 
