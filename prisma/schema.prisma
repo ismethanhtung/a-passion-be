@@ -32,6 +32,9 @@ model Course {
   teacher     User     @relation("TeacherCourses", fields: [teacherId], references: [id]) // Giảng viên dạy khóa học
   teacherId   Int
   students    User[]   @relation("StudentCourses") // Sinh viên tham gia khóa học
+  price       Int      @default(0)
+  newPrice    Int?
+  thumbnail   String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 }

@@ -9,15 +9,10 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { title, description, tag, teacherId } = req.body;
+    const body = req.body;
     try {
         const newCourse = await prisma.course.create({
-            data: {
-                title,
-                description,
-                tag,
-                teacher: { connect: { id: teacherId } },
-            },
+            data: body,
         });
         res.status(201).json(newCourse);
     } catch (error) {
@@ -28,12 +23,12 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     const { id } = req.params;
-    const { title, description, tag } = req.body;
+    const { ...rest } = req.body;
 
     try {
         const updateCourse = await prisma.course.update({
             where: { id: parseInt(id) },
-            data: { title, description, tag },
+            data: { ...rest },
         });
         res.json(updateCourse);
     } catch (error) {
