@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+// 1. User: Thông tin người dùng
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String?
+  role        String   @default("STUDENT")
+  courses     Course[] @relation("StudentCourses") // Sinh viên tham gia các khóa học
+  teaching    Course[] @relation("TeacherCourses") // Khóa học mà giảng viên dạy
+  tests       Test[]   @relation("TestParticipants") // Bài kiểm tra người dùng tham gia
+  createdTests Test[]  @relation("TestCreator") // Bài kiểm tra do người dùng tạo
+  blogs       Blog[]   @relation("BlogAuthor") // Blog người dùng viết
+  createdAt   DateTime @default(now())
+}
+
+// 2. Course: Thông tin khóa học
+model Course {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  tag         String
+  teacher     User     @relation("TeacherCourses", fields: [teacherId], references: [id]) // Giảng viên dạy khóa học
+  teacherId   Int
+  students    User[]   @relation("StudentCourses") // Sinh viên tham gia khóa học
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
+
+// 3. Test: Bài kiểm tra
+model Test {
+  id           Int        @id @default(autoincrement())
+  title        String
+  description  String
+  questions    Question[] // Danh sách câu hỏi trong bài kiểm tra
+  creator      User       @relation("TestCreator", fields: [creatorId], references: [id]) // Người tạo bài kiểm tra
+  creatorId    Int
+  participants User[]     @relation("TestParticipants") // Người tham gia bài kiểm tra
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+// 4. Question: Câu hỏi trong bài test
+model Question {
+  id        Int    @id @default(autoincrement())
+  content   String // Nội dung câu hỏi
+  options   String // Các đáp án, lưu dưới dạng JSON
+  answer    String // Đáp án đúng
+  test      Test   @relation(fields: [testId], references: [id]) // Thuộc bài kiểm tra nào
+  testId    Int
+}
+
+// 5. Blog: Bài viết blog
+model Blog {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  author      User     @relation("BlogAuthor", fields: [authorId], references: [id]) // Người viết blog
+  authorId    Int
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
