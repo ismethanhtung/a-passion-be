@@ -1,24 +1,22 @@
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "co-khi-nao-ta-xa-roi"; // Đổi thành secret thực tế, nên lưu trong .env
+const { get } = require("../routes");
+const JWT_SECRET = "co-khi-nao-ta-xa-roi";
 
-const authenticate = (req, res, next) => {
-    const token =
-        req.cookies?.auth_token || req.headers.authorization?.split(" ")[1]; // Lấy token từ cookie hoặc header
+function authenticate(req, res, next) {
+    const token = req.cookies.auth_token;
+    console.log(req);
 
     if (!token) {
-        return res
-            .status(401)
-            .json({ message: "Unauthorized: No token provided" });
+        return res.status(401).json({ message: "Không có token" });
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET); // Giải mã token
-        req.user = decoded; // Thêm thông tin user vào req để các API khác dùng
-        next(); // Cho phép tiếp tục
-    } catch (error) {
-        console.error("Token verification error:", error);
-        return res.status(401).json({ message: "Unauthorized: Invalid token" });
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        return res.status(403).json({ message: "Token không hợp lệ", token });
     }
-};
+}
 
 module.exports = authenticate;

@@ -4,6 +4,10 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+const cors = require("cors");
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var testsRouter = require("./routes/tests");
@@ -14,11 +18,14 @@ var authRouter = require("./routes/auth");
 var app = express();
 const port = 5000;
 
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+app.use(
+    cors({
+        credentials: true,
+        origin: "http://localhost:3000",
+        optionsSuccessStatus: 200,
+    })
+);
 
-const cors = require("cors");
-app.use(cors());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
