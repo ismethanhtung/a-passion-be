@@ -9,7 +9,16 @@ router.get("/", async (req, res) => {
     res.json(courses);
 });
 
-router.post("/", authenticate, async (req, res) => {
+router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+
+    const course = await prisma.course.findUnique({
+        where: { id: parseInt(id) },
+    });
+    res.json(course);
+});
+
+router.post("/", async (req, res) => {
     const body = req.body;
     try {
         const newCourse = await prisma.course.create({
@@ -49,4 +58,19 @@ router.delete("/:id", authenticate, async (req, res) => {
         console.log(error);
     }
 });
+
+router.post("/:id/purchase", async (req, res) => {
+    const { id } = req.params;
+    try {
+        //
+        //
+        //
+        //
+
+        res.json({ message: "Khóa học đã được mua thành công!" });
+    } catch (error) {
+        res.status(500).json({ error: "Không thể mua khóa học." });
+    }
+});
+
 module.exports = router;
