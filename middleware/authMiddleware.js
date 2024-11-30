@@ -4,7 +4,6 @@ const JWT_SECRET = "co-khi-nao-ta-xa-roi";
 
 function authenticate(req, res, next) {
     const token = req.cookies.auth_token;
-    console.log(req);
 
     if (!token) {
         return res.status(401).json({ message: "Không có token" });
