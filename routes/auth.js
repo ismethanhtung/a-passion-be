@@ -36,7 +36,9 @@ router.post("/", async (req, res) => {
             maxAge: 60 * 60 * 1000, // 1 hour
         });
 
-        return res.status(200).json({ message: "Đăng nhập thành công", token });
+        return res
+            .status(200)
+            .json({ message: "Đăng nhập thành công", token, user });
     } catch (err) {
         console.error("Error during login:", err); // Ghi lại chi tiết lỗi
         return res.status(500).json({

@@ -6,7 +6,7 @@ function authenticate(req, res, next) {
     const token = req.cookies.auth_token;
 
     if (!token) {
-        return res.status(401).json({ message: "Không có token" });
+        return res.status(401).json({ message: "no token" });
     }
 
     try {
@@ -14,7 +14,7 @@ function authenticate(req, res, next) {
         req.user = decoded;
         next();
     } catch (err) {
-        return res.status(403).json({ message: "Token không hợp lệ", token });
+        return res.status(403).json({ message: "Invalid token", token });
     }
 }
 
