@@ -50,7 +50,7 @@ router.delete("/:id", authenticate, async (req, res) => {
     try {
         const { id } = req.params;
 
-        const deleteQuestion = await prisma.quesion.delete({
+        const deleteQuestion = await prisma.question.delete({
             where: { id: parseInt(id) },
         });
         res.json(deleteQuestion);
