@@ -8,14 +8,17 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const cors = require("cors");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var testsRouter = require("./routes/tests");
-var blogsRouter = require("./routes/blogs");
-var coursesRouter = require("./routes/courses");
-var questionsRouter = require("./routes/questions");
-var lessonsRouter = require("./routes/lessons");
-var authRouter = require("./routes/auth");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const testsRouter = require("./routes/tests");
+const blogsRouter = require("./routes/blogs");
+const coursesRouter = require("./routes/courses");
+const questionsRouter = require("./routes/questions");
+const lessonsRouter = require("./routes/lessons");
+const enrollmentRouter = require("./routes/enrollment");
+const purchaseRouter = require("./routes/purchase");
+const reviewsRoutes = require("./routes/reviews");
+const authRouter = require("./routes/auth");
 
 var app = express();
 const port = 5000;
@@ -45,6 +48,9 @@ app.use("/blogs", blogsRouter);
 app.use("/courses", coursesRouter);
 app.use("/questions", questionsRouter);
 app.use("/lessons", lessonsRouter);
+app.use("/enrollment", enrollmentRouter);
+app.use("/purchase", purchaseRouter);
+app.use("/api/reviews", reviewsRoutes);
 app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
