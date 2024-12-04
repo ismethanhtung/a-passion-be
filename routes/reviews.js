@@ -1,6 +1,7 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const router = express.Router();
+const authenticate = require("../middleware/authMiddleware");
 
 const prisma = new PrismaClient();
 
@@ -18,15 +19,18 @@ router.get("/:courseId", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
-    const { userId, courseId, rating, comment } = req.body;
+router.post("/", authenticate, async (req, res) => {
+    const { courseId, rating, comment } = req.body;
+    console.log(req.user.userId);
+
     try {
         const newReview = await prisma.review.create({
             data: {
-                userId,
+                userId: req.user.id,
                 courseId,
                 rating,
                 comment,
+                // user: req.user,
             },
         });
         res.status(201).json(newReview);

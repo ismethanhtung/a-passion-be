@@ -50,7 +50,7 @@ app.use("/questions", questionsRouter);
 app.use("/lessons", lessonsRouter);
 app.use("/enrollment", enrollmentRouter);
 app.use("/purchase", purchaseRouter);
-app.use("/api/reviews", reviewsRoutes);
+app.use("/reviews", reviewsRoutes);
 app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
