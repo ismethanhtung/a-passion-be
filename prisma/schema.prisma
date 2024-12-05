@@ -12,19 +12,33 @@ model User {
   name         String
   email        String        @unique
   password     String
-  role         String          @default("STUDENT")
-  courses      Enrollment[]  // Khóa học mà người dùng tham gia
+  role         String        @default("STUDENT")
+  settings     UserSettings? 
+  settingsId   Int?          @unique
+  courses      Enrollment[]  
   reviews      Review[]
-  progress     Progress[]    // Tiến trình học
-  purchases    Purchase[]    // Mua hàng
+  progress     Progress[]    
+  purchases    Purchase[]    
   createdTests Test[] @relation("TestCreator")
-  tests Test[] @relation("TestParticipants")
-  blogs Blog[] @relation("BlogAuthor")
-  createdCourses Course[]    @relation("CreatedCourses") // Khóa học được tạo bởi user này
-  taughtCourses Course[]     @relation("TaughtCourses")  // Khóa học được dạy bởi user này
+  tests        Test[] @relation("TestParticipants")
+  blogs        Blog[] @relation("BlogAuthor")
+  createdCourses Course[]    @relation("CreatedCourses") 
+  taughtCourses Course[]     @relation("TaughtCourses")  
   createdAt    DateTime      @default(now())
   updatedAt    DateTime?      @updatedAt
 }
+
+model UserSettings {
+  id             Int        @id @default(autoincrement())
+  phone          String?
+  language       String     @default("en")
+  notifications  String     // Lưu chuỗi JSON
+  learningGoals  Int        // minutes per day
+  theme          String     @default("light")
+  userId         Int        @unique
+  user           User       @relation(fields: [userId], references: [id])
+}
+
 
 model Course {
   id           Int           @id @default(autoincrement())
