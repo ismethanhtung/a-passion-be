@@ -18,6 +18,7 @@ const lessonsRouter = require("./routes/lessons");
 const enrollmentRouter = require("./routes/enrollment");
 const purchaseRouter = require("./routes/purchase");
 const reviewsRoutes = require("./routes/reviews");
+const categoriesRoutes = require("./routes/categories");
 const authRouter = require("./routes/auth");
 
 var app = express();
@@ -51,6 +52,7 @@ app.use("/lessons", lessonsRouter);
 app.use("/enrollment", enrollmentRouter);
 app.use("/purchase", purchaseRouter);
 app.use("/reviews", reviewsRoutes);
+app.use("/categories", categoriesRoutes);
 app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler

@@ -19,6 +19,18 @@ router.get("/:courseId", async (req, res) => {
     }
 });
 
+router.get("/", async (req, res) => {
+    try {
+        const reviews = await prisma.review.findMany({
+            include: { user: { select: { name: true } } },
+        });
+        res.json(reviews);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi khi lấy danh sách bình luận." });
+    }
+});
+
 router.post("/", authenticate, async (req, res) => {
     const { courseId, rating, comment } = req.body;
     console.log(req.user.userId);
@@ -37,6 +49,21 @@ router.post("/", authenticate, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Lỗi khi thêm bình luận." });
+    }
+});
+
+router.delete("/:id", authenticate, async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+
+    try {
+        const deleteReview = await prisma.review.delete({
+            where: { id: parseInt(id) },
+        });
+        res.status(201).json(deleteReview);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Lỗi khi del bình luận." });
     }
 });
 
