@@ -4,31 +4,20 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const authenticate = require("../middleware/authMiddleware");
-const isAdmin = require("../middleware/isAdmin");
+const authorizeRoles = require("../middleware/authorizeRoles");
 
-router.get("/", async (req, res) => {
-    const users = await prisma.user.findMany();
-    res.json(users);
-});
-
-router.post("/", async (req, res) => {
-    const { password, ...rest } = req.body;
-
+router.get("/", authenticate, authorizeRoles("admin"), async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(password, 2);
-
-        const defaultRole = await prisma.role.findUnique({
-            where: { name: "student" }, // Role mặc định là student
+        const users = await prisma.user.findMany({
+            include: {
+                role: true,
+            },
         });
 
-        const newUser = await prisma.user.create({
-            data: { ...rest, password: hashedPassword, roleId: defaultRole.id },
-        });
-
-        res.status(201).json(newUser);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Đã xảy ra lỗi khi tạo người dùng." });
+        res.status(200).json(users);
+    } catch (err) {
+        console.error("Error fetching users:", err);
+        res.status(500).json({ message: "Lỗi khi lấy danh sách người dùng" });
     }
 });
 
@@ -59,7 +48,6 @@ router.put("/:id", authenticate, async (req, res) => {
 router.delete("/:id", authenticate, async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(id);
         const deletedUser = await prisma.user.delete({
             where: { id: parseInt(id) },
         });

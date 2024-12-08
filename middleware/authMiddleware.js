@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const { get } = require("../routes");
 const JWT_SECRET = "co-khi-nao-ta-xa-roi";
 
 function authenticate(req, res, next) {

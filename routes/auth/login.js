@@ -4,7 +4,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const authenticate = require("../middleware/authMiddleware");
+const authenticate = require("../../middleware/authMiddleware");
 
 const JWT_SECRET = "co-khi-nao-ta-xa-roi";
 
@@ -12,7 +12,10 @@ router.post("/", async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await prisma.user.findUnique({
+            where: { email },
+            include: { role: true },
+        });
 
         if (!user) {
             return res.status(404).json({ message: "Email không tồn tại" });
@@ -25,14 +28,16 @@ router.post("/", async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-            expiresIn: "1h",
-        });
+        const token = jwt.sign(
+            { id: user.id, email: user.email, role: user.role.name },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
 
         res.cookie("auth_token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            // sameSite: "none", // "strict", "lax", hoặc "none"
+            // sameSite: "none",
             maxAge: 60 * 60 * 1000, // 1 hour
         });
 
@@ -54,7 +59,7 @@ router.post("/logout", (req, res) => {
 });
 
 router.post("/check", authenticate, (req, res) => {
-    console.log("Cookies:", req.cookies); // Kiểm tra cookie
+    console.log("Cookies:", req.cookies);
     console.log("Signed Cookies:", req.signedCookies);
     res.status(200).json({
         loggedIn: true,

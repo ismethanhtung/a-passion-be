@@ -19,7 +19,9 @@ const enrollmentRouter = require("./routes/enrollment");
 const purchaseRouter = require("./routes/purchase");
 const reviewsRoutes = require("./routes/reviews");
 const categoriesRoutes = require("./routes/categories");
-const authRouter = require("./routes/auth");
+const loginRouter = require("./routes/auth/login");
+const signUpRouter = require("./routes/auth/signup");
+const logoutRouter = require("./routes/auth/logout");
 
 var app = express();
 const port = 5000;
@@ -53,7 +55,9 @@ app.use("/enrollment", enrollmentRouter);
 app.use("/purchase", purchaseRouter);
 app.use("/reviews", reviewsRoutes);
 app.use("/categories", categoriesRoutes);
-app.use("/auth", authRouter);
+app.use("/signup", signUpRouter);
+app.use("/login", loginRouter);
+app.use("/logout", logoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
