@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const authenticate = require("../../middleware/authMiddleware");
 
-const JWT_SECRET = "co-khi-nao-ta-xa-roi";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/", async (req, res) => {
     const { email, password } = req.body;

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "co-khi-nao-ta-xa-roi";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 function authenticate(req, res, next) {
     const token = req.cookies.auth_token;

@@ -11,9 +11,13 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
+    const { limit } = req.query;
 
     try {
+        const lessonsLimit = limit ? parseInt(limit) : undefined;
+
         const course = await prisma.course.findUnique({
+            take: lessonsLimit,
             where: { id: parseInt(id) },
             include: {
                 lessons: true,
