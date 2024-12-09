@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const authenticate = require("../middleware/authMiddleware");
+const authenticate = require("../middlewares/authMiddleware");
 
 router.post("/purchase", async (req, res) => {
     const { userId, courseId, amount } = req.body;

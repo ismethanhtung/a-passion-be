@@ -8,166 +8,157 @@ datasource db {
 }
 
 model User {
-  id           Int          @id @default(autoincrement())
-  name         String
-  email        String        @unique
-  password     String
-  roleId       Int           
-  role         Role          @relation(fields: [roleId], references: [id]) 
-  settings     UserSettings? 
-  settingsId   Int?          @unique
-  courses      Enrollment[]  
-  reviews      Review[]
-  progress     Progress[]    
-  purchases    Purchase[]    
-  createdTests Test[] @relation("TestCreator")
-  tests        Test[] @relation("TestParticipants")
-  blogs        Blog[] @relation("BlogAuthor")
-  createdCourses Course[]    @relation("CreatedCourses") 
-  taughtCourses Course[]     @relation("TaughtCourses")  
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime?      @updatedAt
+  id             Int           @id @default(autoincrement())
+  name           String
+  email          String        @unique
+  password       String
+  roleId         Int
+  settingsId     Int?          @unique
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?     @updatedAt
+  blogs          Blog[]        @relation("BlogAuthor")
+  taughtCourses  Course[]      @relation("TaughtCourses")
+  createdCourses Course[]      @relation("CreatedCourses")
+  courses        Enrollment[]
+  progress       Progress[]
+  purchases      Purchase[]
+  reviews        Review[]
+  createdTests   Test[]        @relation("TestCreator")
+  role           Role          @relation(fields: [roleId], references: [id])
+  settings       UserSettings?
+  tests          Test[]        @relation("TestParticipants")
 }
 
 model Role {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
-  users  User[]
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
 }
-
 
 model UserSettings {
-  id             Int        @id @default(autoincrement())
-  phone          String?
-  language       String     @default("en")
-  notifications  String     // Lưu chuỗi JSON
-  learningGoals  Int        // minutes per day
-  theme          String     @default("light")
-  userId         Int        @unique
-  user           User       @relation(fields: [userId], references: [id])
+  id            Int     @id @default(autoincrement())
+  phone         String?
+  language      String  @default("en")
+  notifications String
+  learningGoals Int
+  theme         String  @default("light")
+  userId        Int     @unique
+  user          User    @relation(fields: [userId], references: [id])
 }
 
-
 model Course {
-  id           Int           @id @default(autoincrement())
-  title        String         
-  description  String
-  objectives   String         @default("")// Mục tiêu khóa học
-  price        Int
-  newPrice     Int?
-  thumbnail    String?
-  category     Category       @relation(fields: [categoryId], references: [id])
-  categoryId   Int            @default(1)
-  lessons      Lesson[]
-  reviews      Review[]
-  enrollments  Enrollment[]
-  purchases Purchase[]
-  creator      User           @relation("CreatedCourses", fields: [creatorId], references: [id])
-  creatorId    Int            @default(30) // Người tạo khóa học
-  teacher      User?           @relation("TaughtCourses", fields: [teacherId], references: [id])
-  teacherId    Int?           // Người dạy khóa học (có thể khác creator)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime?       @updatedAt
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  objectives  String       @default("")
+  price       Int
+  newPrice    Int?
+  thumbnail   String?
+  categoryId  Int          @default(1)
+  creatorId   Int          @default(30)
+  teacherId   Int?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?    @updatedAt
+  teacher     User?        @relation("TaughtCourses", fields: [teacherId], references: [id])
+  creator     User         @relation("CreatedCourses", fields: [creatorId], references: [id])
+  category    Category     @relation(fields: [categoryId], references: [id])
+  enrollments Enrollment[]
+  lessons     Lesson[]
+  purchases   Purchase[]
+  reviews     Review[]
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
+  id       Int        @id @default(autoincrement())
   name     String
-  parentId Int?       // Danh mục cha
-  parent   Category?  @relation("SubCategories", fields: [parentId], references: [id]) // Trường đối lập
-  children Category[] @relation("SubCategories") // Các danh mục con
-  courses  Course[]   // Khóa học trong danh mục
+  parentId Int?
+  parent   Category?  @relation("SubCategories", fields: [parentId], references: [id])
+  children Category[] @relation("SubCategories")
+  courses  Course[]
 }
 
 model Lesson {
-  id         Int      @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   title      String
-  content    String?   // Nội dung bài học (Markdown hoặc HTML)
-  videoUrl   String?   // Link video (YouTube)
-  course     Course    @relation(fields: [courseId], references: [id])
+  content    String?
+  videoUrl   String?
   courseId   Int
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  course     Course     @relation(fields: [courseId], references: [id])
   progresses Progress[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
 }
 
 model Enrollment {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
+  id         Int        @id @default(autoincrement())
   userId     Int
-  course     Course   @relation(fields: [courseId], references: [id])
   courseId   Int
+  enrolledAt DateTime   @default(now())
+  course     Course     @relation(fields: [courseId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
   progress   Progress[]
-  enrolledAt DateTime @default(now())
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  course     Course   @relation(fields: [courseId], references: [id])
-  courseId   Int
-  rating     Int      // Đánh giá từ 1 đến 5
-  comment    String?
-  createdAt  DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  courseId  Int
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  course    Course   @relation(fields: [courseId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Progress {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  lesson     Lesson   @relation(fields: [lessonId], references: [id])
-  lessonId   Int
-  enrollment Enrollment @relation(fields: [enrollmentId], references: [id])
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  lessonId     Int
   enrollmentId Int
-  status     String   // "incomplete", "complete"
-  completedAt DateTime?
+  status       String
+  completedAt  DateTime?
+  enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
+  lesson       Lesson     @relation(fields: [lessonId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
 }
 
 model Purchase {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  course     Course   @relation(fields: [courseId], references: [id])
-  courseId   Int
-  amount     Int
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  courseId    Int
+  amount      Int
   purchasedAt DateTime @default(now())
+  course      Course   @relation(fields: [courseId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 }
-
-//enum Role {
- // ADMIN
- // TEACHER
- // STUDENT
-//}
-
 
 model Test {
   id           Int        @id @default(autoincrement())
   title        String
   description  String
-  questions    Question[] // Danh sách câu hỏi trong bài kiểm tra
-  creator      User       @relation("TestCreator", fields: [creatorId], references: [id]) // Người tạo bài kiểm tra
   creatorId    Int
-  participants User[]     @relation("TestParticipants") // Người tham gia bài kiểm tra
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
+  questions    Question[]
+  creator      User       @relation("TestCreator", fields: [creatorId], references: [id])
+  participants User[]     @relation("TestParticipants")
 }
 
 model Question {
-  id        Int    @id @default(autoincrement())
-  content   String // Nội dung câu hỏi
-  options   String // Các đáp án, lưu dưới dạng JSON
-  answer    String // Đáp án đúng
-  test      Test   @relation(fields: [testId], references: [id]) // Thuộc bài kiểm tra nào
-  testId    Int
+  id      Int    @id @default(autoincrement())
+  content String
+  options String
+  answer  String
+  testId  Int
+  test    Test   @relation(fields: [testId], references: [id])
 }
 
 model Blog {
-  id          Int      @id @default(autoincrement())
-  title       String
-  content     String
-  author      User     @relation("BlogAuthor", fields: [authorId], references: [id]) // Người viết blog
-  authorId    Int
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  authorId  Int
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  author    User     @relation("BlogAuthor", fields: [authorId], references: [id])
 }

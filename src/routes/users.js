@@ -3,8 +3,8 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
-const authenticate = require("../middleware/authMiddleware");
-const authorizeRoles = require("../middleware/authorizeRoles");
+const authenticate = require("../middlewares/authMiddleware");
+const authorizeRoles = require("../middlewares/authorizeRoles");
 
 router.get("/", authenticate, authorizeRoles("admin"), async (req, res) => {
     try {

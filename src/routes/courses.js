@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const authenticate = require("../middleware/authMiddleware");
+const authenticate = require("../middlewares/authMiddleware");
 
 router.get("/", async (req, res) => {
     const courses = await prisma.course.findMany();
@@ -11,9 +11,13 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
+    const { limit } = req.query;
 
     try {
+        const lessonsLimit = limit ? parseInt(limit) : undefined;
+
         const course = await prisma.course.findUnique({
+            take: lessonsLimit,
             where: { id: parseInt(id) },
             include: {
                 lessons: true,
