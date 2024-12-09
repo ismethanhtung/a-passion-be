@@ -24,6 +24,14 @@ const loginRouter = require("./routes/auth/login");
 const signUpRouter = require("./routes/auth/signup");
 const logoutRouter = require("./routes/auth/logout");
 
+const courseRoutes = require("./routes/courseRoutes");
+const userRoutes = require("./routes/userRoutes");
+const lessonRoutes = require("./routes/lessonRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
+
+const logger = require("./utils/logger");
+
 var app = express();
 const port = 5000;
 
@@ -34,6 +42,16 @@ app.use(
         optionsSuccessStatus: 200,
     })
 );
+
+app.use((req, res, next) => {
+    logger.info(`${req.method} ${req.url}`);
+    next();
+});
+
+app.use((err, req, res, next) => {
+    logger.error(`Error: ${err.message}`);
+    res.status(500).send("Internal Server Error");
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -59,6 +77,12 @@ app.use("/categories", categoriesRoutes);
 app.use("/signup", signUpRouter);
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
+
+app.use("/api/course", courseRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/lesson", lessonRoutes);
+app.use("/api/review", reviewRoutes);
+app.use("/api/category", categoryRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
