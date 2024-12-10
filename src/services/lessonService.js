@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const stringToInt = require("../utils/stringToInt");
 
 const getAllLessons = async () => {
     return await prisma.lesson.findMany();
@@ -12,13 +13,19 @@ const getLessonById = async (id) => {
 };
 
 const createLesson = async (data) => {
-    return await prisma.lesson.create({ data });
+    try {
+        const convertedData = stringToInt(data, ["courseId"]);
+        return await prisma.lesson.create({ data: convertedData });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const updateLesson = async (id, data) => {
+    const convertedData = stringToInt(data, ["courseId"]);
     return await prisma.lesson.update({
         where: { id: parseInt(id) },
-        data,
+        data: convertedData,
     });
 };
 

@@ -22,23 +22,33 @@ const createUser = async (data) => {
     return await prisma.user.create({ data });
 };
 
-const updateUser = async (id, data) => {
-    const { password, ...rest } = data;
-    const updatedData = { ...rest };
+const updateUser = async (userId, data) => {
+    const { id, name, email, ...rest } = data;
+    const updatedData = { name, email };
 
-    if (password) {
-        updatedData.password = await bcrypt.hash(password, 10);
+    console.log(updatedData);
+
+    // if (password) {
+    //     updatedData.password = await bcrypt.hash(password, 10);
+    // }
+    try {
+        return await prisma.user.update({
+            where: { id: parseInt(userId) },
+            data: updatedData,
+        });
+    } catch (error) {
+        console.log(error);
     }
-    return await prisma.user.update({
-        where: { id: parseInt(id) },
-        data: updatedData,
-    });
 };
 
 const deleteUser = async (id) => {
-    return await prisma.user.delete({
-        where: { id: parseInt(id) },
-    });
+    try {
+        return await prisma.user.delete({
+            where: { id: parseInt(id) },
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 module.exports = {

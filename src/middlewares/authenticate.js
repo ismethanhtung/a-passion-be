@@ -11,7 +11,7 @@ async function authenticate(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        console.log(decoded.userId);
+        console.log("authenticate", decoded.userId);
         const user = await prisma.user.findUnique({
             where: { id: decoded.userId },
             include: { role: true },

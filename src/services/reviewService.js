@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const stringToInt = require("../utils/stringToInt");
 
 const getAllReviews = async () => {
     return await prisma.review.findMany();
@@ -31,16 +32,30 @@ const createReview = async (req) => {
 };
 
 const updateReview = async (id, data) => {
-    return await prisma.review.update({
-        where: { id: parseInt(id) },
-        data,
-    });
+    try {
+        const convertedData = stringToInt(data, [
+            "userId",
+            "courseId",
+            "rating",
+        ]);
+
+        return await prisma.review.update({
+            where: { id: parseInt(id) },
+            data: convertedData,
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const deleteReview = async (id) => {
-    return await prisma.review.delete({
-        where: { id: parseInt(id) },
-    });
+    try {
+        return await prisma.review.delete({
+            where: { id: parseInt(id) },
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 module.exports = {

@@ -21,8 +21,9 @@ const getCategoryById = async (req, res) => {
 
 const createCategory = async (req, res) => {
     try {
+        console.log(req.body);
         const category = await categoryService.createCategory(req.body);
-        res.status(201).json(category);
+        res.status(200).json(category);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -47,7 +48,7 @@ const deleteCategory = async (req, res) => {
         const deletedCategory = await categoryService.deleteCategory(
             parseInt(id)
         );
-        res.status(204).json(deletedCategory);
+        res.status(200).json(deletedCategory);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
