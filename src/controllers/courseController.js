@@ -41,8 +41,8 @@ const updateCourse = async (req, res) => {
 const deleteCourse = async (req, res) => {
     const { id } = req.params;
     try {
-        await courseService.deleteCourse(parseInt(id));
-        res.status(204).send();
+        const deletedCourse = await courseService.deleteCourse(parseInt(id));
+        res.status(204).json(deletedCourse);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

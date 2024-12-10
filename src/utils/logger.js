@@ -3,14 +3,14 @@ const { combine, timestamp, printf, colorize } = format;
 
 // Định dạng log
 const logFormat = printf(({ level, message, timestamp }) => {
-    return `[${timestamp}] ${level}: ${message}`;
+    return `${level}: ${message}`;
 });
 
 // Tạo logger
 const logger = createLogger({
     level: "info", // Mức độ ghi log, ví dụ: info, warn, error
     format: combine(
-        timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+        // timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         colorize(), // Màu sắc cho log (chỉ áp dụng với console)
         logFormat
     ),

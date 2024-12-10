@@ -1,57 +1,59 @@
-const userService = require("../services/userService");
+const authService = require("../services/authService");
 
-const getAllUsers = async (req, res) => {
+const login = async (req, res) => {
     try {
-        const users = await userService.getAllUsers();
-        res.status(200).json(users);
+        const { email, password } = req.body;
+        const { user, token } = await authService.login(email, password);
+
+        res.cookie("auth_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 1000,
+        });
+
+        res.status(200).json({
+            message: "Đăng nhập thành công",
+            user,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(error.status || 500).json({
+            message: error.message || "Đã xảy ra lỗi trong quá trình đăng nhập",
+        });
     }
 };
 
-const getUserById = async (req, res) => {
-    const { id } = req.params;
+const logout = async (req, res) => {
     try {
-        const user = await userService.getUserById(parseInt(id));
-        res.status(200).json(user);
+        res.clearCookie("auth_token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+        });
+
+        res.status(200).json({ message: "Logout thành công" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Đã xảy ra lỗi khi logout" });
     }
 };
 
-const createUser = async (req, res) => {
+const signup = async (req, res) => {
     try {
-        const user = await userService.createUser(req.body);
-        res.status(201).json(user);
+        const newUser = await authService.signup(req.body);
+        res.status(201).json({
+            message: "Tạo tài khoản thành công",
+            user: newUser,
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-const updateUser = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const user = await userService.updateUser(parseInt(id), req.body);
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
-const deleteUser = async (req, res) => {
-    const { id } = req.params;
-    try {
-        await userService.deleteUser(parseInt(id));
-        res.status(204).send();
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error(error.message);
+        res.status(500).json({
+            message: "Đã xảy ra lỗi khi tạo tài khoản",
+            error: error.message,
+        });
     }
 };
 
 module.exports = {
-    getAllUsers,
-    getUserById,
-    createUser,
-    updateUser,
-    deleteUser,
+    login,
+    logout,
+    signup,
 };

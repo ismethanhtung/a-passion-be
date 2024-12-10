@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const lessonController = require("../controllers/lessonController");
-const authenticate = require("../middlewares/authMiddleware");
+const authenticate = require("../middlewares/authenticate");
 // const authorizeRoles = require("../middlewares/authorizeRoles");
 
 router.get("/", lessonController.getLessons);

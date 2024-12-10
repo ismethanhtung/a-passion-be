@@ -44,8 +44,10 @@ const updateCategory = async (req, res) => {
 const deleteCategory = async (req, res) => {
     const { id } = req.params;
     try {
-        await categoryService.deleteCategory(parseInt(id));
-        res.status(204).send();
+        const deletedCategory = await categoryService.deleteCategory(
+            parseInt(id)
+        );
+        res.status(204).json(deletedCategory);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

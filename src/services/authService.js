@@ -1,74 +1,56 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-import { generateToken } from "../utils/jwt";
+const { generateToken } = require("../utils/jwt");
+const { hashPassword } = require("../utils/hash");
+const bcrypt = require("bcrypt");
 
-const login = async (data) => {
-    const { email, password } = data;
-
+const login = async (email, password) => {
     const user = await prisma.user.findUnique({
         where: { email },
+        include: { role: true },
     });
 
     if (!user) {
-        return res.status(404).json({ message: "Email không tồn tại" });
+        const error = new Error("Email không tồn tại");
+        error.status = 404;
+        throw error;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
-        return res.status(401).json({
-            message: "Mật khẩu sai",
-        });
+        const error = new Error("Mật khẩu sai");
+        error.status = 401;
+        throw error;
     }
+    console.log(user.role.name);
 
-    const token = generateToken(user.id);
+    const token = generateToken(user.id, user.role.name);
 
-    res.cookie("auth_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60 * 1000,
-    });
-
-    return res
-        .status(200)
-        .json({ message: "Đăng nhập thành công", token, user });
+    return { user, token };
 };
 
-const getUserById = async (id) => {
-    return await prisma.user.findUnique({
-        where: { id: parseInt(id) },
-        include: {
-            role: true,
-        },
-    });
-};
-
-const createUser = async (data) => {
-    return await prisma.user.create({ data });
-};
-
-const updateUser = async (id, data) => {
+const signup = async (data) => {
     const { password, ...rest } = data;
-    const updatedData = { ...rest };
 
-    if (password) {
-        updatedData.password = await bcrypt.hash(password, 10);
+    const hashedPassword = await hashPassword(password);
+
+    const defaultRole = await prisma.role.findUnique({
+        where: { name: "student" },
+    });
+
+    if (!defaultRole) {
+        throw new Error("Role mặc định không tồn tại");
     }
-    return await prisma.user.update({
-        where: { id: parseInt(id) },
-        data: updatedData,
-    });
-};
 
-const deleteUser = async (id) => {
-    return await prisma.user.delete({
-        where: { id: parseInt(id) },
+    const newUser = await prisma.user.create({
+        data: { ...rest, password: hashedPassword, roleId: defaultRole.id },
     });
+
+    return newUser;
 };
 
 module.exports = {
-    getAllUsers,
-    getUserById,
-    createUser,
-    updateUser,
-    deleteUser,
+    login,
+    signup,
 };

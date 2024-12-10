@@ -19,7 +19,7 @@ const getLessonById = async (req, res) => {
     }
 };
 
-const addLesson = async (req, res) => {
+const createLesson = async (req, res) => {
     try {
         const lesson = await lessonService.createLesson(req.body);
         res.status(201).json(lesson);
@@ -28,7 +28,7 @@ const addLesson = async (req, res) => {
     }
 };
 
-const editLesson = async (req, res) => {
+const updateLesson = async (req, res) => {
     const { id } = req.params;
     try {
         const lesson = await lessonService.updateLesson(parseInt(id), req.body);
@@ -38,11 +38,11 @@ const editLesson = async (req, res) => {
     }
 };
 
-const removeLesson = async (req, res) => {
+const deleteLesson = async (req, res) => {
     const { id } = req.params;
     try {
-        await lessonService.deleteLesson(parseInt(id));
-        res.status(204).send();
+        const deletedLesson = await lessonService.deleteLesson(parseInt(id));
+        res.status(200).json(deletedLesson);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -51,7 +51,7 @@ const removeLesson = async (req, res) => {
 module.exports = {
     getLessons,
     getLessonById,
-    addLesson,
-    editLesson,
-    removeLesson,
+    createLesson,
+    updateLesson,
+    deleteLesson,
 };

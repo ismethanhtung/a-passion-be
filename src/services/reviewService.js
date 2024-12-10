@@ -6,24 +6,28 @@ const getAllReviews = async () => {
 };
 
 const getReviewByCourseId = async (id) => {
-    return await prisma.review.findUnique({
-        where: { courseId: parseInt(courseId) },
+    return await prisma.review.findMany({
+        where: { courseId: parseInt(id) },
         include: { user: { select: { name: true } } },
     });
 };
 
-const createReview = async (res) => {
-    const { courseId, rating, comment } = res.body;
+const createReview = async (req) => {
+    const { courseId, rating, comment } = req.body;
 
-    return await prisma.review.create({
-        data: {
-            userId: req.user.id,
-            courseId,
-            rating,
-            comment,
-            // user: req.user,
-        },
-    });
+    try {
+        return await prisma.review.create({
+            data: {
+                userId: req.user.id,
+                courseId,
+                rating,
+                comment,
+                // user: req.user,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const updateReview = async (id, data) => {

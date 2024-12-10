@@ -11,7 +11,6 @@ const getAllReviews = async (req, res) => {
 
 const getReviewByCourseId = async (req, res) => {
     const { id } = req.params;
-
     try {
         const reviews = await reviewService.getReviewByCourseId(parseInt(id));
         res.status(200).json(reviews);
@@ -42,8 +41,8 @@ const updateReview = async (req, res) => {
 const deleteReview = async (req, res) => {
     const { id } = req.params;
     try {
-        await reviewService.deleteReview(parseInt(id));
-        res.status(204).send();
+        const deletedReview = await reviewService.deleteReview(parseInt(id));
+        res.status(200).json(deletedReview);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
