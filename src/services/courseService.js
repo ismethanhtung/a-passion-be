@@ -6,6 +6,10 @@ const getAllCourses = async () => {
     return await prisma.course.findMany();
 };
 
+const getLimitCourses = async (count) => {
+    return await prisma.course.findMany({ skip: 1, take: 4 });
+};
+
 const getCourseById = async (id) => {
     return await prisma.course.findUnique({
         where: { id: parseInt(id) },
@@ -33,12 +37,7 @@ const createCourse = async (data) => {
 
 const updateCourse = async (id, data) => {
     try {
-        const convertedData = stringToInt(data, [
-            "creatorId",
-            "teacherId",
-            "price",
-            "newPrice",
-        ]);
+        const convertedData = stringToInt(data, ["creatorId", "teacherId", "price", "newPrice"]);
 
         return await prisma.course.update({
             where: { id: parseInt(id) },
@@ -61,4 +60,5 @@ module.exports = {
     createCourse,
     updateCourse,
     deleteCourse,
+    getLimitCourses,
 };

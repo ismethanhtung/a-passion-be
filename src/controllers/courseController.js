@@ -9,6 +9,15 @@ const getAllCourses = async (req, res) => {
     }
 };
 
+const getLimitCourses = async (req, res) => {
+    try {
+        const courses = await courseService.getLimitCourses();
+        res.status(200).json(courses);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const getCourseById = async (req, res) => {
     const { id } = req.params;
     try {
@@ -50,6 +59,7 @@ const deleteCourse = async (req, res) => {
 
 module.exports = {
     getAllCourses,
+    getLimitCourses,
     getCourseById,
     createCourse,
     updateCourse,
