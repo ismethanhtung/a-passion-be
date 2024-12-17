@@ -41,7 +41,13 @@ const createCourse = async (data) => {
 
 const updateCourse = async (id, data) => {
     try {
-        const convertedData = stringToInt(data, ["creatorId", "teacherId", "price", "newPrice"]);
+        const convertedData = stringToInt(data, [
+            "categoryId",
+            "creatorId",
+            "teacherId",
+            "price",
+            "newPrice",
+        ]);
 
         return await prisma.course.update({
             where: { id: parseInt(id) },

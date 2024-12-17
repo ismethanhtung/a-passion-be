@@ -4,8 +4,8 @@ const liveCourseController = require("../controllers/liveCourseController");
 const authenticate = require("../middlewares/authenticate");
 const authorizeRoles = require("../middlewares/authorizeRoles");
 
-router.get("/", LiveCourseController.getAllLiveCourses);
-router.get("/limit", LiveCourseController.getLimitLiveCourses);
+router.get("/", liveCourseController.getAllLiveCourses);
+router.get("/limit", liveCourseController.getLimitLiveCourses);
 router.get("/:id", liveCourseController.getLiveCourseById);
 router.post(
     "/",

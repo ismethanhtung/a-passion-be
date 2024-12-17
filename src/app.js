@@ -27,6 +27,9 @@ const questionRoutes = require("./routes/questionRoutes");
 const studyTimeRoutes = require("./routes/studyTimeRoutes");
 const liveCourseRoutes = require("./routes/liveCourseRoutes");
 const liveSessionRoutes = require("./routes/liveSessionRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+
+const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
 
@@ -70,6 +73,8 @@ app.use("/studyTime", studyTimeRoutes);
 app.use("/liveCourse", liveCourseRoutes);
 app.use("/liveSession", liveSessionRoutes);
 app.use("/category", categoryRoutes);
+app.use("/chat", chatRoutes);
+app.use("/cart", cartRoutes);
 app.use("/", authRoutes);
 app.use("/", indexRouter);
 

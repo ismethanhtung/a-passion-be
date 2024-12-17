@@ -13,37 +13,53 @@ model User {
   email             String             @unique
   password          String
   roleId            Int
-  role              Role               @relation(fields: [roleId], references: [id])
-  settingsId        Int?               @unique
-  settings          UserSettings?
+  isDeleted         Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  assistantRequests AssistantRequest[]
   blogs             Blog[]             @relation("BlogAuthor")
-  taughtCourses     Course[]           @relation("TaughtCourses")
   createdCourses    Course[]           @relation("CreatedCourses")
+  taughtCourses     Course[]           @relation("TaughtCourses")
   courses           Enrollment[]
+  forumPosts        ForumPost[]
+  forumThreads      ForumThread[]
+  liveCourses       LiveCourse[]       @relation("InstructorLiveCourses")
+  receivedMessages  Message[]          @relation("ReceivedMessages")
+  sentMessages      Message[]          @relation("SentMessages")
+  conversations     Conversation[]     @relation("UserConversations")
+  notifications     Notification[]
   payments          Payment[]
   progress          Progress[]
   purchases         Purchase[]
   reviews           Review[]
-  createdTests      Test[]             @relation("TestCreator")
-  tests             Test[]             @relation("TestParticipants")
-  forumThreads      ForumThread[]
-  forumPosts        ForumPost[]
-  messages          Message[]
-  sentMessages      Message[]          @relation("SentMessages")
-  receivedMessages  Message[]          @relation("ReceivedMessages")
-  notifications     Notification[]
   studyTimes        StudyTime[]        @relation("StudyTimes")
-  assistantRequests AssistantRequest[]
-  liveCourses       LiveCourse[]       @relation("InstructorLiveCourses")
-  isDeleted         Boolean            @default(false)
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime?          @updatedAt
+  createdTests      Test[]             @relation("TestCreator")
+  role              Role               @relation(fields: [roleId], references: [id])
+  settings          UserSettings?
+  tests             Test[]             @relation("TestParticipants")
+  carts             Cart[] 
+
+  @@index([roleId], map: "User_roleId_fkey")
 }
 
 model Role {
   id    Int    @id @default(autoincrement())
   name  String @unique
   users User[]
+}
+
+model Cart {
+  id          Int         @id @default(autoincrement())
+  userId      Int
+  courseId    Int
+  quantity    Int         @default(1)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime?   @updatedAt
+  user        User        @relation(fields: [userId], references: [id])
+  course      Course      @relation(fields: [courseId], references: [id])
+
+  @@index([userId], map: "Cart_userId_fkey")
+  @@index([courseId], map: "Cart_courseId_fkey")
 }
 
 model UserSettings {
@@ -54,8 +70,8 @@ model UserSettings {
   theme                   String  @default("light")
   notificationPreferences Json?
   userId                  Int     @unique
-  user                    User    @relation(fields: [userId], references: [id])
   assistantPreferences    Json?
+  user                    User    @relation(fields: [userId], references: [id])
 }
 
 model ForumThread {
@@ -65,8 +81,10 @@ model ForumThread {
   authorId   Int
   createdAt  DateTime    @default(now())
   updatedAt  DateTime?   @updatedAt
-  author     User        @relation(fields: [authorId], references: [id])
   forumPosts ForumPost[]
+  author     User        @relation(fields: [authorId], references: [id])
+
+  @@index([authorId], map: "ForumThread_authorId_fkey")
 }
 
 model ForumPost {
@@ -76,21 +94,39 @@ model ForumPost {
   authorId  Int
   createdAt DateTime    @default(now())
   updatedAt DateTime?   @updatedAt
-  thread    ForumThread @relation(fields: [threadId], references: [id])
   author    User        @relation(fields: [authorId], references: [id])
+  thread    ForumThread @relation(fields: [threadId], references: [id])
+
+  @@index([authorId], map: "ForumPost_authorId_fkey")
+  @@index([threadId], map: "ForumPost_threadId_fkey")
+}
+
+model Conversation {
+  id           Int       @id @default(autoincrement())
+  title        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
+  participants User[]    @relation("UserConversations")
+  messages     Message[]
+  @@index([createdAt], map: "Conversation_createdAt_fkey")
 }
 
 model Message {
-  id         Int      @id @default(autoincrement())
-  content    String
-  senderId   Int
-  receiverId Int
-  createdAt  DateTime @default(now())
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
-  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  User       User?    @relation(fields: [userId], references: [id])
-  userId     Int?
+  id              Int         @id @default(autoincrement())
+  content         String
+  senderId        Int
+  conversationId  Int
+  createdAt       DateTime    @default(now())
+  sender          User        @relation("SentMessages", fields: [senderId], references: [id])
+  conversation    Conversation @relation(fields: [conversationId], references: [id])
+  receivedBy      User?       @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId      Int?
+
+  @@index([senderId], map: "Message_senderId_fkey")
+  @@index([conversationId], map: "Message_conversationId_fkey")
+  @@index([receiverId], map: "Message_receiverId_fkey")
 }
+
 
 model Notification {
   id        Int      @id @default(autoincrement())
@@ -99,6 +135,8 @@ model Notification {
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Notification_userId_fkey")
 }
 
 model Payment {
@@ -108,6 +146,8 @@ model Payment {
   paymentDate DateTime @default(now())
   method      String
   user        User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Payment_userId_fkey")
 }
 
 model Category {
@@ -117,13 +157,15 @@ model Category {
   parent   Category?  @relation("SubCategories", fields: [parentId], references: [id])
   children Category[] @relation("SubCategories")
   courses  Course[]
+
+  @@index([parentId], map: "Category_parentId_fkey")
 }
 
 model Course {
   id           Int           @id @default(autoincrement())
-  title        String
-  description  String
-  objectives   String        @default("")
+  title        String?       @db.VarChar(255)
+  description  String?       @db.Text
+  objectives   String?       @db.Text
   price        Int
   newPrice     Int?
   thumbnail    String?
@@ -131,18 +173,23 @@ model Course {
   categoryId   Int           @default(1)
   creatorId    Int
   teacherId    Int?
-  createdAt    DateTime      @default(now())
+  createdAt    DateTime?
   updatedAt    DateTime?     @updatedAt
-  teacher      User?         @relation("TaughtCourses", fields: [teacherId], references: [id])
-  creator      User          @relation("CreatedCourses", fields: [creatorId], references: [id])
-  category     Category      @relation(fields: [categoryId], references: [id])
-  enrollments  Enrollment[]
-  lessons      Lesson[]
-  purchases    Purchase[]
-  reviews      Review[]
-  liveSessions LiveSession[] @relation("CourseLiveSessions") // Matches relation in LiveSession
   isPublished  Boolean       @default(false)
   isDeleted    Boolean       @default(false)
+  category     Category      @relation(fields: [categoryId], references: [id])
+  creator      User          @relation("CreatedCourses", fields: [creatorId], references: [id])
+  teacher      User?         @relation("TaughtCourses", fields: [teacherId], references: [id])
+  enrollments  Enrollment[]
+  lessons      Lesson[]
+  liveSessions LiveSession[] @relation("CourseLiveSessions")
+  purchases    Purchase[]
+  reviews      Review[]
+  carts        Cart[]
+
+  @@index([categoryId], map: "Course_categoryId_fkey")
+  @@index([creatorId], map: "Course_creatorId_fkey")
+  @@index([teacherId], map: "Course_teacherId_fkey")
 }
 
 model Lesson {
@@ -156,6 +203,8 @@ model Lesson {
   updatedAt  DateTime   @updatedAt
   course     Course     @relation(fields: [courseId], references: [id])
   progresses Progress[]
+
+  @@index([courseId], map: "Lesson_courseId_fkey")
 }
 
 model Enrollment {
@@ -166,6 +215,9 @@ model Enrollment {
   course     Course     @relation(fields: [courseId], references: [id])
   user       User       @relation(fields: [userId], references: [id])
   progress   Progress[]
+
+  @@index([courseId], map: "Enrollment_courseId_fkey")
+  @@index([userId], map: "Enrollment_userId_fkey")
 }
 
 model Review {
@@ -177,6 +229,9 @@ model Review {
   createdAt DateTime @default(now())
   course    Course   @relation(fields: [courseId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
+
+  @@index([courseId], map: "Review_courseId_fkey")
+  @@index([userId], map: "Review_userId_fkey")
 }
 
 model Progress {
@@ -186,11 +241,15 @@ model Progress {
   enrollmentId Int
   status       String
   completedAt  DateTime?
+  score        Int?
+  feedback     String?
   enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
   lesson       Lesson     @relation(fields: [lessonId], references: [id])
   user         User       @relation(fields: [userId], references: [id])
-  score        Int? // Điểm số đạt được (nếu có)
-  feedback     String?
+
+  @@index([enrollmentId], map: "Progress_enrollmentId_fkey")
+  @@index([lessonId], map: "Progress_lessonId_fkey")
+  @@index([userId], map: "Progress_userId_fkey")
 }
 
 model Purchase {
@@ -199,9 +258,12 @@ model Purchase {
   courseId    Int
   amount      Int
   purchasedAt DateTime @default(now())
+  isDeleted   Boolean  @default(false)
   course      Course   @relation(fields: [courseId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
-  isDeleted   Boolean  @default(false)
+
+  @@index([courseId], map: "Purchase_courseId_fkey")
+  @@index([userId], map: "Purchase_userId_fkey")
 }
 
 model Test {
@@ -214,6 +276,8 @@ model Test {
   questions    Question[]
   creator      User       @relation("TestCreator", fields: [creatorId], references: [id])
   participants User[]     @relation("TestParticipants")
+
+  @@index([creatorId], map: "Test_creatorId_fkey")
 }
 
 model Question {
@@ -223,6 +287,8 @@ model Question {
   answer  String
   testId  Int
   test    Test   @relation(fields: [testId], references: [id])
+
+  @@index([testId], map: "Question_testId_fkey")
 }
 
 model Blog {
@@ -233,6 +299,8 @@ model Blog {
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   author    User     @relation("BlogAuthor", fields: [authorId], references: [id])
+
+  @@index([authorId], map: "Blog_authorId_fkey")
 }
 
 model StudyTime {
@@ -242,6 +310,8 @@ model StudyTime {
   endTime   DateTime?
   duration  Int?
   user      User      @relation("StudyTimes", fields: [userId], references: [id])
+
+  @@index([userId], map: "StudyTime_userId_fkey")
 }
 
 model LiveCourse {
@@ -252,7 +322,9 @@ model LiveCourse {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime?     @updatedAt
   instructor   User          @relation("InstructorLiveCourses", fields: [instructorId], references: [id])
-  liveSessions LiveSession[] @relation("LiveCourseSessions") // Matches relation in LiveSession
+  liveSessions LiveSession[] @relation("LiveCourseSessions")
+
+  @@index([instructorId], map: "LiveCourse_instructorId_fkey")
 }
 
 model LiveSession {
@@ -260,10 +332,12 @@ model LiveSession {
   liveCourseId Int
   sessionDate  DateTime   @default(now())
   topic        String
-  liveCourse   LiveCourse @relation("LiveCourseSessions", fields: [liveCourseId], references: [id]) // Matches relation in LiveCourse
+  courseId     Int
+  course       Course     @relation("CourseLiveSessions", fields: [courseId], references: [id])
+  liveCourse   LiveCourse @relation("LiveCourseSessions", fields: [liveCourseId], references: [id])
 
-  courseId Int
-  course   Course @relation("CourseLiveSessions", fields: [courseId], references: [id]) // Matches relation in Course
+  @@index([courseId], map: "LiveSession_courseId_fkey")
+  @@index([liveCourseId], map: "LiveSession_liveCourseId_fkey")
 }
 
 model AssistantRequest {
@@ -271,10 +345,12 @@ model AssistantRequest {
   userId        Int
   request       String
   response      String?
-  status        String //(pending, completed, error)
+  status        String
   createdAt     DateTime       @default(now())
-  user          User           @relation(fields: [userId], references: [id])
   assistantLogs AssistantLog[]
+  user          User           @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "AssistantRequest_userId_fkey")
 }
 
 model AssistantLog {
@@ -283,4 +359,6 @@ model AssistantLog {
   logMessage String
   timestamp  DateTime         @default(now())
   request    AssistantRequest @relation(fields: [requestId], references: [id])
+
+  @@index([requestId], map: "AssistantLog_requestId_fkey")
 }
