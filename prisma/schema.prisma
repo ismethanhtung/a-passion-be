@@ -3,30 +3,41 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id             Int           @id @default(autoincrement())
-  name           String
-  email          String        @unique
-  password       String
-  roleId         Int
-  settingsId     Int?          @unique
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime?     @updatedAt
-  blogs          Blog[]        @relation("BlogAuthor")
-  taughtCourses  Course[]      @relation("TaughtCourses")
-  createdCourses Course[]      @relation("CreatedCourses")
-  courses        Enrollment[]
-  progress       Progress[]
-  purchases      Purchase[]
-  reviews        Review[]
-  createdTests   Test[]        @relation("TestCreator")
-  role           Role          @relation(fields: [roleId], references: [id])
-  settings       UserSettings?
-  tests          Test[]        @relation("TestParticipants")
+  id                Int                @id @default(autoincrement())
+  name              String
+  email             String             @unique
+  password          String
+  roleId            Int
+  role              Role               @relation(fields: [roleId], references: [id])
+  settingsId        Int?               @unique
+  settings          UserSettings?
+  blogs             Blog[]             @relation("BlogAuthor")
+  taughtCourses     Course[]           @relation("TaughtCourses")
+  createdCourses    Course[]           @relation("CreatedCourses")
+  courses           Enrollment[]
+  payments          Payment[]
+  progress          Progress[]
+  purchases         Purchase[]
+  reviews           Review[]
+  createdTests      Test[]             @relation("TestCreator")
+  tests             Test[]             @relation("TestParticipants")
+  forumThreads      ForumThread[]
+  forumPosts        ForumPost[]
+  messages          Message[]
+  sentMessages      Message[]          @relation("SentMessages")
+  receivedMessages  Message[]          @relation("ReceivedMessages")
+  notifications     Notification[]
+  studyTimes        StudyTime[]        @relation("StudyTimes")
+  assistantRequests AssistantRequest[]
+  liveCourses       LiveCourse[]       @relation("InstructorLiveCourses")
+  isDeleted         Boolean            @default(false)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
 }
 
 model Role {
@@ -36,36 +47,67 @@ model Role {
 }
 
 model UserSettings {
-  id            Int     @id @default(autoincrement())
-  phone         String?
-  language      String  @default("en")
-  notifications String
-  learningGoals Int
-  theme         String  @default("light")
-  userId        Int     @unique
-  user          User    @relation(fields: [userId], references: [id])
+  id                      Int     @id @default(autoincrement())
+  phone                   String?
+  language                String  @default("en")
+  learningGoals           String?
+  theme                   String  @default("light")
+  notificationPreferences Json?
+  userId                  Int     @unique
+  user                    User    @relation(fields: [userId], references: [id])
+  assistantPreferences    Json?
 }
 
-model Course {
-  id          Int          @id @default(autoincrement())
-  title       String
-  description String
-  objectives  String       @default("")
-  price       Int
-  newPrice    Int?
-  thumbnail   String?
-  categoryId  Int          @default(1)
-  creatorId   Int          @default(30)
-  teacherId   Int?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime?    @updatedAt
-  teacher     User?        @relation("TaughtCourses", fields: [teacherId], references: [id])
-  creator     User         @relation("CreatedCourses", fields: [creatorId], references: [id])
-  category    Category     @relation(fields: [categoryId], references: [id])
-  enrollments Enrollment[]
-  lessons     Lesson[]
-  purchases   Purchase[]
-  reviews     Review[]
+model ForumThread {
+  id         Int         @id @default(autoincrement())
+  title      String
+  content    String
+  authorId   Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime?   @updatedAt
+  author     User        @relation(fields: [authorId], references: [id])
+  forumPosts ForumPost[]
+}
+
+model ForumPost {
+  id        Int         @id @default(autoincrement())
+  content   String
+  threadId  Int
+  authorId  Int
+  createdAt DateTime    @default(now())
+  updatedAt DateTime?   @updatedAt
+  thread    ForumThread @relation(fields: [threadId], references: [id])
+  author    User        @relation(fields: [authorId], references: [id])
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  senderId   Int
+  receiverId Int
+  createdAt  DateTime @default(now())
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  User       User?    @relation(fields: [userId], references: [id])
+  userId     Int?
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  amount      Int
+  paymentDate DateTime @default(now())
+  method      String
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Category {
@@ -77,11 +119,38 @@ model Category {
   courses  Course[]
 }
 
+model Course {
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String
+  objectives   String        @default("")
+  price        Int
+  newPrice     Int?
+  thumbnail    String?
+  videoUrl     String?
+  categoryId   Int           @default(1)
+  creatorId    Int
+  teacherId    Int?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
+  teacher      User?         @relation("TaughtCourses", fields: [teacherId], references: [id])
+  creator      User          @relation("CreatedCourses", fields: [creatorId], references: [id])
+  category     Category      @relation(fields: [categoryId], references: [id])
+  enrollments  Enrollment[]
+  lessons      Lesson[]
+  purchases    Purchase[]
+  reviews      Review[]
+  liveSessions LiveSession[] @relation("CourseLiveSessions") // Matches relation in LiveSession
+  isPublished  Boolean       @default(false)
+  isDeleted    Boolean       @default(false)
+}
+
 model Lesson {
   id         Int        @id @default(autoincrement())
   title      String
   content    String?
   videoUrl   String?
+  videoTime  Int?
   courseId   Int
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
@@ -120,6 +189,8 @@ model Progress {
   enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
   lesson       Lesson     @relation(fields: [lessonId], references: [id])
   user         User       @relation(fields: [userId], references: [id])
+  score        Int? // Điểm số đạt được (nếu có)
+  feedback     String?
 }
 
 model Purchase {
@@ -130,6 +201,7 @@ model Purchase {
   purchasedAt DateTime @default(now())
   course      Course   @relation(fields: [courseId], references: [id])
   user        User     @relation(fields: [userId], references: [id])
+  isDeleted   Boolean  @default(false)
 }
 
 model Test {
@@ -147,7 +219,7 @@ model Test {
 model Question {
   id      Int    @id @default(autoincrement())
   content String
-  options String
+  options Json
   answer  String
   testId  Int
   test    Test   @relation(fields: [testId], references: [id])
@@ -161,4 +233,54 @@ model Blog {
   published Boolean  @default(false)
   createdAt DateTime @default(now())
   author    User     @relation("BlogAuthor", fields: [authorId], references: [id])
+}
+
+model StudyTime {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  startTime DateTime  @default(now())
+  endTime   DateTime?
+  duration  Int?
+  user      User      @relation("StudyTimes", fields: [userId], references: [id])
+}
+
+model LiveCourse {
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String
+  instructorId Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
+  instructor   User          @relation("InstructorLiveCourses", fields: [instructorId], references: [id])
+  liveSessions LiveSession[] @relation("LiveCourseSessions") // Matches relation in LiveSession
+}
+
+model LiveSession {
+  id           Int        @id @default(autoincrement())
+  liveCourseId Int
+  sessionDate  DateTime   @default(now())
+  topic        String
+  liveCourse   LiveCourse @relation("LiveCourseSessions", fields: [liveCourseId], references: [id]) // Matches relation in LiveCourse
+
+  courseId Int
+  course   Course @relation("CourseLiveSessions", fields: [courseId], references: [id]) // Matches relation in Course
+}
+
+model AssistantRequest {
+  id            Int            @id @default(autoincrement())
+  userId        Int
+  request       String
+  response      String?
+  status        String //(pending, completed, error)
+  createdAt     DateTime       @default(now())
+  user          User           @relation(fields: [userId], references: [id])
+  assistantLogs AssistantLog[]
+}
+
+model AssistantLog {
+  id         Int              @id @default(autoincrement())
+  requestId  Int
+  logMessage String
+  timestamp  DateTime         @default(now())
+  request    AssistantRequest @relation(fields: [requestId], references: [id])
 }

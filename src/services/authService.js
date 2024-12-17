@@ -5,29 +5,33 @@ const { hashPassword } = require("../utils/hash");
 const bcrypt = require("bcrypt");
 
 const login = async (email, password) => {
-    const user = await prisma.user.findUnique({
-        where: { email },
-        include: { role: true },
-    });
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email },
+            include: { role: true },
+        });
 
-    if (!user) {
-        const error = new Error("Email không tồn tại");
-        error.status = 404;
-        throw error;
+        if (!user) {
+            const error = new Error("Email không tồn tại");
+            error.status = 404;
+            throw error;
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            const error = new Error("Mật khẩu sai");
+            error.status = 401;
+            throw error;
+        }
+        console.log(user.role.name);
+
+        const token = generateToken(user.id, user.role.name);
+
+        return { user, token };
+    } catch (error) {
+        console.log(error);
     }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-        const error = new Error("Mật khẩu sai");
-        error.status = 401;
-        throw error;
-    }
-    console.log(user.role.name);
-
-    const token = generateToken(user.id, user.role.name);
-
-    return { user, token };
 };
 
 const signup = async (data) => {

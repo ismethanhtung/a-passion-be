@@ -3,7 +3,11 @@ const prisma = new PrismaClient();
 const stringToInt = require("../utils/stringToInt");
 
 const getAllCourses = async () => {
-    return await prisma.course.findMany();
+    try {
+        return await prisma.course.findMany();
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const getLimitCourses = async (count) => {
