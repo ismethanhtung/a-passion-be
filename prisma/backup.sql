@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `_prisma_migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `_prisma_migrations` (
-  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `checksum` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checksum` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `finished_at` datetime(3) DEFAULT NULL,
-  `migration_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `logs` text COLLATE utf8mb4_unicode_ci,
+  `migration_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logs` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `rolled_back_at` datetime(3) DEFAULT NULL,
   `started_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `applied_steps_count` int unsigned NOT NULL DEFAULT '0',
@@ -72,6 +72,32 @@ LOCK TABLES `_TestParticipants` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `_UserConversations`
+--
+
+DROP TABLE IF EXISTS `_UserConversations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `_UserConversations` (
+  `A` int NOT NULL,
+  `B` int NOT NULL,
+  UNIQUE KEY `_UserConversations_AB_unique` (`A`,`B`),
+  KEY `_UserConversations_B_index` (`B`),
+  CONSTRAINT `_UserConversations_A_fkey` FOREIGN KEY (`A`) REFERENCES `Conversation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `_UserConversations_B_fkey` FOREIGN KEY (`B`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `_UserConversations`
+--
+
+LOCK TABLES `_UserConversations` WRITE;
+/*!40000 ALTER TABLE `_UserConversations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `_UserConversations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `AssistantLog`
 --
 
@@ -81,7 +107,7 @@ DROP TABLE IF EXISTS `AssistantLog`;
 CREATE TABLE `AssistantLog` (
   `id` int NOT NULL AUTO_INCREMENT,
   `requestId` int NOT NULL,
-  `logMessage` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logMessage` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `timestamp` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   PRIMARY KEY (`id`),
   KEY `AssistantLog_requestId_fkey` (`requestId`),
@@ -108,9 +134,9 @@ DROP TABLE IF EXISTS `AssistantRequest`;
 CREATE TABLE `AssistantRequest` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
-  `request` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `response` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `request` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `response` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   PRIMARY KEY (`id`),
   KEY `AssistantRequest_userId_fkey` (`userId`),
@@ -136,8 +162,8 @@ DROP TABLE IF EXISTS `Blog`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Blog` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `authorId` int NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -157,6 +183,38 @@ LOCK TABLES `Blog` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Cart`
+--
+
+DROP TABLE IF EXISTS `Cart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Cart` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `courseId` int NOT NULL,
+  `quantity` int NOT NULL DEFAULT '1',
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Cart_userId_fkey` (`userId`),
+  KEY `Cart_courseId_fkey` (`courseId`),
+  CONSTRAINT `Cart_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `Cart_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Cart`
+--
+
+LOCK TABLES `Cart` WRITE;
+/*!40000 ALTER TABLE `Cart` DISABLE KEYS */;
+INSERT INTO `Cart` VALUES (3,1,9,1,'2024-12-18 04:20:31.019','2024-12-18 04:43:07.890'),(4,1,12,1,'2024-12-18 04:29:26.465','2024-12-18 04:29:26.465'),(5,1,13,1,'2024-12-18 04:29:35.902','2024-12-18 04:29:35.902'),(6,1,17,1,'2024-12-18 04:29:41.685','2024-12-18 11:46:41.190');
+/*!40000 ALTER TABLE `Cart` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Category`
 --
 
@@ -165,7 +223,7 @@ DROP TABLE IF EXISTS `Category`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Category` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `parentId` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Category_parentId_fkey` (`parentId`),
@@ -184,6 +242,32 @@ INSERT INTO `Category` VALUES (1,'Reading',NULL),(2,'Listening',NULL),(3,'Writin
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Conversation`
+--
+
+DROP TABLE IF EXISTS `Conversation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Conversation` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Conversation_createdAt_fkey` (`createdAt`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Conversation`
+--
+
+LOCK TABLES `Conversation` WRITE;
+/*!40000 ALTER TABLE `Conversation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Conversation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Course`
 --
 
@@ -192,13 +276,13 @@ DROP TABLE IF EXISTS `Course`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Course` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  `objectives` text COLLATE utf8mb4_unicode_ci,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `objectives` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `price` int NOT NULL,
   `newPrice` int DEFAULT NULL,
-  `thumbnail` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `videoUrl` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `thumbnail` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `videoUrl` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `categoryId` int NOT NULL DEFAULT '1',
   `creatorId` int NOT NULL,
   `teacherId` int DEFAULT NULL,
@@ -264,7 +348,7 @@ DROP TABLE IF EXISTS `ForumPost`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ForumPost` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `content` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `threadId` int NOT NULL,
   `authorId` int NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -296,8 +380,8 @@ DROP TABLE IF EXISTS `ForumThread`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ForumThread` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `authorId` int NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` datetime(3) DEFAULT NULL,
@@ -326,9 +410,9 @@ DROP TABLE IF EXISTS `Lesson`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Lesson` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `content` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `videoUrl` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `videoUrl` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `videoTime` int DEFAULT NULL,
   `courseId` int NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -358,8 +442,8 @@ DROP TABLE IF EXISTS `LiveCourse`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `LiveCourse` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `instructorId` int NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` datetime(3) DEFAULT NULL,
@@ -389,7 +473,7 @@ CREATE TABLE `LiveSession` (
   `id` int NOT NULL AUTO_INCREMENT,
   `liveCourseId` int NOT NULL,
   `sessionDate` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  `topic` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `topic` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `courseId` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `LiveSession_liveCourseId_fkey` (`liveCourseId`),
@@ -417,7 +501,7 @@ DROP TABLE IF EXISTS `Message`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Message` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `content` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `senderId` int NOT NULL,
   `receiverId` int NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -451,7 +535,7 @@ DROP TABLE IF EXISTS `Notification`;
 CREATE TABLE `Notification` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
-  `message` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `read` tinyint(1) NOT NULL DEFAULT '0',
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   PRIMARY KEY (`id`),
@@ -481,7 +565,7 @@ CREATE TABLE `Payment` (
   `userId` int NOT NULL,
   `amount` int NOT NULL,
   `paymentDate` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  `method` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `method` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Payment_userId_fkey` (`userId`),
   CONSTRAINT `Payment_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -509,10 +593,10 @@ CREATE TABLE `Progress` (
   `userId` int NOT NULL,
   `lessonId` int NOT NULL,
   `enrollmentId` int NOT NULL,
-  `status` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `completedAt` datetime(3) DEFAULT NULL,
   `score` int DEFAULT NULL,
-  `feedback` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `feedback` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Progress_enrollmentId_fkey` (`enrollmentId`),
   KEY `Progress_lessonId_fkey` (`lessonId`),
@@ -572,9 +656,9 @@ DROP TABLE IF EXISTS `Question`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Question` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `content` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `options` json NOT NULL,
-  `answer` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `testId` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Question_testId_fkey` (`testId`),
@@ -603,7 +687,7 @@ CREATE TABLE `Review` (
   `userId` int NOT NULL,
   `courseId` int NOT NULL,
   `rating` int NOT NULL,
-  `comment` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `comment` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   PRIMARY KEY (`id`),
   KEY `Review_courseId_fkey` (`courseId`),
@@ -632,7 +716,7 @@ DROP TABLE IF EXISTS `Role`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Role` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Role_name_key` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -685,8 +769,8 @@ DROP TABLE IF EXISTS `Test`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Test` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `creatorId` int NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` datetime(3) NOT NULL,
@@ -714,9 +798,9 @@ DROP TABLE IF EXISTS `User`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `User` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roleId` int NOT NULL,
   `settingsId` int DEFAULT NULL,
   `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
@@ -736,7 +820,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'Admin Admin','admin@alo.com','$2b$10$7xddhwNnFen7L/Tc/e.hj.Eix8LBbcFVsfnZvUeQ6JBl1qLOLlwCa',1,NULL,0,'2024-12-16 17:49:16.132','2024-12-16 19:48:00.138');
+INSERT INTO `User` VALUES (1,'Admin Admin','admin@alo.com','$2b$10$GW7ZGeDdLwLQOHh1pYR7IeecfBRC3628bPFFwaPCQq8N4qffTnJUG',1,NULL,0,'2024-12-16 17:49:16.132','2024-12-18 10:40:07.933');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -749,10 +833,10 @@ DROP TABLE IF EXISTS `UserSettings`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `UserSettings` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `language` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en',
-  `learningGoals` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `theme` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'light',
+  `phone` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `language` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en',
+  `learningGoals` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `theme` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'light',
   `notificationPreferences` json DEFAULT NULL,
   `userId` int NOT NULL,
   `assistantPreferences` json DEFAULT NULL,
@@ -780,4 +864,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-17 23:46:24
+-- Dump completed on 2024-12-18 23:04:53

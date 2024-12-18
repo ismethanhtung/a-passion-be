@@ -38,9 +38,21 @@ model User {
   settings          UserSettings?
   tests             Test[]             @relation("TestParticipants")
   carts             Cart[] 
+  refreshTokens     RefreshToken[]     @relation("UserRefreshTokens") 
 
   @@index([roleId], map: "User_roleId_fkey")
 }
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int
+  user      User     @relation("UserRefreshTokens", fields: [userId], references: [id]) 
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+
 
 model Role {
   id    Int    @id @default(autoincrement())
