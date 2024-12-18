@@ -3,29 +3,32 @@ const prisma = new PrismaClient();
 const stringToInt = require("../utils/stringToInt");
 
 const getCartById = async (id) => {
-    return await prisma.cart.findUnique({
-        where: { userId: parseInt(id) },
-        include: { include: { course: true } },
-    });
+    try {
+        return await prisma.cart.findMany({
+            where: { userId: parseInt(id) },
+            include: { course: true },
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
-const createCart = async (userId, courseId, quantity) => {
+const createCart = async (data) => {
     try {
+        console.log(data);
+        const convertedData = stringToInt(data, ["userId", "courseId", "quantity"]);
         const existingCart = await prisma.cart.findFirst({
-            where: { userId },
+            where: { userId: convertedData.userId, courseId: convertedData.courseId },
         });
         if (existingCart) {
-            const updatedCart = await prisma.cart.update({
+            return await prisma.cart.update({
                 where: { id: existingCart.id },
-                data: { quantity: existingCart.quantity + quantity },
+                data: { quantity: existingCart.quantity + convertedData.quantity },
             });
-            return res.json(updatedCart);
         }
-        const newCart = await prisma.cart.create({
-            data: { userId, courseId, quantity },
+        return await prisma.cart.create({
+            data: convertedData,
         });
-
-        return json(newCart);
     } catch (error) {
         console.log(error);
     }
