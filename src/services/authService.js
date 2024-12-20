@@ -9,7 +9,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const login = async (email, password) => {
     try {
-        console.log(11);
+        console.log(10000);
         const user = await prisma.user.findUnique({
             where: { email },
             include: { role: true },
@@ -39,15 +39,17 @@ const login = async (email, password) => {
                 expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 ngày
             },
         });
+        const expiresAt = 7 * 24 * 60 * 60 * 1000;
 
-        return { user, accessToken, refreshToken };
+        return { user, accessToken, refreshToken, expiresAt };
     } catch (error) {
         console.log(error);
     }
 };
 
 const logout = async (req, res) => {
-    const refreshToken = req.cookies.refresh_token;
+    const refreshToken = req.cookies.refreshToken;
+    console.log(refreshToken);
 
     if (!refreshToken) {
         return res.status(400).json({ message: "No refresh token found" });
@@ -58,13 +60,13 @@ const logout = async (req, res) => {
             where: { token: refreshToken },
         });
 
-        res.clearCookie("auth_token", {
+        res.clearCookie("accessToken", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
         });
 
-        res.clearCookie("refresh_token", {
+        res.clearCookie("refreshToken", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
@@ -80,23 +82,27 @@ const refresh = async (refreshToken) => {
     try {
         const tokenRecord = await prisma.refreshToken.findUnique({
             where: { token: refreshToken },
-            include: { user: true },
+            include: {
+                user: {
+                    include: {
+                        role: true,
+                    },
+                },
+            },
         });
+
+        console.log(tokenRecord);
 
         if (!tokenRecord || new Date(tokenRecord.expiresAt) < new Date()) {
             throw new Error("Refresh token không hợp lệ hoặc đã hết hạn");
         }
 
-        const newAccessToken = generateToken(tokenRecord.user.id, tokenRecord.user.role.name);
-
-        return { accessToken: newAccessToken };
+        return generateToken(tokenRecord.user.id, tokenRecord.user.role.name);
     } catch (error) {
         console.error("Error refreshing token:", error.message);
         throw new Error("Unable to refresh token");
     }
 };
-
-module.exports = { refresh };
 
 const signup = async (data) => {
     const { password, ...rest } = data;

@@ -15,6 +15,7 @@ const getLessonById = async (id) => {
 const createLesson = async (data) => {
     try {
         const convertedData = stringToInt(data, ["courseId"]);
+        console.log(convertedData);
         return await prisma.lesson.create({ data: convertedData });
     } catch (error) {
         console.log(error);

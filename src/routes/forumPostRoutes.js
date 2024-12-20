@@ -7,12 +7,7 @@ const authorizeRoles = require("../middlewares/authorizeRoles");
 router.get("/", forumPostController.getAllForumPosts);
 router.get("/limit", forumPostController.getLimitForumPosts);
 router.get("/:id", forumPostController.getForumPostById);
-router.post(
-    "/",
-    authenticate,
-    authorizeRoles("admin", "teacher"),
-    forumPostController.createForumPost
-);
+router.post("/", authenticate, forumPostController.createForumPost);
 router.put(
     "/:id",
     authenticate,

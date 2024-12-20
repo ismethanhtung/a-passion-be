@@ -19,11 +19,10 @@ const createReview = async (req) => {
     try {
         return await prisma.review.create({
             data: {
-                userId: req.user.id,
-                courseId,
+                userId: req.user.userId,
+                courseId: courseId,
                 rating,
                 comment,
-                // user: req.user,
             },
         });
     } catch (error) {
@@ -33,11 +32,7 @@ const createReview = async (req) => {
 
 const updateReview = async (id, data) => {
     try {
-        const convertedData = stringToInt(data, [
-            "userId",
-            "courseId",
-            "rating",
-        ]);
+        const convertedData = stringToInt(data, ["userId", "courseId", "rating"]);
 
         return await prisma.review.update({
             where: { id: parseInt(id) },

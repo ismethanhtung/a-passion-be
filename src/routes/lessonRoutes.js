@@ -4,7 +4,7 @@ const lessonController = require("../controllers/lessonController");
 const authenticate = require("../middlewares/authenticate");
 const authorizeRoles = require("../middlewares/authorizeRoles");
 
-router.get("/", lessonController.getLessons);
+router.get("/", authenticate, authorizeRoles("admin", "teacher"), lessonController.getLessons);
 router.get("/:id", lessonController.getLessonById);
 router.post("/", authenticate, authorizeRoles("admin", "teacher"), lessonController.createLesson);
 router.put("/:id", authenticate, authorizeRoles("admin", "teacher"), lessonController.updateLesson);

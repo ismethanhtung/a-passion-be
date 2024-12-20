@@ -4,15 +4,13 @@ const prisma = new PrismaClient();
 const authorize = (roles = []) => {
     return async (req, res, next) => {
         try {
-            const userId = req.user.id;
+            const userId = req.user.userId;
             const user = await prisma.user.findUnique({
                 where: { id: userId },
             });
 
             if (!user || !roles.includes(user.role)) {
-                return res
-                    .status(403)
-                    .json({ message: "Không có quyền truy cập" });
+                return res.status(403).json({ message: "Không có quyền truy cập" });
             }
             next();
         } catch (error) {

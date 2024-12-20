@@ -17,9 +17,9 @@ const getForumPostById = async (id) => {
     });
 };
 
-const createForumPost = async (data) => {
+const createForumPost = async (data, authorId) => {
     try {
-        const convertedData = stringToInt(data, ["threadId"]);
+        const convertedData = stringToInt(data, ["threadId", "authorId"]);
         return await prisma.forumPost.create({ data: convertedData });
     } catch (error) {
         console.log(error);

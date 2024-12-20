@@ -30,6 +30,7 @@ const getForumPostById = async (req, res) => {
 
 const createForumPost = async (req, res) => {
     try {
+        req.body.authorId = req.user.userId;
         const forumPost = await forumPostService.createForumPost(req.body);
         res.status(201).json(forumPost);
     } catch (error) {
