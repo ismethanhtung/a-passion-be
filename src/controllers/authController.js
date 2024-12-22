@@ -22,6 +22,53 @@ const login = async (req, res) => {
     }
 };
 
+const loginWithGoogle = async (req, res) => {
+    const { email, name, image, accessToken } = req.body;
+
+    try {
+        // Kiểm tra xem người dùng đã tồn tại chưa
+        let user = await prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (!user) {
+            user = await prisma.user.create({
+                data: {
+                    email,
+                    name,
+                    roleId: 1,
+                    password: "", // Không cần mật khẩu, vì đăng nhập qua Google
+                    isDeleted: false,
+                },
+            });
+        }
+
+        // // Tạo refresh token (nếu cần)
+        // const refreshTokenData = await prisma.refreshToken.create({
+        //     data: {
+        //         token: refreshToken, // Refresh token từ Google
+        //         userId: user.id,
+        //         expiresAt: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000), // Ví dụ 30 ngày hết hạn
+        //     },
+        // });
+
+        // Trả về thông tin người dùng và token
+        return res.json({
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                role: user.role.name, // Nếu có role
+            },
+            accessToken, // Access token từ Google
+            // refreshToken: refreshTokenData.token, // Refresh token mới tạo
+        });
+    } catch (error) {
+        console.error("Error during Google login:", error);
+        return res.status(500).json({ message: "Đăng nhập không thành công" });
+    }
+};
+
 const logout = async (req, res) => {
     try {
         await authService.logout(req, res);
@@ -79,4 +126,4 @@ const refresh = async (req, res) => {
     }
 };
 
-module.exports = { login, logout, signup, changePassword, refresh };
+module.exports = { login, logout, signup, changePassword, refresh, loginWithGoogle };
