@@ -39,7 +39,8 @@ model User {
   tests             Test[]             @relation("TestParticipants")
   carts             Cart[] 
   refreshTokens     RefreshToken[]     @relation("UserRefreshTokens") 
-
+  active            Boolean            @default(false)
+  emailCheckToken   String
   @@index([roleId], map: "User_roleId_fkey")
 }
 

@@ -77,11 +77,19 @@ const logout = async (req, res) => {
     }
 };
 
+const verifyEmail = async (req, res) => {
+    try {
+        await authService.verifyEmail(req, res);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const signup = async (req, res) => {
     try {
         const newUser = await authService.signup(req.body);
         res.status(201).json({
-            message: "Tạo tài khoản thành công",
+            message: "Tạo tài khoản thành công, vui lòng xác nhận email",
             user: newUser,
         });
     } catch (error) {
@@ -126,4 +134,4 @@ const refresh = async (req, res) => {
     }
 };
 
-module.exports = { login, logout, signup, changePassword, refresh, loginWithGoogle };
+module.exports = { login, logout, signup, changePassword, refresh, loginWithGoogle, verifyEmail };

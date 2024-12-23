@@ -16,14 +16,13 @@ const authenticate = async (req, res, next) => {
         next();
     } catch (error) {
         if (error.name === "TokenExpiredError") {
-            // access token hết hạn
-            const refreshToken = req.cookies.refreshToken; // Lấy refresh token từ cookies
+            const refreshToken = req.cookies.refreshToken;
             if (!refreshToken) {
                 return res.status(401).json({ message: "No Refresh token" });
             }
 
             try {
-                const newAccessToken = await refresh(refreshToken); // Làm mới access token bằng refresh token
+                const newAccessToken = await refresh(refreshToken);
                 console.log("create new access token");
                 res.cookie("auth_token", newAccessToken, {
                     httpOnly: true,
