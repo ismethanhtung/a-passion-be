@@ -23,6 +23,7 @@ model User {
   courses           Enrollment[]
   forumPosts        ForumPost[]
   forumThreads      ForumThread[]
+  forumComments     ForumComment[]     @relation("UserForumComments")
   liveCourses       LiveCourse[]       @relation("InstructorLiveCourses")
   receivedMessages  Message[]          @relation("ReceivedMessages")
   sentMessages      Message[]          @relation("SentMessages")
@@ -41,6 +42,7 @@ model User {
   refreshTokens     RefreshToken[]     @relation("UserRefreshTokens") 
   active            Boolean            @default(false)
   emailCheckToken   String
+
   @@index([roleId], map: "User_roleId_fkey")
 }
 
@@ -75,6 +77,22 @@ model Cart {
   @@index([courseId], map: "Cart_courseId_fkey")
 }
 
+model Voucher {
+  id           Int      @id @default(autoincrement())
+  code         String   @unique
+  discount     Int
+  maxDiscount  Int?
+  minPurchase  Int?
+  validFrom    DateTime @default(now())
+  validTo      DateTime
+  usageCount   Int      @default(0)
+  maxUsage     Int?     // Tổng số lần sử dụng
+  userSpecific Boolean  @default(false) // Chỉ dành riêng cho user
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime? @updatedAt
+}
+
+
 model UserSettings {
   id                      Int     @id @default(autoincrement())
   phone                   String?
@@ -96,6 +114,7 @@ model ForumThread {
   updatedAt  DateTime?   @updatedAt
   forumPosts ForumPost[]
   author     User        @relation(fields: [authorId], references: [id])
+  comments ForumComment[] @relation("ThreadComments")
 
   @@index([authorId], map: "ForumThread_authorId_fkey")
 }
@@ -113,6 +132,24 @@ model ForumPost {
   @@index([authorId], map: "ForumPost_authorId_fkey")
   @@index([threadId], map: "ForumPost_threadId_fkey")
 }
+
+model ForumComment {
+  id          Int          @id @default(autoincrement())
+  content     String
+  authorId    Int
+  threadId    Int
+  parentId    Int?         
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime?    @updatedAt
+  author      User         @relation("UserForumComments", fields: [authorId], references: [id])
+  parent      ForumComment? @relation("ParentComment", fields: [parentId], references: [id])
+  replies     ForumComment[] @relation("ParentComment")
+  thread ForumThread @relation("ThreadComments", fields: [threadId], references: [id])
+  
+  @@index([authorId], map: "ForumComment_authorId_fkey")
+  @@index([threadId], map: "ForumComment_threadId_fkey")
+}
+
 
 model Conversation {
   id           Int       @id @default(autoincrement())
