@@ -19,7 +19,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const login = async (email, password) => {
     try {
-        console.log(10000);
+        console.log("login");
         const user = await prisma.user.findUnique({
             where: { email },
             include: { role: true },
@@ -64,21 +64,28 @@ const login = async (email, password) => {
 
 const loginWithGoogle = async (email, name, googleId) => {
     try {
+        console.log(123471293847);
         const defaultRole = await prisma.role.findUnique({
             where: { name: "student" },
         });
         const hashedPassword = await hashPassword(googleId);
 
-        const newUser = await prisma.user.create({
-            data: {
-                email: email,
-                name: name,
-                password: hashedPassword,
-                roleId: defaultRole.id,
-                active: true,
-                emailCheckToken: "",
-            },
+        const user = await prisma.user.findUnique({
+            where: { email: email },
         });
+
+        if (!user) {
+            await prisma.user.create({
+                data: {
+                    email: email,
+                    name: name,
+                    password: hashedPassword,
+                    roleId: defaultRole.id,
+                    active: true,
+                    emailCheckToken: "",
+                },
+            });
+        }
         const response = await login(email, googleId);
         return response;
     } catch (error) {

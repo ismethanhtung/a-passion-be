@@ -47,12 +47,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Logging request
-app.use((req, res, next) => {
-    appLogger.info(`${req.method} ${req.url}`);
-    next();
-});
-
 // Định tuyến
 app.use("/course", courseRoutes);
 app.use("/user", userRoutes);

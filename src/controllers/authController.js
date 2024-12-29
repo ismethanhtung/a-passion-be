@@ -1,4 +1,21 @@
 const authService = require("../services/authService");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client("process.env.GOOGLE_CLIENT_ID");
+
+async function verifyGoogleToken(credential) {
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+        return payload;
+    } catch (error) {
+        console.error("Lỗi xác thực Google:", error);
+        throw new Error("Xác thực Google thất bại");
+    }
+}
 
 const login = async (req, res) => {
     try {
@@ -23,8 +40,11 @@ const login = async (req, res) => {
 };
 
 const loginWithGoogle = async (req, res) => {
-    const { email, name, googleId } = req.body;
-
+    console.log(process.env.GOOGLE_CLIENT_ID);
+    const { credential } = req.body;
+    const payload = await verifyGoogleToken(credential);
+    const { email, name, sub: googleId } = payload;
+    console.log(payload);
     if (!email || !name || !googleId) {
         return res.status(400).json({ error: "Missing required fields" });
     }
