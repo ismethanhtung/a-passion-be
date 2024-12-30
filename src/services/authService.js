@@ -218,7 +218,6 @@ const verifyEmail = async (req, res) => {
     const { email, token } = req.query;
     console.log(email, token);
 
-    // Kiểm tra token
     const user = await prisma.user.findUnique({
         where: {
             email: email,

@@ -40,11 +40,9 @@ const login = async (req, res) => {
 };
 
 const loginWithGoogle = async (req, res) => {
-    console.log(process.env.GOOGLE_CLIENT_ID);
     const { credential } = req.body;
     const payload = await verifyGoogleToken(credential);
     const { email, name, sub: googleId } = payload;
-    console.log(payload);
     if (!email || !name || !googleId) {
         return res.status(400).json({ error: "Missing required fields" });
     }
@@ -55,10 +53,6 @@ const loginWithGoogle = async (req, res) => {
         res.status(200).json({
             message: "Đăng nhập thành công",
             response,
-            // user,
-            // accessToken,
-            // refreshToken,
-            // expiresAt,
         });
     } catch (error) {
         console.log(error);
