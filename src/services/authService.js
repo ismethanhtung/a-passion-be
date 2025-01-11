@@ -93,6 +93,39 @@ const loginWithGoogle = async (email, name, googleId) => {
     }
 };
 
+const loginWithFacebook = async (name, id, userID) => {
+    try {
+        console.log("login fb");
+        console.log(name, id, userID);
+
+        const defaultRole = await prisma.role.findUnique({
+            where: { name: "student" },
+        });
+        const hashedPassword = await hashPassword(userID);
+
+        const user = await prisma.user.findUnique({
+            where: { email: id },
+        });
+
+        if (!user) {
+            await prisma.user.create({
+                data: {
+                    email: id,
+                    name: name,
+                    password: hashedPassword,
+                    roleId: defaultRole.id,
+                    active: true,
+                    emailCheckToken: "",
+                },
+            });
+        }
+        const response = await login(id, userID);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const logout = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
     console.log(refreshToken);
@@ -274,4 +307,5 @@ module.exports = {
     logout,
     verifyEmail,
     loginWithGoogle,
+    loginWithFacebook,
 };

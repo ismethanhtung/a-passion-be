@@ -59,6 +59,22 @@ const loginWithGoogle = async (req, res) => {
     }
 };
 
+const loginWithFacebook = async (req, res) => {
+    const { name, id, userID } = req.body.accessToken;
+    console.log(req.body);
+
+    try {
+        const response = await authService.loginWithFacebook(name, id, userID);
+
+        res.status(200).json({
+            message: "Đăng nhập thành công",
+            response,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const logout = async (req, res) => {
     try {
         await authService.logout(req, res);
@@ -124,4 +140,13 @@ const refresh = async (req, res) => {
     }
 };
 
-module.exports = { login, logout, signup, changePassword, refresh, loginWithGoogle, verifyEmail };
+module.exports = {
+    login,
+    logout,
+    signup,
+    changePassword,
+    refresh,
+    loginWithGoogle,
+    loginWithFacebook,
+    verifyEmail,
+};
