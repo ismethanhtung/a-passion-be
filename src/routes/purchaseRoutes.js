@@ -11,7 +11,8 @@ var crypto = require("crypto");
 router.get("/", purchaseController.getAllPurchases);
 router.get("/limit", purchaseController.getLimitPurchases);
 router.get("/:id", purchaseController.getPurchaseById);
-router.post("/", authenticate, purchaseController.createPurchase);
+router.get("/check/:courseId", authenticate, purchaseController.checkPurchase);
+router.post("/", purchaseController.createPurchase);
 router.put(
     "/:id",
     authenticate,
@@ -120,6 +121,8 @@ router.post("/create_payment_url", function (req, res, next) {
     let orderId = `${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
     let amount = req.body.amount;
     let bankCode = req.body.bankCode;
+    let userId = req.body.userId;
+    let courseId = req.body.courseId;
 
     let locale = req.body.language;
     if (!locale) {
@@ -133,12 +136,14 @@ router.post("/create_payment_url", function (req, res, next) {
     vnp_Params["vnp_Locale"] = locale;
     vnp_Params["vnp_CurrCode"] = currCode;
     vnp_Params["vnp_TxnRef"] = orderId;
-    vnp_Params["vnp_OrderInfo"] = "Thanh toan cho ma GD:" + orderId;
+    vnp_Params["vnp_OrderInfo"] = "Thanh toan cho ma GD:" + courseId + "-" + userId;
     vnp_Params["vnp_OrderType"] = "other";
     vnp_Params["vnp_Amount"] = amount * 100;
     vnp_Params["vnp_ReturnUrl"] = returnUrl;
     vnp_Params["vnp_IpAddr"] = ipAddr;
     vnp_Params["vnp_CreateDate"] = createDate;
+    // vnp_Params["vnp_CourseId"] = courseId;
+    // vnp_Params["vnp_UserId"] = userId;
 
     vnp_Params = sortObject(vnp_Params);
 

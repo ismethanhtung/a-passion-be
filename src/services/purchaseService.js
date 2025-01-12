@@ -17,6 +17,19 @@ const getPurchaseById = async (id) => {
     });
 };
 
+const checkPurchase = async (courseId, userId) => {
+    try {
+        console.log(101234123);
+        return await prisma.purchase.findFirst({
+            where: {
+                AND: [{ courseId: parseInt(courseId, 10) }, { userId: parseInt(userId, 10) }],
+            },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const createPurchase = async (data) => {
     try {
         const convertedData = stringToInt(data, [
@@ -54,6 +67,7 @@ const deletePurchase = async (id) => {
 module.exports = {
     getAllPurchases,
     getPurchaseById,
+    checkPurchase,
     createPurchase,
     updatePurchase,
     deletePurchase,

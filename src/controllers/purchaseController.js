@@ -28,6 +28,19 @@ const getPurchaseById = async (req, res) => {
     }
 };
 
+const checkPurchase = async (req, res) => {
+    const { courseId } = req.params;
+    const userId = req.user.userId;
+    console.log("courseid,", courseId);
+    console.log("user", req.user);
+    try {
+        const purchases = await purchaseService.checkPurchase(parseInt(courseId), parseInt(userId));
+        res.status(200).json(purchases);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const createPurchase = async (req, res) => {
     try {
         const purchase = await purchaseService.createPurchase(req.body);
@@ -64,4 +77,5 @@ module.exports = {
     createPurchase,
     updatePurchase,
     deletePurchase,
+    checkPurchase,
 };
