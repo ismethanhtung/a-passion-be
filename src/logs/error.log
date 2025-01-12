@@ -4,3 +4,65 @@
 [2024-12-10 13:37:25] [31merror[39m: Error: Cannot read properties of undefined (reading 'name')
 [2024-12-10 13:37:39] [31merror[39m: Error: Cannot read properties of undefined (reading 'name')
 [2024-12-10 13:37:39] [31merror[39m: Error: Cannot read properties of undefined (reading 'name')
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module '../config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module 'dateformat'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: orderId is not defined
+[31merror[39m: Error: dateFormat is not a function
+[31merror[39m: Error: crypto.createHmac is not a function
+[31merror[39m: Error: crypto.createHmac is not a function
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module 'dateformat'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: sortObject is not defined
+[31merror[39m: Error: sortObject is not defined
+[31merror[39m: Error: sortObject is not defined
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: Cannot find module 'config'
+Require stack:
+- /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
+- /Users/thanhtung/sources/back-end/src/app.js
+- /Users/thanhtung/sources/back-end/src/server.js
