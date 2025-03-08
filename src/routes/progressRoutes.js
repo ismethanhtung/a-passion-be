@@ -7,12 +7,7 @@ const authorizeRoles = require("../middlewares/authorizeRoles");
 router.get("/", progressController.getAllProgress);
 router.get("/limit", progressController.getLimitProgress);
 router.get("/:id", progressController.getProgressById);
-router.post(
-    "/",
-    authenticate,
-    authorizeRoles("admin", "teacher"),
-    progressController.createProgress
-);
+router.post("/", authenticate, progressController.createProgress);
 router.put(
     "/:id",
     authenticate,

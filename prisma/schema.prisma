@@ -38,24 +38,41 @@ model User {
   role              Role               @relation(fields: [roleId], references: [id])
   settings          UserSettings?
   tests             Test[]             @relation("TestParticipants")
-  carts             Cart[] 
-  refreshTokens     RefreshToken[]     @relation("UserRefreshTokens") 
+  carts             Cart[]
+  refreshTokens     RefreshToken[]     @relation("UserRefreshTokens")
   active            Boolean            @default(false)
   emailCheckToken   String
+  learningPurpose   String?
+  specificGoals     String?
+  prioritySkills    String?
+  assessmentTest    String?
+  skillLevel        String?
+  knownVocabulary   Int?
+  learningPaths     LearningPath[]
 
   @@index([roleId], map: "User_roleId_fkey")
+}
+
+model LearningPath {
+  id            Int      @id @default(autoincrement())
+  userId        Int
+  recommendedBy String? // AI hoặc người hướng dẫn đã giới thiệu lộ trình này
+  pathDetails   Json? // Thông tin chi tiết về lộ trình học tập
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "LearningPath_userId_fkey")
 }
 
 model RefreshToken {
   id        Int      @id @default(autoincrement())
   token     String   @unique
   userId    Int
-  user      User     @relation("UserRefreshTokens", fields: [userId], references: [id]) 
+  user      User     @relation("UserRefreshTokens", fields: [userId], references: [id])
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
-
-
 
 model Role {
   id    Int    @id @default(autoincrement())
@@ -64,34 +81,33 @@ model Role {
 }
 
 model Cart {
-  id          Int         @id @default(autoincrement())
-  userId      Int
-  courseId    Int
-  quantity    Int         @default(1)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?   @updatedAt
-  user        User        @relation(fields: [userId], references: [id])
-  course      Course      @relation(fields: [courseId], references: [id])
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  courseId  Int
+  quantity  Int       @default(1)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  user      User      @relation(fields: [userId], references: [id])
+  course    Course    @relation(fields: [courseId], references: [id])
 
   @@index([userId], map: "Cart_userId_fkey")
   @@index([courseId], map: "Cart_courseId_fkey")
 }
 
 model Voucher {
-  id           Int      @id @default(autoincrement())
-  code         String   @unique
+  id           Int       @id @default(autoincrement())
+  code         String    @unique
   discount     Int
   maxDiscount  Int?
   minPurchase  Int?
-  validFrom    DateTime @default(now())
+  validFrom    DateTime  @default(now())
   validTo      DateTime
-  usageCount   Int      @default(0)
-  maxUsage     Int?     // Tổng số lần sử dụng
-  userSpecific Boolean  @default(false) // Chỉ dành riêng cho user
-  createdAt    DateTime @default(now())
+  usageCount   Int       @default(0)
+  maxUsage     Int? // Tổng số lần sử dụng
+  userSpecific Boolean   @default(false) // Chỉ dành riêng cho user
+  createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
 }
-
 
 model UserSettings {
   id                      Int     @id @default(autoincrement())
@@ -106,15 +122,15 @@ model UserSettings {
 }
 
 model ForumThread {
-  id         Int         @id @default(autoincrement())
+  id         Int            @id @default(autoincrement())
   title      String
   content    String
   authorId   Int
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime?   @updatedAt
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime?      @updatedAt
   forumPosts ForumPost[]
-  author     User        @relation(fields: [authorId], references: [id])
-  comments ForumComment[] @relation("ThreadComments")
+  author     User           @relation(fields: [authorId], references: [id])
+  comments   ForumComment[] @relation("ThreadComments")
 
   @@index([authorId], map: "ForumThread_authorId_fkey")
 }
@@ -134,49 +150,50 @@ model ForumPost {
 }
 
 model ForumComment {
-  id          Int          @id @default(autoincrement())
-  content     String
-  authorId    Int
-  threadId    Int
-  parentId    Int?         
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime?    @updatedAt
-  author      User         @relation("UserForumComments", fields: [authorId], references: [id])
-  parent      ForumComment? @relation("ParentComment", fields: [parentId], references: [id])
-  replies     ForumComment[] @relation("ParentComment")
-  thread ForumThread @relation("ThreadComments", fields: [threadId], references: [id])
-  
+  id        Int            @id @default(autoincrement())
+  content   String
+  authorId  Int
+  threadId  Int
+  parentId  Int?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime?      @updatedAt
+  author    User           @relation("UserForumComments", fields: [authorId], references: [id])
+  parent    ForumComment?  @relation("ParentComment", fields: [parentId], references: [id])
+  replies   ForumComment[] @relation("ParentComment")
+  thread    ForumThread    @relation("ThreadComments", fields: [threadId], references: [id])
+
   @@index([authorId], map: "ForumComment_authorId_fkey")
   @@index([threadId], map: "ForumComment_threadId_fkey")
 }
 
-
 model Conversation {
   id           Int       @id @default(autoincrement())
+  userId       Int?
   title        String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
-  participants User[]    @relation("UserConversations")
+  participants User?     @relation("UserConversations", fields: [userId], references: [id])
   messages     Message[]
+
   @@index([createdAt], map: "Conversation_createdAt_fkey")
+  @@index([userId], map: "Conversation_userId_fkey")
 }
 
 model Message {
-  id              Int         @id @default(autoincrement())
-  content         String
-  senderId        Int
-  conversationId  Int
-  createdAt       DateTime    @default(now())
-  sender          User        @relation("SentMessages", fields: [senderId], references: [id])
-  conversation    Conversation @relation(fields: [conversationId], references: [id])
-  receivedBy      User?       @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  receiverId      Int?
+  id             Int          @id @default(autoincrement())
+  content        String
+  senderId       Int?
+  conversationId Int
+  createdAt      DateTime     @default(now())
+  sender         User?        @relation("SentMessages", fields: [senderId], references: [id])
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  receivedBy     User?        @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId     Int?
 
   @@index([senderId], map: "Message_senderId_fkey")
   @@index([conversationId], map: "Message_conversationId_fkey")
   @@index([receiverId], map: "Message_receiverId_fkey")
 }
-
 
 model Notification {
   id        Int      @id @default(autoincrement())
@@ -236,6 +253,7 @@ model Course {
   purchases    Purchase[]
   reviews      Review[]
   carts        Cart[]
+  tags         String?
 
   @@index([categoryId], map: "Course_categoryId_fkey")
   @@index([creatorId], map: "Course_creatorId_fkey")
@@ -296,6 +314,7 @@ model Progress {
   enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
   lesson       Lesson     @relation(fields: [lessonId], references: [id])
   user         User       @relation(fields: [userId], references: [id])
+  testScores   Json?
 
   @@index([enrollmentId], map: "Progress_enrollmentId_fkey")
   @@index([lessonId], map: "Progress_lessonId_fkey")

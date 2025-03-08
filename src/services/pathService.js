@@ -2,28 +2,29 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const stringToInt = require("../utils/stringToInt");
 
-const getAllUsers = async () => {
-    return await prisma.user.findMany({
+const getAllPaths = async () => {
+    return await prisma.path.findMany({
         include: {
             role: true,
         },
     });
 };
 
-const getUserById = async (id) => {
-    return await prisma.user.findUnique({
-        where: { id: parseInt(id) },
-        include: {
-            role: true,
-        },
-    });
+const getPathById = async (id) => {
+    try {
+        return await prisma.learningPath.findMany({
+            where: { userId: parseInt(id) },
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
-const createUser = async (data) => {
-    return await prisma.user.create({ data });
+const createPath = async (data) => {
+    return await prisma.path.create({ data });
 };
 
-const updateUser = async (userId, data) => {
+const updatePath = async (pathId, data) => {
     // const { id, name, email, ...rest } = data;
     // const updatedData = { name, email };
 
@@ -35,8 +36,8 @@ const updateUser = async (userId, data) => {
     const convertedData = stringToInt(data, ["knownVocabulary"]);
 
     try {
-        return await prisma.user.update({
-            where: { id: parseInt(userId) },
+        return await prisma.path.update({
+            where: { id: parseInt(pathId) },
             data: convertedData,
         });
     } catch (error) {
@@ -44,9 +45,9 @@ const updateUser = async (userId, data) => {
     }
 };
 
-const deleteUser = async (id) => {
+const deletePath = async (id) => {
     try {
-        return await prisma.user.delete({
+        return await prisma.path.delete({
             where: { id: parseInt(id) },
         });
     } catch (error) {
@@ -55,9 +56,9 @@ const deleteUser = async (id) => {
 };
 
 module.exports = {
-    getAllUsers,
-    getUserById,
-    createUser,
-    updateUser,
-    deleteUser,
+    getAllPaths,
+    getPathById,
+    createPath,
+    updatePath,
+    deletePath,
 };

@@ -19,13 +19,7 @@ const getProgressById = async (id) => {
 
 const createProgress = async (data) => {
     try {
-        const convertedData = stringToInt(data, [
-            "creatorId",
-            "teacherId",
-            "price",
-            "newPrice",
-            "categoryId",
-        ]);
+        const convertedData = stringToInt(data, ["userId", "lessonId", "score"]);
         return await prisma.progress.create({ data: convertedData });
     } catch (error) {
         console.log(error);

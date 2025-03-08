@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 9.0.1, for macos14.7 (arm64)
+-- MySQL dump 10.13  Distrib 9.2.0, for macos15.2 (arm64)
 --
 -- Host: localhost    Database: a_passion_db
 -- ------------------------------------------------------
--- Server version	9.0.1
+-- Server version	9.2.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -201,7 +201,7 @@ CREATE TABLE `Cart` (
   KEY `Cart_courseId_fkey` (`courseId`),
   CONSTRAINT `Cart_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Cart_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +210,7 @@ CREATE TABLE `Cart` (
 
 LOCK TABLES `Cart` WRITE;
 /*!40000 ALTER TABLE `Cart` DISABLE KEYS */;
-INSERT INTO `Cart` VALUES (3,1,9,1,'2024-12-18 04:20:31.019','2024-12-20 11:07:23.209'),(4,1,12,1,'2024-12-18 04:29:26.465','2024-12-19 12:00:15.098'),(5,1,13,1,'2024-12-18 04:29:35.902','2024-12-20 12:08:55.660'),(6,1,17,1,'2024-12-18 04:29:41.685','2024-12-18 11:46:41.190'),(7,1,11,1,'2024-12-19 12:00:05.152','2024-12-19 12:00:05.152');
+INSERT INTO `Cart` VALUES (3,1,9,1,'2024-12-18 04:20:31.019','2024-12-24 11:19:46.962'),(4,1,12,1,'2024-12-18 04:29:26.465','2024-12-30 11:27:45.729'),(5,1,13,1,'2024-12-18 04:29:35.902','2024-12-30 11:36:34.405'),(6,1,17,1,'2024-12-18 04:29:41.685','2024-12-18 11:46:41.190'),(8,1,7,1,'2024-12-24 11:01:45.399','2024-12-24 11:01:45.399'),(9,1,8,1,'2024-12-24 11:02:46.269','2024-12-24 11:02:46.269'),(15,135,8,1,'2025-01-12 18:05:22.339','2025-01-12 18:06:01.478'),(16,135,10,1,'2025-01-12 18:07:37.398','2025-01-12 18:07:37.398');
 /*!40000 ALTER TABLE `Cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -290,6 +290,7 @@ CREATE TABLE `Course` (
   `updatedAt` datetime(3) DEFAULT NULL,
   `isPublished` tinyint(1) NOT NULL DEFAULT '0',
   `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
+  `tags` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Course_teacherId_fkey` (`teacherId`),
   KEY `Course_creatorId_fkey` (`creatorId`),
@@ -306,7 +307,7 @@ CREATE TABLE `Course` (
 
 LOCK TABLES `Course` WRITE;
 /*!40000 ALTER TABLE `Course` DISABLE KEYS */;
-INSERT INTO `Course` VALUES (1,'English Foundation Course: Grammar and Speaking Upgrade','Become fluent by improving all your English Skills. Build a strong English foundation in grammar, speaking, and more!','Learn in-demand skills from university and industry experts. Master a subject or tool with hands-on projects. Develop a deep understanding of key concepts. Earn a career certificate from Georgia Institute of Technology.',99000,29000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733505839/a_yya234.jpg','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',3,1,1,'2024-12-17 03:36:45.032','2024-12-17 03:57:31.403',1,0),(7,'The Complete English Language Course Improve Spoken English','Master the English Language - Learn English Grammar English Conversation English Pronunciation Spoken English!','A detailed and thorough knowledge of English language and grammar. To understand English easier. To speak and write English with MORE confidence. Get answers to all your English language questions from someone who ACTUALLY teaches the language.',449000,299000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507386/h_nnvrvm.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',1,1,1,'2024-12-17 03:38:33.858','2024-12-17 03:37:09.352',1,0),(8,'Master English Grammar - Advanced Level','English Language skills for IELTS, CAE, and CPE. Downloadable 180-page ebook with images included. Essays checked!','Gain an advanced knowledge of complex English sentences. Improve your understanding of typical mistakes that must be avoided. Identify and use different tenses in passive and active forms. Identify and use different conditionals in a variety of complex forms. Identify and use reporting verbs in a variety of complex forms. Identify and use subjunctive and inversion in a variety of complex forms.',899000,499000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/d_zvkqlw.jpg','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',4,1,1,'2024-12-17 03:40:09.293','2024-12-17 03:57:31.403',1,0),(9,'Complete English Course: Master English Beginner to Advanced','Learn how to have a natural conversation FAST from a native English speaker!','Detailed understanding of English grammar. 1000+ vocabulary words. How to make appointments and plans. Describing your favorite books and films. Advanced reading and speaking skills. Conversational English to sound like a native.',599000,99000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/e_dbq8wh.webp','https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/e_dbq8wh.webp',3,1,1,'2024-12-17 03:45:51.902','2024-12-17 03:57:31.403',1,0),(10,'IELTS Band 8: IELTS Listening Mastery | IELTS Tenses','IELTS boost: IELTS Listening, IELTS Tenses course in grammar, speaking, and more!','Different types of questions in the IELTS Listening Section. Develop the skill of being able to recognize Synonym Language / Paraphrasing. Learn all about the 12 tenses in English Grammar to improve your Grammar Range and Accuracy. Learn how to learn vocabulary.',1399000,600000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507376/l_f3uxj6.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',2,1,1,'2024-12-17 03:47:29.717','2024-12-17 03:57:31.403',1,0),(11,'2024 NEW!! Complete IELTS Academic Preparation to achieve 7+','The best IELTS strategies & tips to learn, practice & prepare for success in Listening, Reading, Writing, Speaking','Pass the IELTS test with 7 or above in all modules by focusing only on what\\\'s important. Master the most important and effective IELTS strategies, tips, and techniques for an easy road to IELTS success. IELTS LISTENING - Practice listening techniques and predict answers for a higher rate of success. IELTS READING - Master the simple tips to get through reading passages faster and to spot the right answers. IELTS WRITING - Learn complete essay structures & practice vocabulary and grammar that will prepare you for any IELTS writing topic. IELTS SPEAKING - Prepare to give extended answers on a wide range of speaking topics with confidence.',499000,99000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507379/i_vjmn9g.png','https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507379/i_vjmn9g.png',1,1,1,'2024-12-17 03:49:42.317','2024-12-17 03:47:51.075',1,0),(12,'Intensive English Mastery Course: Animated Beginner’s Course','Intensive English course. 77 Hours of English language speaking, English listening practice. Animated Cartoons!','You will learn over 1000 vital English words, expressions and idioms, and how to use them in real life. You will learn the most important English grammar with tons of English-speaking practice. You will learn to think in English and to speak English fluently. (in Intermediate level) You will learn to read in English and to spell English words intuitively. You will learn to understand movies and TV shows in English. After the course, you can travel the world freely, without a language barrier. After the course, you can start preparing for English language tests like TOEFL, IELTS, GMAT etc.',2199000,1599000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507375/g_bjw4ik.png','https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507375/g_bjw4ik.png',6,1,1,'2024-12-17 03:51:17.651','2024-12-17 03:57:31.403',1,0),(13,'The English Master Course: English Grammar, English Speaking','A Complete English Language Course: English Grammar, Speaking, Pronunciation, and Writing. British and American English','LEARN EVERYTHING about English grammar, English speaking, English writing and English pronunciation. Master the English Language. FULL ENGLISH GRAMMAR SECTION covering over 90 English grammar topics. Master English grammar from beginner to advanced. FULL ENGLISH SPEAKING SECTION teaching you to speak like a native speaker and improve your fluency. FULL ENGLISH PRONUNCIATION and ACCENT TRAINING SECTION: Build your own American or British accent. FULL ENGLISH WRITING and PUNCTUATION SECTION: Write English like a professional. IMPROVE YOUR SCORES for English exams like A1, A2, B1, B2, C1, TOEFL, IELTS, and TOEIC. USE PERFECT ENGLISH grammar in real conversations. SPEAK LIKE A NATIVE ENGLISH SPEAKER: You will learn to speak about over 27 different daily topics. HUNDREDS of INTERACTIVE QUIZZES for IELTS, TOEIC, TOEFL, and more. With new quizzes added every month. UPGRADE your English speaking, English listening, English writing, and English pronunciation with an American professor.',1699000,999000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/b_hrvenm.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',4,1,1,'2024-12-17 03:53:39.550','2024-12-17 03:51:55.202',1,0),(14,'Advanced English Vocabulary','500 High-Level Words/Phrases to take your English to the NEXT LEVEL!','500 Advanced English Vocabulary words and phrases. English listening and speaking skills through our specially designed course. 2500 high-level English collocations to make your English more natural. 2000 synonyms and antonyms to build your wider English vocabulary. 500 example sentences to improve your English grammar.',199000,49000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733506929/c_nbc3p4.jpg','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',3,1,1,'2024-12-17 03:54:52.755','2024-12-17 03:59:41.897',1,0),(17,'Building Your English Brain','Learn to start thinking in English so that you can stop translating in your head and become fluent in English faster!','Form thoughts in English. Speak English easily without translating. Express ideas creatively, rather than using set phrases. Use new English vocabulary and phrases with confidence. Connect and speak about abstract ideas. Follow a routine to build excellent habits.',1190000,349000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507380/k_qh2moc.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',1,1,1,'2024-12-17 03:57:31.403','2024-12-17 03:54:57.428',1,0);
+INSERT INTO `Course` VALUES (1,'English Foundation Course: Grammar and Speaking Upgrade','Become fluent by improving all your English Skills. Build a strong English foundation in grammar, speaking, and more!','Learn in-demand skills from university and industry experts. Master a subject or tool with hands-on projects. Develop a deep understanding of key concepts. Earn a career certificate from Georgia Institute of Technology.',990002,29000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733505839/a_yya234.jpg','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',3,1,1,'2024-12-17 03:36:45.032','2025-03-06 19:59:04.686',1,0,'alo'),(7,'The Complete English Language Course Improve Spoken English','Master the English Language - Learn English Grammar English Conversation English Pronunciation Spoken English!','A detailed and thorough knowledge of English language and grammar. To understand English easier. To speak and write English with MORE confidence. Get answers to all your English language questions from someone who ACTUALLY teaches the language.',449000,299000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507386/h_nnvrvm.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',1,1,1,'2024-12-17 03:38:33.858','2024-12-17 03:37:09.352',1,0,NULL),(8,'Master English Grammar - Advanced Level','English Language skills for IELTS, CAE, and CPE. Downloadable 180-page ebook with images included. Essays checked!','Gain an advanced knowledge of complex English sentences. Improve your understanding of typical mistakes that must be avoided. Identify and use different tenses in passive and active forms. Identify and use different conditionals in a variety of complex forms. Identify and use reporting verbs in a variety of complex forms. Identify and use subjunctive and inversion in a variety of complex forms.',899000,499000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/d_zvkqlw.jpg','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',4,1,1,'2024-12-17 03:40:09.293','2024-12-17 03:57:31.403',1,0,NULL),(9,'Complete English Course: Master English Beginner to Advanced','Learn how to have a natural conversation FAST from a native English speaker!','Detailed understanding of English grammar. 1000+ vocabulary words. How to make appointments and plans. Describing your favorite books and films. Advanced reading and speaking skills. Conversational English to sound like a native.',599000,99000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/e_dbq8wh.webp','https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/e_dbq8wh.webp',3,1,1,'2024-12-17 03:45:51.902','2024-12-17 03:57:31.403',1,0,NULL),(10,'IELTS Band 8: IELTS Listening Mastery | IELTS Tenses','IELTS boost: IELTS Listening, IELTS Tenses course in grammar, speaking, and more!','Different types of questions in the IELTS Listening Section. Develop the skill of being able to recognize Synonym Language / Paraphrasing. Learn all about the 12 tenses in English Grammar to improve your Grammar Range and Accuracy. Learn how to learn vocabulary.',1399000,600000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507376/l_f3uxj6.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',2,1,1,'2024-12-17 03:47:29.717','2024-12-17 03:57:31.403',1,0,NULL),(11,'2024 NEW!! Complete IELTS Academic Preparation to achieve 7+','The best IELTS strategies & tips to learn, practice & prepare for success in Listening, Reading, Writing, Speaking','Pass the IELTS test with 7 or above in all modules by focusing only on what\\\'s important. Master the most important and effective IELTS strategies, tips, and techniques for an easy road to IELTS success. IELTS LISTENING - Practice listening techniques and predict answers for a higher rate of success. IELTS READING - Master the simple tips to get through reading passages faster and to spot the right answers. IELTS WRITING - Learn complete essay structures & practice vocabulary and grammar that will prepare you for any IELTS writing topic. IELTS SPEAKING - Prepare to give extended answers on a wide range of speaking topics with confidence.',499000,99000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507379/i_vjmn9g.png','https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507379/i_vjmn9g.png',1,1,1,'2024-12-17 03:49:42.317','2024-12-17 03:47:51.075',1,0,NULL),(12,'Intensive English Mastery Course: Animated Beginner’s Course','Intensive English course. 77 Hours of English language speaking, English listening practice. Animated Cartoons!','You will learn over 1000 vital English words, expressions and idioms, and how to use them in real life. You will learn the most important English grammar with tons of English-speaking practice. You will learn to think in English and to speak English fluently. (in Intermediate level) You will learn to read in English and to spell English words intuitively. You will learn to understand movies and TV shows in English. After the course, you can travel the world freely, without a language barrier. After the course, you can start preparing for English language tests like TOEFL, IELTS, GMAT etc.',2199000,1599000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507375/g_bjw4ik.png','https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507375/g_bjw4ik.png',6,1,1,'2024-12-17 03:51:17.651','2024-12-17 03:57:31.403',1,0,NULL),(13,'The English Master Course: English Grammar, English Speaking','A Complete English Language Course: English Grammar, Speaking, Pronunciation, and Writing. British and American English','LEARN EVERYTHING about English grammar, English speaking, English writing and English pronunciation. Master the English Language. FULL ENGLISH GRAMMAR SECTION covering over 90 English grammar topics. Master English grammar from beginner to advanced. FULL ENGLISH SPEAKING SECTION teaching you to speak like a native speaker and improve your fluency. FULL ENGLISH PRONUNCIATION and ACCENT TRAINING SECTION: Build your own American or British accent. FULL ENGLISH WRITING and PUNCTUATION SECTION: Write English like a professional. IMPROVE YOUR SCORES for English exams like A1, A2, B1, B2, C1, TOEFL, IELTS, and TOEIC. USE PERFECT ENGLISH grammar in real conversations. SPEAK LIKE A NATIVE ENGLISH SPEAKER: You will learn to speak about over 27 different daily topics. HUNDREDS of INTERACTIVE QUIZZES for IELTS, TOEIC, TOEFL, and more. With new quizzes added every month. UPGRADE your English speaking, English listening, English writing, and English pronunciation with an American professor.',1699000,999000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507370/b_hrvenm.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',4,1,1,'2024-12-17 03:53:39.550','2024-12-17 03:51:55.202',1,0,NULL),(14,'Advanced English Vocabulary','500 High-Level Words/Phrases to take your English to the NEXT LEVEL!','500 Advanced English Vocabulary words and phrases. English listening and speaking skills through our specially designed course. 2500 high-level English collocations to make your English more natural. 2000 synonyms and antonyms to build your wider English vocabulary. 500 example sentences to improve your English grammar.',199000,49000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733506929/c_nbc3p4.jpg','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',3,1,1,'2024-12-17 03:54:52.755','2024-12-17 03:59:41.897',1,0,NULL),(17,'Building Your English Brain','Learn to start thinking in English so that you can stop translating in your head and become fluent in English faster!','Form thoughts in English. Speak English easily without translating. Express ideas creatively, rather than using set phrases. Use new English vocabulary and phrases with confidence. Connect and speak about abstract ideas. Follow a routine to build excellent habits.',1190000,349000,'https://res.cloudinary.com/dzbifaqwo/image/upload/v1733507380/k_qh2moc.png','https://www.youtube.com/watch?v=NYAaCakv7vs&list=RDMMNYAaCakv7vs&start_radio=1',1,1,1,'2024-12-17 03:57:31.403','2024-12-17 03:54:57.428',1,0,NULL);
 /*!40000 ALTER TABLE `Course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,7 +328,7 @@ CREATE TABLE `Enrollment` (
   KEY `Enrollment_userId_fkey` (`userId`),
   CONSTRAINT `Enrollment_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Enrollment_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -336,7 +337,42 @@ CREATE TABLE `Enrollment` (
 
 LOCK TABLES `Enrollment` WRITE;
 /*!40000 ALTER TABLE `Enrollment` DISABLE KEYS */;
+INSERT INTO `Enrollment` VALUES (1,1,1,'2025-03-06 21:11:54.378');
 /*!40000 ALTER TABLE `Enrollment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ForumComment`
+--
+
+DROP TABLE IF EXISTS `ForumComment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ForumComment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `authorId` int NOT NULL,
+  `threadId` int NOT NULL,
+  `parentId` int DEFAULT NULL,
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ForumComment_authorId_fkey` (`authorId`),
+  KEY `ForumComment_threadId_fkey` (`threadId`),
+  KEY `ForumComment_parentId_fkey` (`parentId`),
+  CONSTRAINT `ForumComment_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `ForumComment_parentId_fkey` FOREIGN KEY (`parentId`) REFERENCES `ForumComment` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `ForumComment_threadId_fkey` FOREIGN KEY (`threadId`) REFERENCES `ForumThread` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ForumComment`
+--
+
+LOCK TABLES `ForumComment` WRITE;
+/*!40000 ALTER TABLE `ForumComment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ForumComment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -358,7 +394,7 @@ CREATE TABLE `ForumPost` (
   KEY `ForumPost_authorId_fkey` (`authorId`),
   CONSTRAINT `ForumPost_authorId_fkey` FOREIGN KEY (`authorId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `ForumPost_threadId_fkey` FOREIGN KEY (`threadId`) REFERENCES `ForumThread` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,6 +438,36 @@ INSERT INTO `ForumThread` VALUES (1,'How to speak english','Speak sao cho pro?',
 UNLOCK TABLES;
 
 --
+-- Table structure for table `LearningPath`
+--
+
+DROP TABLE IF EXISTS `LearningPath`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `LearningPath` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `recommendedBy` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pathDetails` json DEFAULT NULL,
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `LearningPath_userId_fkey` (`userId`),
+  CONSTRAINT `LearningPath_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LearningPath`
+--
+
+LOCK TABLES `LearningPath` WRITE;
+/*!40000 ALTER TABLE `LearningPath` DISABLE KEYS */;
+INSERT INTO `LearningPath` VALUES (1,1,'AI','{\"goal\": \"Đạt TOEIC 800+ trong 3 tháng\", \"stages\": [{\"tasks\": [\"Học 500 từ vựng TOEIC quan trọng\", \"Luyện nghe Part 1, Part 2 mỗi ngày\", \"Làm bài kiểm tra đánh giá đầu vào\"], \"title\": \"Giai đoạn 1: Củng cố nền tảng\", \"duration\": \"4 tuần\", \"description\": \"Học lại ngữ pháp cơ bản, từ vựng thông dụng và luyện nghe cơ bản.\"}, {\"tasks\": [\"Làm 3 bài thi TOEIC mỗi tuần\", \"Phân tích lỗi sai sau mỗi bài test\", \"Luyện nghe Part 3, Part 4\"], \"title\": \"Giai đoạn 2: Luyện đề cường độ cao\", \"duration\": \"5 tuần\", \"description\": \"Làm đề thi thật, học kỹ năng quản lý thời gian và chiến thuật làm bài.\"}, {\"tasks\": [\"Làm mock test đầy đủ 2 lần/tuần\", \"Cải thiện điểm yếu cá nhân dựa trên bài làm\", \"Luyện tập 100 câu Part 5 mỗi ngày\"], \"title\": \"Giai đoạn 3: Ôn tập và cải thiện điểm yếu\", \"duration\": \"3 tuần\", \"description\": \"Làm đề thi tổng hợp, tập trung vào các phần yếu và tối ưu điểm số.\"}], \"finalExam\": {\"title\": \"Mock Test TOEIC 2 giờ\", \"description\": \"Bài kiểm tra thử cuối cùng mô phỏng đề thi thật.\"}}','2025-03-06 21:17:26.913','2025-03-06 21:16:35.173');
+/*!40000 ALTER TABLE `LearningPath` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `Lesson`
 --
 
@@ -420,7 +486,7 @@ CREATE TABLE `Lesson` (
   PRIMARY KEY (`id`),
   KEY `Lesson_courseId_fkey` (`courseId`),
   CONSTRAINT `Lesson_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,7 +495,7 @@ CREATE TABLE `Lesson` (
 
 LOCK TABLES `Lesson` WRITE;
 /*!40000 ALTER TABLE `Lesson` DISABLE KEYS */;
-INSERT INTO `Lesson` VALUES (1,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,7,'2024-12-17 04:01:49.584','2024-12-17 04:00:53.266'),(2,'Lesson 2 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130767',6,7,'2024-12-17 04:03:29.387','2024-12-17 04:03:46.016'),(3,'Lesson 4 for Course 7','Learn the basics of JavaScript programming','https://vimeo.com/1037130759',8,7,'2024-12-17 04:03:29.387','2024-12-17 04:03:46.016'),(4,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130747',4,7,'2024-12-17 04:03:29.387','2024-12-17 04:03:46.016'),(5,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130699',6,7,'2024-12-17 04:03:29.387','2024-12-17 04:03:46.016'),(6,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130666',5,7,'2024-12-17 04:03:29.387','2024-12-17 04:03:46.016'),(7,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130318',6,7,'2024-12-17 04:03:29.387','2024-12-17 04:03:51.114'),(8,'Lesson 1 for Course 3	','Learn the basics of JavaScript programming	','https://vimeo.com/1037130747	',NULL,7,'2024-12-17 10:07:34.041','2024-12-17 10:07:34.041'),(11,'asd','asdf','asdf',NULL,7,'2024-12-19 14:40:06.193','2024-12-19 14:40:06.193'),(12,'rqwer','qwer','asdfasd',NULL,7,'2024-12-19 14:40:25.716','2024-12-19 14:40:25.716');
+INSERT INTO `Lesson` VALUES (1,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,8,'2024-12-17 04:01:49.584','2024-12-23 04:24:05.303'),(2,'Lesson 2 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130767',6,8,'2024-12-17 04:03:29.387','2024-12-23 04:24:05.303'),(3,'Lesson 4 for Course 7','Learn the basics of JavaScript programming','https://vimeo.com/1037130759',8,8,'2024-12-17 04:03:29.387','2024-12-23 04:24:05.303'),(4,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130747',4,8,'2024-12-17 04:03:29.387','2024-12-23 04:24:05.303'),(5,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130699',6,8,'2024-12-17 04:03:29.387','2024-12-23 04:24:05.303'),(6,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130666',5,8,'2024-12-17 04:03:29.387','2024-12-23 04:24:05.303'),(7,'Lesson 3 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130318',6,8,'2024-12-17 04:03:29.387','2024-12-23 04:24:05.303'),(8,'Lesson 1 for Course 3	','Learn the basics of JavaScript programming	','https://vimeo.com/1037130747	',4,8,'2024-12-17 10:07:34.041','2024-12-30 11:40:51.035'),(11,'asd','asdf','asdf',NULL,8,'2024-12-19 14:40:06.193','2024-12-23 04:24:05.303'),(12,'rqwer','qwer','asdfasd',NULL,8,'2024-12-19 14:40:25.716','2024-12-23 04:24:05.303'),(13,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',3,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:18.778'),(14,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',3,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:19.195'),(15,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',2,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:19.361'),(16,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',4,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:19.513'),(17,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',56,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:19.677'),(18,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',6,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:19.842'),(19,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',5,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:19.994'),(20,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:20.161'),(21,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,1,'2024-12-30 11:42:23.020','2024-12-30 11:41:20.310'),(22,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',2,9,'2024-12-30 11:45:29.421','2024-12-30 11:42:40.160'),(23,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',3,10,'2024-12-30 11:45:29.421','2024-12-30 11:42:40.341'),(24,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',4,11,'2024-12-30 11:45:29.421','2024-12-30 11:42:40.494'),(25,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',3,9,'2024-12-30 11:45:29.421','2024-12-30 11:42:40.659'),(26,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',4,11,'2024-12-30 11:45:29.421','2024-12-30 11:42:40.829'),(27,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',5,10,'2024-12-30 11:45:29.421','2024-12-30 11:42:40.976'),(28,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,12,'2024-12-30 11:45:29.421','2024-12-30 11:42:41.141'),(29,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',6,9,'2024-12-30 11:45:29.421','2024-12-30 11:42:41.293'),(30,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,11,'2024-12-30 11:45:29.421','2024-12-30 11:42:41.460'),(31,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',5,12,'2024-12-30 11:45:29.421','2024-12-30 11:42:41.628'),(32,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',8,10,'2024-12-30 11:45:29.421','2024-12-30 11:42:41.815'),(33,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',5,9,'2024-12-30 11:45:29.421','2024-12-30 11:42:41.975'),(34,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',6,13,'2024-12-30 11:45:29.421','2024-12-30 11:42:42.127'),(35,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',8,12,'2024-12-30 11:45:29.421','2024-12-30 11:42:42.294'),(36,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',78,11,'2024-12-30 11:45:29.421','2024-12-30 11:42:42.460'),(37,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',8,9,'2024-12-30 11:45:29.421','2024-12-30 11:42:42.609'),(38,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',6,13,'2024-12-30 11:45:29.421','2024-12-30 11:42:42.778'),(39,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',5,10,'2024-12-30 11:45:29.421','2024-12-30 11:42:42.926'),(40,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',6,13,'2024-12-30 11:45:29.421','2024-12-30 11:42:43.093'),(41,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,12,'2024-12-30 11:45:29.421','2024-12-30 11:42:43.277'),(42,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',4,11,'2024-12-30 11:45:29.421','2024-12-30 11:42:43.427'),(43,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',6,9,'2024-12-30 11:45:29.421','2024-12-30 11:42:43.593'),(44,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',5,10,'2024-12-30 11:45:29.421','2024-12-30 11:42:43.760'),(45,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',8,12,'2024-12-30 11:45:29.421','2024-12-30 11:42:43.944'),(46,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',7,13,'2024-12-30 11:45:29.421','2024-12-30 11:42:44.111'),(47,'Lesson 1 for Course 3','Learn the basics of JavaScript programming','https://vimeo.com/1037130772',3,14,'2024-12-30 11:45:29.421','2024-12-30 11:42:44.277'),(49,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:54.650'),(50,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:56.149'),(51,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:56.299'),(52,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:56.450'),(53,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:56.601'),(54,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:56.749'),(55,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:56.900'),(56,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:57.051'),(57,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:57.199'),(58,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:57.350'),(59,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:57.516'),(60,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:57.682'),(61,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:57.833'),(62,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:57.983'),(63,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:58.149'),(64,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:59.049'),(65,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:59.217'),(66,'Lesson 1 for Course 3',NULL,'https://vimeo.com/1037130767',NULL,7,'2025-03-06 08:44:29.600','2025-03-06 08:42:59.367');
 /*!40000 ALTER TABLE `Lesson` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -503,16 +569,16 @@ CREATE TABLE `Message` (
   `id` int NOT NULL AUTO_INCREMENT,
   `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `senderId` int NOT NULL,
-  `receiverId` int NOT NULL,
+  `receiverId` int DEFAULT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-  `userId` int DEFAULT NULL,
+  `conversationId` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `Message_senderId_fkey` (`senderId`),
   KEY `Message_receiverId_fkey` (`receiverId`),
-  KEY `Message_userId_fkey` (`userId`),
-  CONSTRAINT `Message_receiverId_fkey` FOREIGN KEY (`receiverId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `Message_senderId_fkey` FOREIGN KEY (`senderId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `Message_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+  KEY `Message_conversationId_fkey` (`conversationId`),
+  CONSTRAINT `Message_conversationId_fkey` FOREIGN KEY (`conversationId`) REFERENCES `Conversation` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `Message_receiverId_fkey` FOREIGN KEY (`receiverId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `Message_senderId_fkey` FOREIGN KEY (`senderId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -597,6 +663,7 @@ CREATE TABLE `Progress` (
   `completedAt` datetime(3) DEFAULT NULL,
   `score` int DEFAULT NULL,
   `feedback` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `testScores` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Progress_enrollmentId_fkey` (`enrollmentId`),
   KEY `Progress_lessonId_fkey` (`lessonId`),
@@ -604,7 +671,7 @@ CREATE TABLE `Progress` (
   CONSTRAINT `Progress_enrollmentId_fkey` FOREIGN KEY (`enrollmentId`) REFERENCES `Enrollment` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Progress_lessonId_fkey` FOREIGN KEY (`lessonId`) REFERENCES `Lesson` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Progress_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -613,6 +680,7 @@ CREATE TABLE `Progress` (
 
 LOCK TABLES `Progress` WRITE;
 /*!40000 ALTER TABLE `Progress` DISABLE KEYS */;
+INSERT INTO `Progress` VALUES (14,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,0,NULL,'{}'),(15,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,0,NULL,'{\"2\": \"B\"}'),(16,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,33,NULL,'{\"1\": \"B\", \"2\": \"B\", \"3\": \"A\", \"4\": \"B\"}');
 /*!40000 ALTER TABLE `Progress` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -635,7 +703,7 @@ CREATE TABLE `Purchase` (
   KEY `Purchase_userId_fkey` (`userId`),
   CONSTRAINT `Purchase_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Purchase_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -644,6 +712,7 @@ CREATE TABLE `Purchase` (
 
 LOCK TABLES `Purchase` WRITE;
 /*!40000 ALTER TABLE `Purchase` DISABLE KEYS */;
+INSERT INTO `Purchase` VALUES (1,135,1,2900000,'2025-01-12 17:17:21.398',0),(2,135,10,60000000,'2025-01-14 14:10:12.158',0),(3,135,10,60000000,'2025-01-14 14:11:09.465',0),(4,135,10,60000000,'2025-01-14 14:11:10.403',0),(5,135,10,60000000,'2025-01-14 14:11:16.751',0),(6,135,10,60000000,'2025-01-14 14:11:40.923',0),(7,135,10,60000000,'2025-01-14 19:24:26.988',0);
 /*!40000 ALTER TABLE `Purchase` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -684,7 +753,7 @@ DROP TABLE IF EXISTS `RefreshToken`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `RefreshToken` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `userId` int NOT NULL,
   `expiresAt` datetime(3) NOT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -692,7 +761,7 @@ CREATE TABLE `RefreshToken` (
   UNIQUE KEY `RefreshToken_token_key` (`token`),
   KEY `RefreshToken_userId_fkey` (`userId`),
   CONSTRAINT `RefreshToken_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -701,7 +770,7 @@ CREATE TABLE `RefreshToken` (
 
 LOCK TABLES `RefreshToken` WRITE;
 /*!40000 ALTER TABLE `RefreshToken` DISABLE KEYS */;
-INSERT INTO `RefreshToken` VALUES (1,'4e549bef-409a-4fe7-bbb6-e4d84bb8fccd',1,'2024-12-25 16:42:58.131','2024-12-18 16:42:58.132'),(2,'ce82df43-9aa6-403f-b9a5-a05526e684f3',1,'2024-12-25 16:46:05.668','2024-12-18 16:46:05.669'),(3,'d20e77e7-68ab-4132-8b3f-47d5f93ade55',1,'2024-12-25 16:46:29.400','2024-12-18 16:46:29.400'),(4,'f0c41a0f-2919-44a8-bd72-a743f054d40f',1,'2024-12-25 16:49:29.505','2024-12-18 16:49:29.505'),(5,'fc220e0a-c8ea-4096-921f-385755a9a418',1,'2024-12-25 16:50:06.968','2024-12-18 16:50:06.969'),(6,'22169129-0ef0-474b-bf90-8ca039c40550',1,'2024-12-25 16:50:27.203','2024-12-18 16:50:27.204'),(7,'73efb7c9-dd04-4f17-99e9-b78ccb770a5f',1,'2024-12-25 16:53:32.880','2024-12-18 16:53:32.881'),(8,'b804b514-ee2e-410a-9eb8-cbfc9e15d7e4',1,'2024-12-25 16:58:38.666','2024-12-18 16:58:38.667'),(9,'1cb6d294-b3a6-4937-a6a4-e59672e22777',1,'2024-12-25 17:00:02.339','2024-12-18 17:00:02.339'),(10,'2fb587d8-8b9f-4c9b-a5ac-9e7adaa34646',1,'2024-12-25 17:07:35.531','2024-12-18 17:07:35.532'),(11,'e54f0d6d-8e1d-4b5a-84aa-beb3518f1b4a',1,'2024-12-25 17:10:41.258','2024-12-18 17:10:41.258'),(12,'6802108a-235d-4a6a-a376-d4bf986808fe',1,'2024-12-25 17:16:39.351','2024-12-18 17:16:39.352'),(13,'565b0b19-374d-43c0-a4bd-316987d4f3dc',1,'2024-12-25 17:16:55.546','2024-12-18 17:16:55.547'),(14,'b2a91f01-4d20-4b44-9b54-d3d17febe833',1,'2024-12-25 17:17:17.630','2024-12-18 17:17:17.631'),(15,'48da113d-5fce-4005-b09b-e94f1ac5abed',1,'2024-12-25 17:18:30.433','2024-12-18 17:18:30.433'),(16,'83322318-1bbd-4709-ba61-60b3ca08c81d',1,'2024-12-25 17:18:49.945','2024-12-18 17:18:49.946'),(19,'432621a9-e028-4611-abc6-bcf738fae020',1,'2024-12-25 17:20:25.627','2024-12-18 17:20:25.627'),(20,'40f93e58-c6db-44b2-8f2e-5cb1fa469089',1,'2024-12-25 17:21:22.592','2024-12-18 17:21:22.593'),(24,'9d38eb4a-497b-4a92-8ca7-50bf94184174',1,'2024-12-25 17:29:07.934','2024-12-18 17:29:07.934'),(25,'7e8ba335-986a-42be-ba2b-5d5fee490d8d',1,'2024-12-25 17:29:48.980','2024-12-18 17:29:48.981'),(33,'aa1192e8-d777-4f89-a585-7622ab89ddda',1,'2024-12-25 17:37:43.176','2024-12-18 17:37:43.177'),(35,'37e77df0-17fe-4b58-92f4-7d9fc465bb47',1,'2024-12-25 18:19:06.361','2024-12-18 18:19:06.362'),(40,'648c03a3-662b-4f3a-8700-95698a296d3a',1,'2024-12-25 18:37:43.530','2024-12-18 18:37:43.530'),(41,'f2caf690-5e5a-48e8-a92b-b00d6f6ece42',1,'2024-12-25 18:46:39.980','2024-12-18 18:46:39.981'),(42,'4d7a0193-5ce9-4744-8450-3ebdf4103a84',1,'2024-12-25 18:47:50.629','2024-12-18 18:47:50.630'),(43,'f8f6d981-aa91-4720-9256-94c255f91329',1,'2024-12-25 18:51:30.311','2024-12-18 18:51:30.311'),(44,'da370b35-738c-4370-b0d7-a14bd18f379f',1,'2024-12-25 18:52:31.733','2024-12-18 18:52:31.734'),(45,'53a1def5-7fd5-41de-9435-9295535eae21',1,'2024-12-25 18:53:59.663','2024-12-18 18:53:59.664'),(46,'44fa7f0e-01d8-4b24-aeb9-fc8cee6ebc41',1,'2024-12-25 18:54:04.739','2024-12-18 18:54:04.740'),(47,'99f70cfa-57f5-4227-8b50-c0e0f3e935eb',1,'2024-12-25 18:54:09.977','2024-12-18 18:54:09.978'),(48,'06919a2d-98fb-40f4-9d4a-635aef916540',1,'2024-12-25 18:54:16.180','2024-12-18 18:54:16.181'),(49,'c499544e-543f-4c19-b37e-db4563210801',1,'2024-12-25 18:54:26.293','2024-12-18 18:54:26.294'),(50,'5738c799-f8ad-4b90-9c07-f66facc5dc1d',1,'2024-12-25 18:56:12.860','2024-12-18 18:56:12.861'),(52,'45b6c707-588c-4bdf-b24e-ddacfe76464a',1,'2024-12-26 03:04:17.874','2024-12-19 03:04:17.875'),(53,'b1dcb6b6-5a99-4801-a8a8-cbe0ccdcbc63',1,'2024-12-26 03:04:23.064','2024-12-19 03:04:23.064'),(54,'75e20607-c022-4422-9221-04b57cd66753',1,'2024-12-26 09:32:53.468','2024-12-19 09:32:53.469'),(55,'ae2de2e4-ace7-480e-9904-7cfca3a2ede4',1,'2024-12-26 09:33:02.212','2024-12-19 09:33:02.212'),(56,'f52fbddf-4e45-479b-bf99-c49a81fc8c0f',1,'2024-12-26 09:36:04.945','2024-12-19 09:36:04.946'),(57,'6a9dc785-58b9-4114-b534-9d6f511426fa',1,'2024-12-26 10:37:52.754','2024-12-19 10:37:52.755'),(58,'69c19c6f-4994-43f5-94f9-0e43636d2216',1,'2024-12-26 10:38:51.020','2024-12-19 10:38:51.021'),(59,'321deec7-5a8b-41ac-98b0-c323f8633083',1,'2024-12-26 10:39:37.324','2024-12-19 10:39:37.325'),(60,'8d33a03c-501c-428c-bcfe-b837d794a219',1,'2024-12-26 10:39:42.422','2024-12-19 10:39:42.423'),(61,'6efe68f7-cd85-4866-a6ea-90b58e43b2b3',1,'2024-12-26 10:41:34.409','2024-12-19 10:41:34.410'),(62,'c78d6e36-addb-45e7-89bd-38ec2564dda4',1,'2024-12-26 10:47:03.217','2024-12-19 10:47:03.218'),(63,'e3ecec0d-13f3-4c92-9719-6342b06b4894',1,'2024-12-26 10:47:07.637','2024-12-19 10:47:07.638'),(64,'18a2473d-e387-4d3b-9cb1-4bac3b01d580',1,'2024-12-26 10:53:05.505','2024-12-19 10:53:05.506'),(70,'d5d5b47b-c2c0-477e-b78c-4cbb4ab448ca',1,'2024-12-26 14:42:01.851','2024-12-19 14:42:01.852'),(71,'0ef1ef3b-58e3-4fb0-ba9a-24b91dd69a71',1,'2024-12-26 14:42:02.869','2024-12-19 14:42:02.870'),(72,'d96c788f-b7ca-418a-a62c-65c63a045b0d',1,'2024-12-26 14:42:03.770','2024-12-19 14:42:03.771'),(73,'9e31c8ea-a3c6-4553-b873-cce92c995a17',1,'2024-12-26 14:42:04.256','2024-12-19 14:42:04.257'),(74,'29749a63-ef06-49ef-a517-f0c18afbd348',1,'2024-12-26 14:42:06.963','2024-12-19 14:42:06.964'),(75,'5d731a0c-35ee-4375-b31a-47ba1f7cca9a',1,'2024-12-26 14:42:07.744','2024-12-19 14:42:07.745'),(76,'7a8223e7-ba02-4cc1-998c-7fba14369f4e',1,'2024-12-26 14:42:09.043','2024-12-19 14:42:09.044'),(77,'317f9e33-6f82-4f16-b77c-4c3f12a34359',1,'2024-12-26 14:42:09.807','2024-12-19 14:42:09.808'),(78,'1fc92012-a2af-445f-a9ba-ff1b91713213',1,'2024-12-26 14:42:10.514','2024-12-19 14:42:10.515'),(79,'8fbc32c0-e071-43a2-b976-902e061cfc26',1,'2024-12-26 14:42:15.869','2024-12-19 14:42:15.869'),(82,'930da137-c564-47e9-9475-dfdf18e4090d',1,'2024-12-26 14:44:01.792','2024-12-19 14:44:01.793'),(83,'96783da4-9df1-477d-bdca-9c1daca2e3ef',1,'2024-12-26 14:44:02.534','2024-12-19 14:44:02.535'),(84,'eef6e85a-1782-4de1-a385-55af7b11a946',1,'2024-12-26 14:44:06.068','2024-12-19 14:44:06.068'),(85,'840f7240-1b27-4969-85b6-5b714ed84c5b',1,'2024-12-26 14:44:59.465','2024-12-19 14:44:59.466'),(87,'a082b92e-62b9-44ae-a489-ad76eb72f1f8',1,'2024-12-27 04:18:07.005','2024-12-20 04:18:07.007');
+INSERT INTO `RefreshToken` VALUES (318,'77298d65-1dbb-42fe-8efd-35fe769d8310',1,'2025-01-17 09:31:03.580','2025-01-10 09:31:03.581'),(327,'5c7bb211-97a2-412b-90ad-24bc6a13f7c4',1,'2025-01-27 02:16:12.806','2025-01-20 02:16:12.807'),(328,'5cd1011c-1b41-4740-83b0-f16287166dbb',1,'2025-02-18 03:45:56.490','2025-02-11 03:45:56.492'),(336,'ec8dcabe-9db1-46a2-b136-34c0f0a59e20',1,'2025-03-14 03:26:32.460','2025-03-07 03:26:32.461');
 /*!40000 ALTER TABLE `RefreshToken` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -724,7 +793,7 @@ CREATE TABLE `Review` (
   KEY `Review_userId_fkey` (`userId`),
   CONSTRAINT `Review_courseId_fkey` FOREIGN KEY (`courseId`) REFERENCES `Course` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Review_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -733,7 +802,7 @@ CREATE TABLE `Review` (
 
 LOCK TABLES `Review` WRITE;
 /*!40000 ALTER TABLE `Review` DISABLE KEYS */;
-INSERT INTO `Review` VALUES (1,1,7,0,'ádasdf','2024-12-17 06:27:01.100'),(2,1,7,4,'sdfasdf','2024-12-17 06:29:32.588'),(3,1,8,4,'asdf','2024-12-19 12:20:34.748'),(4,1,8,4,'asdasdfasdf','2024-12-19 12:20:43.950'),(5,1,8,0,'ádf','2024-12-19 12:22:35.115'),(6,1,11,4,'dfa','2024-12-20 11:05:58.727');
+INSERT INTO `Review` VALUES (1,1,7,0,'ádasdf','2024-12-17 06:27:01.100'),(2,1,7,4,'sdfasdf','2024-12-17 06:29:32.588'),(3,1,8,4,'asdf','2024-12-19 12:20:34.748'),(4,1,8,4,'asdasdfasdf','2024-12-19 12:20:43.950'),(5,1,8,0,'ádf','2024-12-19 12:22:35.115'),(6,1,11,4,'dfa','2024-12-20 11:05:58.727'),(7,1,7,0,'và em tôi, lung linh giọt sương trắng\n','2024-12-24 04:03:40.953'),(8,1,7,0,'trong vời vợi ','2024-12-24 04:03:45.300'),(9,1,7,0,'em biết yêu rồi','2024-12-24 04:03:53.628'),(10,1,7,0,'asdf','2024-12-24 11:02:03.185'),(14,1,11,4,'ádfasdf','2024-12-30 11:39:18.212'),(15,1,11,0,'ádf','2024-12-30 11:39:21.087'),(17,1,7,0,'asdfasdqwerqwerqwe','2025-01-10 09:36:15.404'),(18,1,7,5,'asaaa','2025-01-10 09:36:23.070'),(19,1,7,0,'ádf','2025-01-10 09:52:26.520'),(20,135,1,0,'ádf','2025-01-12 03:06:20.442'),(21,135,1,0,'ádfasdf','2025-01-12 03:06:22.299'),(22,135,1,0,'qưerqwer','2025-01-12 03:06:23.767'),(23,135,1,0,'qưerqwerq','2025-01-12 03:06:25.870'),(24,135,1,0,'qưerqwer','2025-01-12 03:06:27.505'),(25,135,1,4,'qưerwer','2025-01-12 03:06:30.547'),(26,135,1,5,'ádfasdfwerfqw','2025-01-12 03:06:33.386'),(27,135,1,4,'jhg','2025-01-12 18:06:29.645');
 /*!40000 ALTER TABLE `Review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -832,18 +901,22 @@ CREATE TABLE `User` (
   `email` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roleId` int NOT NULL,
-  `settingsId` int DEFAULT NULL,
   `isDeleted` tinyint(1) NOT NULL DEFAULT '0',
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updatedAt` datetime(3) DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '0',
-  `emailCheckToken` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `emailCheckToken` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `assessmentTest` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `knownVocabulary` int DEFAULT NULL,
+  `learningPurpose` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `prioritySkills` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `skillLevel` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `specificGoals` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `User_email_key` (`email`),
-  UNIQUE KEY `User_settingsId_key` (`settingsId`),
   KEY `User_roleId_fkey` (`roleId`),
   CONSTRAINT `User_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -852,7 +925,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'Admin','admin@alo.com','$2b$10$DJkyuBXbgM5rENGRqG5ye.wJi2wfds.EEqIcH7x.fnWFxu9P2BHuq',1,NULL,0,'2024-12-16 17:49:16.132','2024-12-22 16:49:52.047', 1, "ffffff");
+INSERT INTO `User` VALUES (1,'Admin','admin@alo.com','$2b$10$DJkyuBXbgM5rENGRqG5ye.wJi2wfds.EEqIcH7x.fnWFxu9P2BHuq',1,0,'2024-12-16 17:49:16.132','2024-12-23 07:53:42.823',1,'',NULL,NULL,NULL,NULL,NULL,NULL),(135,'Nguyen Thanh Tung','1823603311790205','$2b$10$GqFxlwy0JP.Gj9av7o7YOOKHQy4.9OiTmod5W3KTZWZzzK7.pO3Yu',3,0,'2025-01-11 17:47:48.305','2025-03-06 19:58:27.459',1,'','Toeic 660',1000,'Thi Toeic','đọc + viết','nói viết kém','Toeic 700'),(136,'Nguyen Thanh Tung','ismethanhtung@gmail.com','$2b$10$PaB455zZMmg6vtNN4aUuw.JqiR21.BK0WGJkuI8i0fsE0PGAKrugy',3,0,'2025-03-06 08:46:04.787','2025-03-06 08:46:04.787',1,'',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -886,6 +959,40 @@ LOCK TABLES `UserSettings` WRITE;
 /*!40000 ALTER TABLE `UserSettings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `UserSettings` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `Voucher`
+--
+
+DROP TABLE IF EXISTS `Voucher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Voucher` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `code` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discount` int NOT NULL,
+  `maxDiscount` int DEFAULT NULL,
+  `minPurchase` int DEFAULT NULL,
+  `validFrom` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `validTo` datetime(3) NOT NULL,
+  `usageCount` int NOT NULL DEFAULT '0',
+  `maxUsage` int DEFAULT NULL,
+  `userSpecific` tinyint(1) NOT NULL DEFAULT '0',
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Voucher_code_key` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Voucher`
+--
+
+LOCK TABLES `Voucher` WRITE;
+/*!40000 ALTER TABLE `Voucher` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Voucher` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -896,4 +1003,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-23  0:59:49
+-- Dump completed on 2025-03-08 11:31:37
