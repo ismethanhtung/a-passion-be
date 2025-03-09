@@ -15,6 +15,12 @@ const getUserById = async (id) => {
         where: { id: parseInt(id) },
         include: {
             role: true,
+            progress: {
+                select: {
+                    score: true,
+                    status: true,
+                },
+            },
         },
     });
 };

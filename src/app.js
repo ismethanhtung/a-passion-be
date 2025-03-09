@@ -29,6 +29,7 @@ const liveCourseRoutes = require("./routes/liveCourseRoutes");
 const liveSessionRoutes = require("./routes/liveSessionRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const pathRoutes = require("./routes/pathRoutes");
+const conversationRoutes = require("./routes/conversationRoutes");
 
 const chatRoutes = require("./routes/chatRoutes");
 
@@ -71,6 +72,7 @@ app.use("/category", categoryRoutes);
 app.use("/chat", chatRoutes);
 app.use("/cart", cartRoutes);
 app.use("/path", pathRoutes);
+app.use("/conversation", conversationRoutes);
 app.use("/", authRoutes);
 app.use("/", indexRouter);
 
