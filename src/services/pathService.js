@@ -12,7 +12,7 @@ const getAllPaths = async () => {
 
 const getPathById = async (id) => {
     try {
-        return await prisma.learningPath.findMany({
+        return await prisma.learningPath.findFirst({
             where: { userId: parseInt(id) },
         });
     } catch (error) {
@@ -21,27 +21,28 @@ const getPathById = async (id) => {
 };
 
 const createPath = async (data) => {
-    return await prisma.path.create({ data });
+    return await prisma.learningPath.create({ data });
 };
 
-const updatePath = async (pathId, data) => {
-    // const { id, name, email, ...rest } = data;
-    // const updatedData = { name, email };
-
-    // console.log(updatedData);
-
-    // if (password) {
-    //     updatedData.password = await bcrypt.hash(password, 10);
-    // }
-    const convertedData = stringToInt(data, ["knownVocabulary"]);
-
+const updatePath = async (userId, data) => {
     try {
-        return await prisma.path.update({
-            where: { id: parseInt(pathId) },
-            data: convertedData,
+        const existingPath = await prisma.learningPath.findFirst({
+            where: { userId: parseInt(userId) },
         });
+
+        if (existingPath) {
+            return await prisma.learningPath.update({
+                where: { id: existingPath.id },
+                data,
+            });
+        } else {
+            return await prisma.learningPath.create({
+                data: { userId: parseInt(userId), ...data },
+            });
+        }
     } catch (error) {
-        console.log(error);
+        console.error("Lỗi khi upsert learningPath:", error);
+        throw error;
     }
 };
 

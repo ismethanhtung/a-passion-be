@@ -181,7 +181,7 @@ model Conversation {
 
 model Message {
   id             Int          @id @default(autoincrement())
-  content        String
+content String @db.Text
   senderId       Int?
   conversationId Int
   createdAt      DateTime     @default(now())

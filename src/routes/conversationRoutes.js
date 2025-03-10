@@ -6,11 +6,11 @@ const authorizeRoles = require("../middlewares/authorizeRoles");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-router.get("/", authenticate, conversationController.getAllConversations);
+// router.get("/", authenticate, conversationController.getAllConversations);
 // router.get("/:id", conversationController.getConversationByCourseId);
-router.post("/", authenticate, conversationController.createConversation);
-router.put("/:id", authenticate, conversationController.updateConversation);
-router.delete("/:id", authenticate, conversationController.deleteConversation);
+// router.post("/", authenticate, conversationController.createConversation);
+// router.put("/:id", authenticate, conversationController.updateConversation);
+// router.delete("/:id", authenticate, conversationController.deleteConversation);
 
 // Lưu tin nhắn vào cuộc trò chuyện
 router.post("/:conversationId/message", async (req, res) => {
@@ -24,6 +24,7 @@ router.post("/:conversationId/message", async (req, res) => {
 
         res.json(message);
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: error.message });
     }
 });

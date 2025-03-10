@@ -232,7 +232,7 @@ CREATE TABLE `Conversation` (
   KEY `Conversation_createdAt_fkey` (`createdAt`),
   KEY `Conversation_userId_fkey` (`userId`),
   CONSTRAINT `Conversation_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,7 +241,7 @@ CREATE TABLE `Conversation` (
 
 LOCK TABLES `Conversation` WRITE;
 /*!40000 ALTER TABLE `Conversation` DISABLE KEYS */;
-INSERT INTO `Conversation` VALUES (15,'Chatbot','2025-03-09 09:00:18.614','2025-03-09 09:00:18.614',1),(16,'Chatbot','2025-03-09 09:00:18.614','2025-03-09 09:00:18.614',1);
+INSERT INTO `Conversation` VALUES (25,'Chatbot','2025-03-09 20:52:36.547','2025-03-09 20:52:36.547',137),(26,'Chatbot','2025-03-09 20:52:36.548','2025-03-09 20:52:36.548',137);
 /*!40000 ALTER TABLE `Conversation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -432,7 +432,7 @@ CREATE TABLE `LearningPath` (
   PRIMARY KEY (`id`),
   KEY `LearningPath_userId_fkey` (`userId`),
   CONSTRAINT `LearningPath_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -441,7 +441,7 @@ CREATE TABLE `LearningPath` (
 
 LOCK TABLES `LearningPath` WRITE;
 /*!40000 ALTER TABLE `LearningPath` DISABLE KEYS */;
-INSERT INTO `LearningPath` VALUES (1,1,'AI','{\"goal\": \"Đạt TOEIC 800+ trong 3 tháng\", \"stages\": [{\"tasks\": [\"Học 500 từ vựng TOEIC quan trọng\", \"Luyện nghe Part 1, Part 2 mỗi ngày\", \"Làm bài kiểm tra đánh giá đầu vào\"], \"title\": \"Giai đoạn 1: Củng cố nền tảng\", \"duration\": \"4 tuần\", \"description\": \"Học lại ngữ pháp cơ bản, từ vựng thông dụng và luyện nghe cơ bản.\"}, {\"tasks\": [\"Làm 3 bài thi TOEIC mỗi tuần\", \"Phân tích lỗi sai sau mỗi bài test\", \"Luyện nghe Part 3, Part 4\"], \"title\": \"Giai đoạn 2: Luyện đề cường độ cao\", \"duration\": \"5 tuần\", \"description\": \"Làm đề thi thật, học kỹ năng quản lý thời gian và chiến thuật làm bài.\"}, {\"tasks\": [\"Làm mock test đầy đủ 2 lần/tuần\", \"Cải thiện điểm yếu cá nhân dựa trên bài làm\", \"Luyện tập 100 câu Part 5 mỗi ngày\"], \"title\": \"Giai đoạn 3: Ôn tập và cải thiện điểm yếu\", \"duration\": \"3 tuần\", \"description\": \"Làm đề thi tổng hợp, tập trung vào các phần yếu và tối ưu điểm số.\"}], \"finalExam\": {\"title\": \"Mock Test TOEIC 2 giờ\", \"description\": \"Bài kiểm tra thử cuối cùng mô phỏng đề thi thật.\"}}','2025-03-06 21:17:26.913','2025-03-06 21:16:35.173');
+INSERT INTO `LearningPath` VALUES (1,1,'AI','\"**Lộ trình 2 tháng để đạt mục tiêu TOEIC 700**\\n\\n**Tuần 1-4:**\\n\\n* Khóa học 1: The Complete English Language Course Improve Spoken English (https://localhost:3000/course/31)\\n\\t+ Mục tiêu: Improve reading and writing skills\\n\\t+ Nội dung: Master English language and grammar, understand English easier, speak and write English with more confidence\\n* Khóa học 2: The Complete English Language Course Improve Spoken English (https://localhost:3000/course/7)\\n\\t+ Mục tiêu: Improve vocabulary and reading skills\\n\\t+ Nội dung: Master English language and grammar, improve vocabulary, read English with more confidence\\n\\n**Tuần 5-8:**\\n\\n* Khóa học 3: The Complete English Grammar Course - Perfect Your English (https://localhost:3000/course/22)\\n\\t+ Mục tiêu: Improve grammar skills\\n\\t+ Nội dung: Master English grammar, understand English easier, speak and write English with more confidence\\n* Khóa học 4: English Idioms Launch: Upgrade your speaking and listening (https://localhost:3000/course/28)\\n\\t+ Mục tiêu: Improve listening and speaking skills\\n\\t+ Nội dung: Learn English idioms, speak English more confidently, improve listening skills\\n\\n**Tuần 9-12:**\\n\\n* Khóa học 5: Learn English Speaking Course: English speaking secrets (https://localhost:3000/course/30)\\n\\t+ Mục tiêu: Improve speaking skills\\n\\t+ Nội dung: Learn native speaker English pronunciation, use advanced conditionals, practice speaking throughout the course\\n\\n**Chú ý:**\\n\\n* Học viên cần dành thời gian mỗi tuần để thực hành, luyện tập và kiểm tra kết quả.\\n* Học viên cần đánh giá và điều chỉnh lộ trình phù hợp với nhu cầu và tiến độ của mình.\\n* Học viên cần tham gia thảo luận và hỏi đáp với giáo viên để giải đáp thắc mắc và giải quyết khó khăn.\\n\\n**Mục tiêu cuối cùng:** TOEIC 700\\n\\n**Chúc mừng học viên!**\"','2025-03-06 21:17:26.913','2025-03-09 18:39:51.901'),(2,137,NULL,'\"**Creating a Personalized Learning Plan for You!**\\n\\nBased on the courses recommended earlier, I\'ve created a customized 4-month learning plan to help you achieve your learning goals.\\n\\n**Month 1: Building Foundation Skills**\\n\\n1. **Course 1: Building Your English Brain** (Weeks 1-4)\\n\\t* Focus on developing your English thinking skills, vocabulary, and grammar.\\n\\t* Complete exercises and quizzes to assess your progress.\\n2. **Additional Tasks:**\\n\\t* Read 1 English book or article per week.\\n\\t* Take notes on vocabulary and grammar rules.\\n\\t* Practice speaking with a language exchange partner or tutor for 30 minutes, 2 times a week.\\n\\n**Month 2: Improving Listening and Grammar**\\n\\n1. **Course 2: 2024 NEW!! Complete IELTS Academic Preparation to achieve 7+** (Weeks 5-8)\\n\\t* Focus on improving your IELTS Listening skills, including recognizing synonym language and paraphrasing.\\n\\t* Complete exercises and quizzes to assess your progress.\\n2. **Additional Tasks:**\\n\\t* Listen to 1 English podcast or radio show per week.\\n\\t* Complete 10-15 grammar exercises per week to improve your grammar range and accuracy.\\n\\n**Month 3: Mastering IELTS Writing and Speaking**\\n\\n1. **Course 3: IELTS Band 8: IELTS Listening Mastery | IELTS Tenses** (Weeks 9-12)\\n\\t* Focus on improving your IELTS Writing and Speaking skills, including writing essays and speaking confidently.\\n\\t* Complete exercises and quizzes to assess your progress.\\n2. **Additional Tasks:**\\n\\t* Write 1 essay per week based on IELTS topics.\\n\\t* Practice speaking for 15-20 minutes, 2 times a week, on various topics.\\n\\n**Month 4: Review and Refine**\\n\\n1. **Review and Refine:** Review all previous material and focus on refining your skills.\\n2. **Additional Tasks:**\\n\\t* Take a full-length IELTS practice test to assess your progress.\\n\\t* Reflect on your progress and identify areas for improvement.\\n\\n**Remember to stay consistent and motivated!** Take breaks, stay organized, and don\'t hesitate to ask for help if you need it.\\n\\nHere\'s your personalized learning plan:\\n\\n**Link to Course 1:** http://localhost:3000/courses/17\\n**Link to Course 2:** http://localhost:3000/courses/11\\n**Link to Course 3:** http://localhost:3000/courses/10\\n\\nBest of luck on your learning journey!\"','2025-03-09 18:19:47.051','2025-03-09 21:13:55.097');
 /*!40000 ALTER TABLE `LearningPath` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -545,7 +545,7 @@ DROP TABLE IF EXISTS `Message`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Message` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `content` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `content` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `senderId` int DEFAULT NULL,
   `receiverId` int DEFAULT NULL,
   `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -557,7 +557,7 @@ CREATE TABLE `Message` (
   CONSTRAINT `Message_conversationId_fkey` FOREIGN KEY (`conversationId`) REFERENCES `Conversation` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Message_receiverId_fkey` FOREIGN KEY (`receiverId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `Message_senderId_fkey` FOREIGN KEY (`senderId`) REFERENCES `User` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=464 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -566,7 +566,7 @@ CREATE TABLE `Message` (
 
 LOCK TABLES `Message` WRITE;
 /*!40000 ALTER TABLE `Message` DISABLE KEYS */;
-INSERT INTO `Message` VALUES (283,'helo',1,NULL,'2025-03-09 09:00:22.481',15),(284,'helo',1,NULL,'2025-03-09 09:00:22.491',15),(285,'alo',1,NULL,'2025-03-09 09:03:05.164',15),(286,'alo',1,NULL,'2025-03-09 09:03:05.164',15),(287,'khoá học',1,NULL,'2025-03-09 09:04:22.450',15),(288,'khoá học',1,NULL,'2025-03-09 09:05:51.768',15),(289,'khoá học',1,NULL,'2025-03-09 09:06:59.599',15),(290,'khoá học',1,NULL,'2025-03-09 09:08:40.247',15),(291,'helo',1,NULL,'2025-03-09 09:17:17.949',15),(292,'helo',1,NULL,'2025-03-09 09:17:17.969',15),(293,'helo',1,NULL,'2025-03-09 09:18:21.061',15),(294,'helo',1,NULL,'2025-03-09 09:18:21.063',15),(295,'I think I see what\'s going on here! It looks like you\'re trying to say \"Hello\"!',NULL,NULL,'2025-03-09 09:18:21.798',15),(296,'Hi!',NULL,NULL,'2025-03-09 09:18:22.103',15),(297,'khoá học',1,NULL,'2025-03-09 09:18:29.345',15),(298,'học',1,NULL,'2025-03-09 09:18:29.377',15),(299,'You want to learn something! What subject or topic are you interested in learning? I\'m here to help!',NULL,NULL,'2025-03-09 09:18:29.881',15),(300,'hỏi lại nè, vui vẻ không',1,NULL,'2025-03-09 09:21:33.037',15),(301,'không',1,NULL,'2025-03-09 09:21:33.058',15),(302,'It seems like you\'re asking me to repeat something and have a good time, right?\n\nVâng, vui vẻ! (Yes, let\'s have a good time!)',NULL,NULL,'2025-03-09 09:21:33.695',15),(303,'It seems like you\'re saying \"no\"!',NULL,NULL,'2025-03-09 09:21:33.695',15),(304,'khoá học nào cho người học để đi du lịch',1,NULL,'2025-03-09 09:22:38.304',15),(305,'khoá học nào học toeic',1,NULL,'2025-03-09 09:23:34.107',15),(306,'mày là ai ',1,NULL,'2025-03-09 09:25:23.775',15),(307,'mày có thể trả về kết quả theo định dạng ReactMarkdown không? ',1,NULL,'2025-03-09 09:25:51.668',15),(308,'tìm khoá học ielts cho người mất gốc',1,NULL,'2025-03-09 09:26:47.066',15),(309,'gốc',1,NULL,'2025-03-09 09:26:47.084',15),(310,'tìm khoá học ielts cho người mất gốc',1,NULL,'2025-03-09 09:27:38.327',15),(311,'nói đầy đủ đi',1,NULL,'2025-03-09 09:27:50.697',15),(312,'tìm khoá học dạy Modal Verbs',1,NULL,'2025-03-09 09:28:56.892',15),(313,'tìm khoá học dạy Modal Verbs',1,NULL,'2025-03-09 09:33:06.353',15),(314,'tìm khoá học dạy Modal Verbs',1,NULL,'2025-03-09 09:33:30.644',15),(315,'as',1,NULL,'2025-03-09 09:40:03.074',15),(316,'ád',1,NULL,'2025-03-09 09:40:08.757',15),(317,'ádf',1,NULL,'2025-03-09 09:40:16.095',15),(318,'tell me what the dog do ',1,NULL,'2025-03-09 09:40:36.922',15),(319,'It seems like you\'re trying to ask me something, but it\'s a bit unclear!\n\nAre you asking me to tell you what the dog does? If so, I\'d be happy to help!',136,NULL,'2025-03-09 09:40:37.542',15),(320,'tell a joke ',1,NULL,'2025-03-09 09:40:51.390',15),(321,'Here\'s one:\n\nWhy did the dog go to the vet?\n\nBecause it was feeling ruff!\n\nHope that made you howl with laughter!',136,NULL,'2025-03-09 09:40:51.977',15),(322,'so nhạt ',1,NULL,'2025-03-09 09:41:02.552',15),(323,'tìm khoá học có toeic ',1,NULL,'2025-03-09 09:41:27.643',15),(324,'tìm khoá học có toeic',1,NULL,'2025-03-09 09:46:12.656',15),(325,'tìm khoá học có toeic',1,NULL,'2025-03-09 10:12:19.068',15),(326,'giới thiệu khoá học này đi ',1,NULL,'2025-03-09 10:15:39.661',15);
+INSERT INTO `Message` VALUES (426,'With the help of one of the IT technicians, the missing accounting files have been _____. A. recover B. recovers C. recovering D. recovered',137,NULL,'2025-03-09 20:52:47.055',26),(427,'giải thích câu trên ',137,NULL,'2025-03-09 20:52:58.204',26),(428,'Aurora Furnishings is finding it difficult to make a profit in its _____ competitive market. A. increases B. increased C. increasingly D. increase',137,NULL,'2025-03-09 20:54:03.594',26),(429,'bạn ăn cơm chưa ',137,NULL,'2025-03-09 20:54:14.027',26),(430,'giới thiệu cho mình khoá học toeic nào giành cho người mới ',137,NULL,'2025-03-09 20:55:17.636',26),(431,'yeah, gud, hãy tạo lộ trình học cá nhân hoá cho mình đi, trong 4 tháng để đạt được learning goals',137,NULL,'2025-03-09 20:56:47.933',26),(432,'bạn có thể vẽ ra cho mình dễ đọc không?',137,NULL,'2025-03-09 20:58:50.568',26),(433,'helo',137,NULL,'2025-03-09 21:00:02.010',25),(434,'có bao nhiêu ngày trong tháng 2 ',137,NULL,'2025-03-09 21:00:44.139',25),(435,'**February, the shortest month of the year!**\nThere are **28 days** in February, unless it\'s a leap year, then it has **29 days**!',NULL,NULL,'2025-03-09 21:00:44.744',25),(436,'vậy tháng 3? ',137,NULL,'2025-03-09 21:00:52.861',25),(437,'**March, the beginning of spring!**\nThere are **31 days** in March!',NULL,NULL,'2025-03-09 21:00:53.446',25),(438,'còn tháng 4',137,NULL,'2025-03-09 21:00:56.807',25),(439,'**April, the sweet month of spring!**\nThere are also **31 days** in April!',NULL,NULL,'2025-03-09 21:00:57.135',25),(440,'tháng 5',137,NULL,'2025-03-09 21:01:00.427',25),(441,'**May, the month of flowers and sunshine!**\nThere are **31 days** in May!',NULL,NULL,'2025-03-09 21:01:00.906',25),(442,'tháng 6',137,NULL,'2025-03-09 21:01:04.219',25),(443,'**June, the start of summer!**\nThere are **30 days** in June!',NULL,NULL,'2025-03-09 21:01:04.511',25),(444,'tháng 7',137,NULL,'2025-03-09 21:01:08.810',25),(445,'**July, the warmest month of the year!**\nThere are **31 days** in July!',NULL,NULL,'2025-03-09 21:01:09.321',25),(446,'ok',137,NULL,'2025-03-09 21:02:04.427',25),(447,'vậy được, nói anh nghe',137,NULL,'2025-03-09 21:03:44.128',25),(448,'**So, what\'s on your mind?**\nI\'m all ears! Share what\'s been going on, and let\'s chat!',NULL,NULL,'2025-03-09 21:03:44.868',25),(449,'ok',137,NULL,'2025-03-09 21:04:06.106',25),(450,'**It looks like you\'re ready to talk!**\nWhat\'s been going on in your life? Have you got a specific topic you\'d like to discuss or something on your mind? I\'m here to listen and help if I can!',NULL,NULL,'2025-03-09 21:04:06.612',25),(451,'giới thiệu khoá học ielts',137,NULL,'2025-03-09 21:11:33.366',25),(452,'hãy tạo lộ trình cá nhân hoá để mình đạt được learning goals trong 4 tháng',137,NULL,'2025-03-09 21:13:53.167',25),(453,'bạn trả lời rất tốt',137,NULL,'2025-03-09 21:16:02.264',25),(454,'bạn tình ơi ',137,NULL,'2025-03-09 21:21:30.007',25),(455,'a',137,NULL,'2025-03-09 21:21:51.622',25),(456,'ok',137,NULL,'2025-03-09 21:22:20.634',25),(457,'tell em choke',137,NULL,'2025-03-09 21:23:39.674',25),(458,'tell me joke',137,NULL,'2025-03-09 21:25:12.959',25),(459,'Here\'s one:\n\nWhy did the scarecrow win an award?\n\nBecause he was outstanding in his field!\n\nHope that made you smile! Do you want to hear another one?',NULL,NULL,'2025-03-09 21:25:13.703',25),(460,'one more',137,NULL,'2025-03-09 21:25:27.890',25),(461,'Here\'s another one:\n\nWhat do you call a fake noodle?\n\nAn impasta!\n\nHope that one made you giggle! Do you want to hear another one?',NULL,NULL,'2025-03-09 21:25:28.962',25),(462,'kể tên 10 con vâtk ',137,NULL,'2025-03-09 21:25:42.425',25),(463,'kể tên 10 con vật',137,NULL,'2025-03-09 21:27:51.529',25);
 /*!40000 ALTER TABLE `Message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -650,7 +650,7 @@ CREATE TABLE `Progress` (
   CONSTRAINT `Progress_enrollmentId_fkey` FOREIGN KEY (`enrollmentId`) REFERENCES `Enrollment` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Progress_lessonId_fkey` FOREIGN KEY (`lessonId`) REFERENCES `Lesson` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `Progress_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -659,7 +659,7 @@ CREATE TABLE `Progress` (
 
 LOCK TABLES `Progress` WRITE;
 /*!40000 ALTER TABLE `Progress` DISABLE KEYS */;
-INSERT INTO `Progress` VALUES (14,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,0,NULL,'{}'),(15,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,0,NULL,'{\"2\": \"B\"}'),(16,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,33,NULL,'{\"1\": \"B\", \"2\": \"B\", \"3\": \"A\", \"4\": \"B\"}');
+INSERT INTO `Progress` VALUES (14,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,0,NULL,'{}'),(15,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,0,NULL,'{\"2\": \"B\"}'),(16,1,1,1,' Bài Kiểm Tra Đầu Vào',NULL,33,NULL,'{\"1\": \"B\", \"2\": \"B\", \"3\": \"A\", \"4\": \"B\"}'),(17,137,1,1,' Bài Kiểm Tra Đầu Vào Từ Vựng',NULL,0,NULL,'{\"2\": \"D\"}'),(18,137,1,1,' Bài Kiểm Tra Đầu Vào Từ Vựng',NULL,0,NULL,'{\"2\": \"D\"}'),(19,137,1,1,' Bài Kiểm Tra Đầu Vào Từ Vựng',NULL,17,NULL,'{\"1\": \"D\"}'),(20,137,1,1,' Bài Kiểm Tra Đầu Vào Từ Vựng',NULL,17,NULL,'{\"1\": \"D\", \"2\": \"B\"}'),(21,137,1,1,' Bài Kiểm Tra Đầu Vào Từ Vựng',NULL,17,NULL,'{\"1\": \"D\", \"2\": \"D\"}'),(22,137,1,1,' Bài Kiểm Tra Đầu Vào Từ Vựng',NULL,17,NULL,'{\"1\": \"D\", \"2\": \"C\"}'),(23,137,1,1,' Bài Kiểm Tra Đầu Vào Từ Vựng',NULL,33,NULL,'{\"1\": \"D\", \"2\": \"A\"}');
 /*!40000 ALTER TABLE `Progress` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -740,7 +740,7 @@ CREATE TABLE `RefreshToken` (
   UNIQUE KEY `RefreshToken_token_key` (`token`),
   KEY `RefreshToken_userId_fkey` (`userId`),
   CONSTRAINT `RefreshToken_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=340 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -749,7 +749,7 @@ CREATE TABLE `RefreshToken` (
 
 LOCK TABLES `RefreshToken` WRITE;
 /*!40000 ALTER TABLE `RefreshToken` DISABLE KEYS */;
-INSERT INTO `RefreshToken` VALUES (318,'77298d65-1dbb-42fe-8efd-35fe769d8310',1,'2025-01-17 09:31:03.580','2025-01-10 09:31:03.581'),(327,'5c7bb211-97a2-412b-90ad-24bc6a13f7c4',1,'2025-01-27 02:16:12.806','2025-01-20 02:16:12.807'),(328,'5cd1011c-1b41-4740-83b0-f16287166dbb',1,'2025-02-18 03:45:56.490','2025-02-11 03:45:56.492'),(339,'ff294af4-3e4a-432c-9439-4b8b32ce3d76',1,'2025-03-15 09:53:43.907','2025-03-08 09:53:43.908');
+INSERT INTO `RefreshToken` VALUES (318,'77298d65-1dbb-42fe-8efd-35fe769d8310',1,'2025-01-17 09:31:03.580','2025-01-10 09:31:03.581'),(327,'5c7bb211-97a2-412b-90ad-24bc6a13f7c4',1,'2025-01-27 02:16:12.806','2025-01-20 02:16:12.807'),(328,'5cd1011c-1b41-4740-83b0-f16287166dbb',1,'2025-02-18 03:45:56.490','2025-02-11 03:45:56.492'),(352,'f340a5e7-32b9-4df2-a480-cca73cb66746',137,'2025-03-16 18:40:13.149','2025-03-09 18:40:13.149');
 /*!40000 ALTER TABLE `RefreshToken` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -895,7 +895,7 @@ CREATE TABLE `User` (
   UNIQUE KEY `User_email_key` (`email`),
   KEY `User_roleId_fkey` (`roleId`),
   CONSTRAINT `User_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `Role` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -904,7 +904,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'Admin','admin@alo.com','$2b$10$DJkyuBXbgM5rENGRqG5ye.wJi2wfds.EEqIcH7x.fnWFxu9P2BHuq',1,0,'2024-12-16 17:49:16.132','2025-03-08 11:29:28.936',1,'','Toeic 460',1000,'Thi Toeic','đọc + viết','reading kém','Toeic 700'),(135,'Nguyen Thanh Tung','1823603311790205','$2b$10$GqFxlwy0JP.Gj9av7o7YOOKHQy4.9OiTmod5W3KTZWZzzK7.pO3Yu',3,0,'2025-01-11 17:47:48.305','2025-03-06 19:58:27.459',1,'','Toeic 660',1000,'Thi Toeic','đọc + viết','nói viết kém','Toeic 700'),(136,'Nguyen Thanh Tung','ismethanhtung@gmail.com','$2b$10$PaB455zZMmg6vtNN4aUuw.JqiR21.BK0WGJkuI8i0fsE0PGAKrugy',3,0,'2025-03-06 08:46:04.787','2025-03-06 08:46:04.787',1,'',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `User` VALUES (1,'Admin','admin@alo.com','$2b$10$DJkyuBXbgM5rENGRqG5ye.wJi2wfds.EEqIcH7x.fnWFxu9P2BHuq',1,0,'2024-12-16 17:49:16.132','2025-03-08 11:29:28.936',1,'','Toeic 460',1000,'Thi Toeic','đọc + viết','reading kém','Toeic 700'),(135,'Nguyen Thanh Tung','1823603311790205','$2b$10$GqFxlwy0JP.Gj9av7o7YOOKHQy4.9OiTmod5W3KTZWZzzK7.pO3Yu',3,0,'2025-01-11 17:47:48.305','2025-03-06 19:58:27.459',1,'','Toeic 660',1000,'Thi Toeic','đọc + viết','nói viết kém','Toeic 700'),(136,'Nguyen Thanh Tung','ismethanhtung@gmail.com','$2b$10$PaB455zZMmg6vtNN4aUuw.JqiR21.BK0WGJkuI8i0fsE0PGAKrugy',3,0,'2025-03-06 08:46:04.787','2025-03-06 08:46:04.787',1,'',NULL,NULL,NULL,NULL,NULL,NULL),(137,'Thanh Tung Nguyen','vivathanhtung@gmail.com','$2b$10$4V2V.44mHs7.AtN3Prmtau8QLyPQw9kR89jE4Eam0U0h/MzKIyupK',3,0,'2025-03-09 17:51:48.803','2025-03-09 17:51:48.803',1,'',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -982,4 +982,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-03-09 17:26:29
+-- Dump completed on 2025-03-10  4:30:20
