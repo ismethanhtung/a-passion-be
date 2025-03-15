@@ -40,8 +40,8 @@ app.use(
     cors({
         origin: ["http://localhost:3000", "https://codealone.vercel.app"],
         credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Thêm OPTIONS để tránh lỗi preflight
-        allowedHeaders: ["Content-Type", "Authorization"], // Cho phép các header cần thiết
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     })
 );
 

@@ -9,7 +9,7 @@ const authenticate = async (req, res, next) => {
     console.log(req.cookies);
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
-        console.log("No Access token");
+        console.log("❤️ No Access token");
         return res.status(401).json({ message: "No Access token" });
     }
 
@@ -30,9 +30,15 @@ const authenticate = async (req, res, next) => {
                 console.log("create new access token");
                 res.cookie("auth_token", newAccessToken, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
+                    secure: true,
                     sameSite: "none",
                     maxAge: 60 * 60 * 1000,
+                });
+
+                res.cookie("accessToken", token, {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: "None",
                 });
 
                 req.user = jwt.decode(newAccessToken);
