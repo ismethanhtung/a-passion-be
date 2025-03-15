@@ -28,17 +28,11 @@ const authenticate = async (req, res, next) => {
             try {
                 const newAccessToken = await refresh(refreshToken);
                 console.log("create new access token");
-                res.cookie("auth_token", newAccessToken, {
-                    httpOnly: true,
-                    secure: true,
-                    sameSite: "none",
-                    maxAge: 60 * 60 * 1000,
-                });
-
-                res.cookie("accessToken", token, {
+                res.cookie("accessToken", newAccessToken, {
                     httpOnly: true,
                     secure: true,
                     sameSite: "None",
+                    maxAge: 60 * 60 * 1000,
                 });
 
                 req.user = jwt.decode(newAccessToken);

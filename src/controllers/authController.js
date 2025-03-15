@@ -1,6 +1,6 @@
 const authService = require("../services/authService");
 const { OAuth2Client } = require("google-auth-library");
-const client = new OAuth2Client("process.env.GOOGLE_CLIENT_ID");
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 async function verifyGoogleToken(credential) {
     try {
@@ -24,6 +24,18 @@ const login = async (req, res) => {
             email,
             password
         );
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None",
+            maxAge: 60 * 60 * 1000,
+        });
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "None",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
 
         res.status(200).json({
             message: "Đăng nhập thành công",

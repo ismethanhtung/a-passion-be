@@ -35,7 +35,19 @@ const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+});
+
 // Middleware
+
+app.use(morganLogger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use(
     cors({
         origin: ["http://localhost:3000", "https://codealone.vercel.app"],
@@ -44,12 +56,6 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     })
 );
-
-app.use(morganLogger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
 // Định tuyến
 app.use("/course", courseRoutes);
@@ -77,11 +83,6 @@ app.use("/path", pathRoutes);
 app.use("/conversation", conversationRoutes);
 app.use("/", authRoutes);
 app.use("/", indexRouter);
-
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Credentials", "true");
-    next();
-});
 
 // Xử lý lỗi 404
 // app.use((req, res, next) => {
