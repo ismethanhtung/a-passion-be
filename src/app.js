@@ -38,11 +38,13 @@ const app = express();
 // Middleware
 app.use(
     cors({
-        origin: "http://localhost:3000", // Cho phép frontend trên localhost:3000 truy cập
-        credentials: true, // Cho phép gửi cookie và thông tin xác thực
-        methods: ["GET", "POST", "PUT", "DELETE"], // Các phương thức HTTP mà frontend có thể sử dụng
+        origin: ["http://localhost:3000", "https://codealone.vercel.app"],
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Thêm OPTIONS để tránh lỗi preflight
+        allowedHeaders: ["Content-Type", "Authorization"], // Cho phép các header cần thiết
     })
 );
+
 app.use(morganLogger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -75,6 +77,11 @@ app.use("/path", pathRoutes);
 app.use("/conversation", conversationRoutes);
 app.use("/", authRoutes);
 app.use("/", indexRouter);
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+});
 
 // Xử lý lỗi 404
 // app.use((req, res, next) => {

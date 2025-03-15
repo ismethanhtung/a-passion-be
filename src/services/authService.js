@@ -129,9 +129,10 @@ const loginWithFacebook = async (name, id, userID) => {
 const logout = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
     console.log(refreshToken);
+    console.log(19123712312);
 
     if (!refreshToken) {
-        return res.status(400).json({ message: "No refresh token found" });
+        return res.status(200).json({ message: "No refresh token found" });
     }
 
     try {
@@ -142,13 +143,13 @@ const logout = async (req, res) => {
         res.clearCookie("accessToken", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
         });
 
         res.clearCookie("refreshToken", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
         });
 
         res.status(200).json({ message: "Logout successful" });

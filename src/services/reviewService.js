@@ -17,6 +17,7 @@ const createReview = async (req) => {
     const { courseId, rating, comment } = req.body;
 
     try {
+        console.log(29384239);
         return await prisma.review.create({
             data: {
                 userId: req.user.userId,

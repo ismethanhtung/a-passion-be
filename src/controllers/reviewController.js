@@ -21,6 +21,7 @@ const getReviewByCourseId = async (req, res) => {
 
 const createReview = async (req, res) => {
     try {
+        console.log("create review");
         const review = await reviewService.createReview(req);
         res.status(201).json(review);
     } catch (error) {
