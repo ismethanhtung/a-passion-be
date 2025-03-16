@@ -26,13 +26,13 @@ const login = async (req, res) => {
         );
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             sameSite: "None",
             maxAge: 60 * 60 * 1000,
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             sameSite: "None",
             maxAge: 7 * 24 * 60 * 60 * 1000,
         });
