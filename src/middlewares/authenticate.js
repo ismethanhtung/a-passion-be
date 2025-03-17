@@ -1,12 +1,14 @@
 const jwt = require("jsonwebtoken");
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
 const { refresh } = require("../services/authService");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const authenticate = async (req, res, next) => {
-    console.log(req.cookies);
+    if (!req.cookies) {
+        console.log("Cookies not found");
+        return res.status(401).json({ message: "Cookies not found" });
+    }
+
     const accessToken = req.cookies.accessToken;
     if (!accessToken) {
         console.log("❤️ No Access token");
@@ -21,7 +23,6 @@ const authenticate = async (req, res, next) => {
             const refreshToken = req.cookies.refreshToken;
             if (!refreshToken) {
                 console.log("No Refresh token");
-
                 return res.status(401).json({ message: "No Refresh token" });
             }
 
@@ -32,17 +33,18 @@ const authenticate = async (req, res, next) => {
                     httpOnly: true,
                     secure: true,
                     sameSite: "None",
-                    maxAge: 60 * 60 * 1000,
+                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
                 });
 
-                req.user = jwt.decode(newAccessToken);
+                req.user = jwt.verify(newAccessToken, JWT_SECRET);
                 next();
             } catch (refreshError) {
-                return res.status(401).json({ message: "authen Cant renew token" });
+                console.error("Error refreshing token:", refreshError);
+                return res.status(401).json({ message: "Cannot renew token" });
             }
         } else {
-            console.log("authen Invalid Token");
-            return res.status(401).json({ message: "authen Invalid Token" });
+            console.log("Invalid Token:", error.message);
+            return res.status(401).json({ message: "Invalid Token" });
         }
     }
 };

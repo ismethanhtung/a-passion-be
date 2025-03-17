@@ -56,6 +56,7 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     })
 );
+app.set("trust proxy", 1);
 
 // Định tuyến
 app.use("/course", courseRoutes);
