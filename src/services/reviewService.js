@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const stringToInt = require("../utils/stringToInt");
+const updateCourseRating = require("../utils/calculateRating");
 
 const getAllReviews = async () => {
     return await prisma.review.findMany();
@@ -17,15 +18,12 @@ const createReview = async (req) => {
     const { courseId, rating, comment } = req.body;
 
     try {
-        console.log(29384239);
-        return await prisma.review.create({
-            data: {
-                userId: req.user.userId,
-                courseId: courseId,
-                rating,
-                comment,
-            },
+        const review = await prisma.review.create({
+            data: { userId: req.user.userId, courseId, rating, comment },
         });
+
+        await updateCourseRating(courseId);
+        return review;
     } catch (error) {
         console.log(error);
     }
@@ -35,10 +33,13 @@ const updateReview = async (id, data) => {
     try {
         const convertedData = stringToInt(data, ["userId", "courseId", "rating"]);
 
-        return await prisma.review.update({
+        const review = await prisma.review.update({
             where: { id: parseInt(id) },
             data: convertedData,
         });
+
+        await updateCourseRating(review.courseId);
+        return review;
     } catch (error) {
         console.log(error);
     }
@@ -46,9 +47,12 @@ const updateReview = async (id, data) => {
 
 const deleteReview = async (id) => {
     try {
-        return await prisma.review.delete({
+        const review = await prisma.review.delete({
             where: { id: parseInt(id) },
         });
+
+        await updateCourseRating(review.courseId);
+        return review;
     } catch (error) {
         console.log(error);
     }
