@@ -28,7 +28,7 @@ const login = async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: "None",
-            maxAge: 60 * 60 * 1000,
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,

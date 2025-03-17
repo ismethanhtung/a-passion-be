@@ -254,6 +254,7 @@ model Course {
   reviews      Review[]
   carts        Cart[]
   tags         String?
+  rating       Float
 
   @@index([categoryId], map: "Course_categoryId_fkey")
   @@index([creatorId], map: "Course_creatorId_fkey")
