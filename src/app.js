@@ -91,6 +91,7 @@ app.use("/google-login", authRoutes);
 app.use("/signup", authRoutes);
 app.use("/logout", authRoutes);
 app.use("/login", authRoutes);
+app.use("/auth", authRoutes);
 
 const swaggerOptions = {
     definition: {
