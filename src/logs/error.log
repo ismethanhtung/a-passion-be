@@ -66,3 +66,7 @@ Require stack:
 - /Users/thanhtung/sources/back-end/src/routes/purchaseRoutes.js
 - /Users/thanhtung/sources/back-end/src/app.js
 - /Users/thanhtung/sources/back-end/src/server.js
+[31merror[39m: Error: No default engine was specified and no extension was provided.
+[31merror[39m: Error: No default engine was specified and no extension was provided.
+[31merror[39m: Error: No default engine was specified and no extension was provided.
+[31merror[39m: Error: No default engine was specified and no extension was provided.

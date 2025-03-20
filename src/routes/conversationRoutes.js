@@ -7,7 +7,6 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // router.get("/", authenticate, conversationController.getAllConversations);
-// router.get("/:id", conversationController.getConversationByCourseId);
 // router.post("/", authenticate, conversationController.createConversation);
 // router.put("/:id", authenticate, conversationController.updateConversation);
 // router.delete("/:id", authenticate, conversationController.deleteConversation);

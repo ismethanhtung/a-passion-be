@@ -84,8 +84,6 @@ app.use("/chat", chatRoutes);
 app.use("/cart", cartRoutes);
 app.use("/path", pathRoutes);
 app.use("/conversation", conversationRoutes);
-app.use("/", authRoutes);
-app.use("/", indexRouter);
 
 const swaggerOptions = {
     definition: {
@@ -97,14 +95,16 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "https://a-passion-be-production.up.railway.app", // Thay URL này bằng link deploy của bạn
+                url: "https://a-passion-be-production.up.railway.app",
             },
         ],
     },
-    apis: ["./routes/*.js"], // Đường dẫn đến các file route
+    apis: ["routes/*.js"],
 };
 const specs = swaggerJsdoc(swaggerOptions);
 app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/", authRoutes);
+app.use("/", indexRouter);
 
 // Xử lý lỗi 404
 // app.use((req, res, next) => {
