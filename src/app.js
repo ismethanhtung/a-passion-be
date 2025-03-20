@@ -116,7 +116,7 @@ app.get("/", swaggerUi.setup(specs));
 // app.use((req, res, next) => {
 //     next(createError(404));
 // });
-app.use("/", authRoutes);
+// app.use("/", authRoutes);
 
 // Xử lý lỗi chung
 app.use((err, req, res, next) => {
