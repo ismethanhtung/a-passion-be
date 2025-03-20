@@ -110,7 +110,7 @@ const swaggerOptions = {
     apis: ["src/routes/*.js"],
 };
 const specs = swaggerJsdoc(swaggerOptions);
-app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Xử lý lỗi 404
 // app.use((req, res, next) => {
