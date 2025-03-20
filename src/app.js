@@ -84,6 +84,13 @@ app.use("/chat", chatRoutes);
 app.use("/cart", cartRoutes);
 app.use("/path", pathRoutes);
 app.use("/conversation", conversationRoutes);
+app.use("/verify-email", authRoutes);
+app.use("/change-password", authRoutes);
+app.use("/facebook-login", authRoutes);
+app.use("/google-login", authRoutes);
+app.use("/signup", authRoutes);
+app.use("/logout", authRoutes);
+app.use("/login", authRoutes);
 
 const swaggerOptions = {
     definition: {
