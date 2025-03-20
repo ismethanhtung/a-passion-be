@@ -92,26 +92,24 @@ app.use("/signup", authRoutes);
 app.use("/logout", authRoutes);
 app.use("/login", authRoutes);
 
-// const swaggerOptions = {
-//     definition: {
-//         openapi: "3.0.0",
-//         info: {
-//             title: "My API",
-//             version: "1.0.0",
-//             description: "API Documentation",
-//         },
-//         servers: [
-//             {
-//                 url: "https://a-passion-be-production.up.railway.app",
-//             },
-//         ],
-//     },
-//     apis: ["routes/*.js"],
-// };
-// const specs = swaggerJsdoc(swaggerOptions);
-// app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
-app.use("/", authRoutes);
-app.use("/", indexRouter);
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "My API",
+            version: "1.0.0",
+            description: "API Documentation",
+        },
+        servers: [
+            {
+                url: "https://a-passion-be-production.up.railway.app",
+            },
+        ],
+    },
+    apis: ["routes/*.js"],
+};
+const specs = swaggerJsdoc(swaggerOptions);
+app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Xử lý lỗi 404
 // app.use((req, res, next) => {
