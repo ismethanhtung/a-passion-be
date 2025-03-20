@@ -116,6 +116,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 // app.use((req, res, next) => {
 //     next(createError(404));
 // });
+app.get("/", (req, res) => {
+    res.redirect("/api-docs");
+});
 app.use("/", authRoutes);
 
 // Xử lý lỗi chung
