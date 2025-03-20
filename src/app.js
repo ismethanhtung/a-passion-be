@@ -107,7 +107,7 @@ const swaggerOptions = {
             },
         ],
     },
-    apis: ["routes/*.js"],
+    apis: ["src/routes/*.js"],
 };
 const specs = swaggerJsdoc(swaggerOptions);
 app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
