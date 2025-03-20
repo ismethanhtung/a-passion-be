@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 const morganLogger = require("morgan");
 require("dotenv").config();
 const cors = require("cors");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const authRoutes = require("./routes/authRoutes");
 const appLogger = require("./utils/logger");
@@ -84,6 +86,25 @@ app.use("/path", pathRoutes);
 app.use("/conversation", conversationRoutes);
 app.use("/", authRoutes);
 app.use("/", indexRouter);
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "My API",
+            version: "1.0.0",
+            description: "API Documentation",
+        },
+        servers: [
+            {
+                url: "https://a-passion-be-production.up.railway.app", // Thay URL này bằng link deploy của bạn
+            },
+        ],
+    },
+    apis: ["./routes/*.js"], // Đường dẫn đến các file route
+};
+const specs = swaggerJsdoc(swaggerOptions);
+app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
 
 // Xử lý lỗi 404
 // app.use((req, res, next) => {
