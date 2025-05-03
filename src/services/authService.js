@@ -24,6 +24,7 @@ const login = async (email, password) => {
             where: { email },
             include: { role: true },
         });
+        console.log(user);
 
         if (!user) {
             const error = new Error("Invalid Email");
@@ -283,7 +284,10 @@ const changePassword = async (currentPassword, newPassword, userId) => {
             throw new Error("User not found or password missing");
         }
 
-        const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        const isPasswordValid = await bcrypt.compare(
+            currentPassword,
+            user.password
+        );
         if (!isPasswordValid) {
             throw new Error("Current password is incorrect");
         }

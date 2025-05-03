@@ -16,39 +16,39 @@ model User {
   isDeleted         Boolean            @default(false)
   createdAt         DateTime           @default(now())
   updatedAt         DateTime?          @updatedAt
+  active            Boolean            @default(false)
+  emailCheckToken   String
+  assessmentTest    String?
+  knownVocabulary   Int?
+  learningPurpose   String?
+  prioritySkills    String?
+  skillLevel        String?
+  specificGoals     String?
   assistantRequests AssistantRequest[]
   blogs             Blog[]             @relation("BlogAuthor")
+  carts             Cart[]
+  conversations     Conversation[]     @relation("UserConversations")
   createdCourses    Course[]           @relation("CreatedCourses")
   taughtCourses     Course[]           @relation("TaughtCourses")
   courses           Enrollment[]
+  forumComments     ForumComment[]     @relation("UserForumComments")
   forumPosts        ForumPost[]
   forumThreads      ForumThread[]
-  forumComments     ForumComment[]     @relation("UserForumComments")
+  learningPaths     LearningPath[]
   liveCourses       LiveCourse[]       @relation("InstructorLiveCourses")
   receivedMessages  Message[]          @relation("ReceivedMessages")
   sentMessages      Message[]          @relation("SentMessages")
-  conversations     Conversation[]     @relation("UserConversations")
   notifications     Notification[]
   payments          Payment[]
   progress          Progress[]
   purchases         Purchase[]
+  refreshTokens     RefreshToken[]     @relation("UserRefreshTokens")
   reviews           Review[]
   studyTimes        StudyTime[]        @relation("StudyTimes")
   createdTests      Test[]             @relation("TestCreator")
   role              Role               @relation(fields: [roleId], references: [id])
   settings          UserSettings?
   tests             Test[]             @relation("TestParticipants")
-  carts             Cart[]
-  refreshTokens     RefreshToken[]     @relation("UserRefreshTokens")
-  active            Boolean            @default(false)
-  emailCheckToken   String
-  learningPurpose   String?
-  specificGoals     String?
-  prioritySkills    String?
-  assessmentTest    String?
-  skillLevel        String?
-  knownVocabulary   Int?
-  learningPaths     LearningPath[]
 
   @@index([roleId], map: "User_roleId_fkey")
 }
@@ -56,8 +56,8 @@ model User {
 model LearningPath {
   id            Int      @id @default(autoincrement())
   userId        Int
-  recommendedBy String? // AI hoặc người hướng dẫn đã giới thiệu lộ trình này
-  pathDetails   Json? // Thông tin chi tiết về lộ trình học tập
+  recommendedBy String?
+  pathDetails   Json?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   user          User     @relation(fields: [userId], references: [id])
@@ -69,9 +69,11 @@ model RefreshToken {
   id        Int      @id @default(autoincrement())
   token     String   @unique
   userId    Int
-  user      User     @relation("UserRefreshTokens", fields: [userId], references: [id])
   expiresAt DateTime
   createdAt DateTime @default(now())
+  user      User     @relation("UserRefreshTokens", fields: [userId], references: [id])
+
+  @@index([userId], map: "RefreshToken_userId_fkey")
 }
 
 model Role {
@@ -87,8 +89,8 @@ model Cart {
   quantity  Int       @default(1)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  user      User      @relation(fields: [userId], references: [id])
   course    Course    @relation(fields: [courseId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
 
   @@index([userId], map: "Cart_userId_fkey")
   @@index([courseId], map: "Cart_courseId_fkey")
@@ -103,8 +105,8 @@ model Voucher {
   validFrom    DateTime  @default(now())
   validTo      DateTime
   usageCount   Int       @default(0)
-  maxUsage     Int? // Tổng số lần sử dụng
-  userSpecific Boolean   @default(false) // Chỉ dành riêng cho user
+  maxUsage     Int?
+  userSpecific Boolean   @default(false)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
 }
@@ -128,9 +130,9 @@ model ForumThread {
   authorId   Int
   createdAt  DateTime       @default(now())
   updatedAt  DateTime?      @updatedAt
+  comments   ForumComment[] @relation("ThreadComments")
   forumPosts ForumPost[]
   author     User           @relation(fields: [authorId], references: [id])
-  comments   ForumComment[] @relation("ThreadComments")
 
   @@index([authorId], map: "ForumThread_authorId_fkey")
 }
@@ -164,14 +166,15 @@ model ForumComment {
 
   @@index([authorId], map: "ForumComment_authorId_fkey")
   @@index([threadId], map: "ForumComment_threadId_fkey")
+  @@index([parentId], map: "ForumComment_parentId_fkey")
 }
 
 model Conversation {
   id           Int       @id @default(autoincrement())
-  userId       Int?
   title        String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
+  userId       Int?
   participants User?     @relation("UserConversations", fields: [userId], references: [id])
   messages     Message[]
 
@@ -181,14 +184,14 @@ model Conversation {
 
 model Message {
   id             Int          @id @default(autoincrement())
-content String @db.Text
+  content        String       @db.Text
   senderId       Int?
-  conversationId Int
+  receiverId     Int?
   createdAt      DateTime     @default(now())
-  sender         User?        @relation("SentMessages", fields: [senderId], references: [id])
+  conversationId Int
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   receivedBy     User?        @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  receiverId     Int?
+  sender         User?        @relation("SentMessages", fields: [senderId], references: [id])
 
   @@index([senderId], map: "Message_senderId_fkey")
   @@index([conversationId], map: "Message_conversationId_fkey")
@@ -229,32 +232,33 @@ model Category {
 }
 
 model Course {
-  id           Int           @id @default(autoincrement())
-  title        String?       @db.VarChar(255)
-  description  String?       @db.Text
-  objectives   String?       @db.Text
-  price        Int
-  newPrice     Int?
-  thumbnail    String?
-  videoUrl     String?
-  categoryId   Int           @default(1)
-  creatorId    Int
-  teacherId    Int?
-  createdAt    DateTime?
-  updatedAt    DateTime?     @updatedAt
-  isPublished  Boolean       @default(false)
-  isDeleted    Boolean       @default(false)
-  category     Category      @relation(fields: [categoryId], references: [id])
-  creator      User          @relation("CreatedCourses", fields: [creatorId], references: [id])
-  teacher      User?         @relation("TaughtCourses", fields: [teacherId], references: [id])
-  enrollments  Enrollment[]
-  lessons      Lesson[]
-  liveSessions LiveSession[] @relation("CourseLiveSessions")
-  purchases    Purchase[]
-  reviews      Review[]
-  carts        Cart[]
-  tags         String?
-  rating       Float
+  id                Int           @id @default(autoincrement())
+  title             String?       @db.VarChar(255)
+  description       String?       @db.Text
+  objectives        String?       @db.Text
+  price             Int
+  newPrice          Int?
+  thumbnail         String?
+  videoUrl          String?
+  categoryId        Int           @default(1)
+  creatorId         Int
+  teacherId         Int?
+  createdAt         DateTime?
+  updatedAt         DateTime?     @updatedAt
+  isPublished       Boolean       @default(false)
+  isDeleted         Boolean       @default(false)
+  tags              String?
+  time              String?       @db.Text
+  learning_outcomes String?       @db.Text
+  carts             Cart[]
+  category          Category      @relation(fields: [categoryId], references: [id])
+  creator           User          @relation("CreatedCourses", fields: [creatorId], references: [id])
+  teacher           User?         @relation("TaughtCourses", fields: [teacherId], references: [id])
+  enrollments       Enrollment[]
+  lessons           Lesson[]
+  liveSessions      LiveSession[] @relation("CourseLiveSessions")
+  purchases         Purchase[]
+  reviews           Review[]
 
   @@index([categoryId], map: "Course_categoryId_fkey")
   @@index([creatorId], map: "Course_creatorId_fkey")
@@ -312,10 +316,10 @@ model Progress {
   completedAt  DateTime?
   score        Int?
   feedback     String?
+  testScores   Json?
   enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
   lesson       Lesson     @relation(fields: [lessonId], references: [id])
   user         User       @relation(fields: [userId], references: [id])
-  testScores   Json?
 
   @@index([enrollmentId], map: "Progress_enrollmentId_fkey")
   @@index([lessonId], map: "Progress_lessonId_fkey")
