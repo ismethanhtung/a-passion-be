@@ -250,6 +250,8 @@ model Course {
   tags              String?
   time              String?       @db.Text
   learning_outcomes String?       @db.Text
+  language          String?       @db.Text
+  level             String?       @db.Text
   carts             Cart[]
   category          Category      @relation(fields: [categoryId], references: [id])
   creator           User          @relation("CreatedCourses", fields: [creatorId], references: [id])
