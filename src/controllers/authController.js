@@ -20,15 +20,13 @@ async function verifyGoogleToken(credential) {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const { user, accessToken, refreshToken, expiresAt } = await authService.login(
-            email,
-            password
-        );
+        const { user, accessToken, refreshToken, expiresAt } =
+            await authService.login(email, password);
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
             secure: true,
             sameSite: "None",
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
@@ -60,7 +58,11 @@ const loginWithGoogle = async (req, res) => {
     }
 
     try {
-        const response = await authService.loginWithGoogle(email, name, googleId);
+        const response = await authService.loginWithGoogle(
+            email,
+            name,
+            googleId
+        );
 
         res.status(200).json({
             message: "Đăng nhập thành công",
@@ -147,7 +149,8 @@ const refresh = async (req, res) => {
         });
     } catch (error) {
         res.status(401).json({
-            message: error.message || "Refresh token không hợp lệ hoặc đã hết hạn",
+            message:
+                error.message || "Refresh token không hợp lệ hoặc đã hết hạn",
         });
     }
 };

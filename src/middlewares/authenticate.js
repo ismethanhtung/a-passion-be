@@ -33,7 +33,7 @@ const authenticate = async (req, res, next) => {
                     httpOnly: true,
                     secure: true,
                     sameSite: "None",
-                    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                 });
 
                 req.user = jwt.verify(newAccessToken, JWT_SECRET);
